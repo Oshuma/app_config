@@ -4,6 +4,7 @@ describe ApiStore do
   before(:each) do
     @yaml = {
       :storage_method => :yaml,
+      :path => 'test_storage.yaml',
     }
   end
 
@@ -19,12 +20,5 @@ describe ApiStore do
 
   it 'should accept a config block' do
     ApiStore.configure {|c| c}.should_not be_nil
-  end
-
-  describe 'yaml' do
-    it 'should have a test_api key' do
-      ApiStore.configure(@yaml)
-      ApiStore[:test_api].should_not be_nil
-    end
   end
 end
