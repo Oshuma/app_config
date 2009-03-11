@@ -10,11 +10,17 @@ describe Yaml do
       :storage_method => :yaml,
       :path => FIXTURE,
     }
-    ApiStore.configure(@yaml)
   end
 
   it 'should have a test_api_key' do
+    ApiStore.configure(@yaml)
     ApiStore['test_api_key'].should_not be_nil
+  end
+
+  it 'should raise file not found' do
+    lambda do
+      ApiStore.configure(@yaml.merge(:path => 'not/a/real/file.yml'))
+    end.should raise_error(Errno::ENOENT)
   end
 
 end
