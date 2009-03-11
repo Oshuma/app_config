@@ -7,7 +7,11 @@ module ApiStore
     def initialize(opts = {}, &block)
       opts.each_pair { |key, value| self.send("#{key}=", value) }
       yield self if block_given?
-      initialize_storage
+      @storage = initialize_storage
+    end
+
+    def [](key)
+      @storage[key]
     end
 
   private
@@ -15,7 +19,7 @@ module ApiStore
     def initialize_storage
       case storage_method
       when :yaml
-        # ApiStore::Yaml.load(path)
+        ApiStore::Yaml.load(path)
       end
     end
 
