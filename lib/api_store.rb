@@ -12,14 +12,17 @@ module ApiStore
     "#{self.class} v#{VERSION}"
   end
 
+  # Access the configured <tt>key</tt>'s value.
   def self.[](key)
     error = "Must call '#{self}.configure' to setup storage!"
     raise error if @@storage.nil?
     @@storage[key]
   end
 
-  def self.configure(opts = {}, &block)
-    @@storage = ApiStore::Base.new(opts, &block)
+  # Accepts an +options+ hash or pass a block.
+  # See ApiStore::Base for valid options.
+  def self.configure(options = {}, &block)
+    @@storage = ApiStore::Base.new(options, &block)
   end
 
 end
