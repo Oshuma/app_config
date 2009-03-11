@@ -15,7 +15,7 @@ module ApiStore
     def initialize_storage
       case storage_method
       when :yaml
-        ApiStore::Yaml.load(path)
+        # ApiStore::Yaml.load(path)
       end
     end
 

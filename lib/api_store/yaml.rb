@@ -1,6 +1,9 @@
 module ApiStore
   class Yaml
+
     def initialize
     end
-  end
-end
+
+  end # Yaml
+
+end # ApiStore

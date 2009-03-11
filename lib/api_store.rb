@@ -1,5 +1,6 @@
 $LOAD_PATH.unshift File.dirname(__FILE__)
 require 'api_store/base'
+require 'api_store/yaml'
 
 module ApiStore
   VERSION = '0.0.1'

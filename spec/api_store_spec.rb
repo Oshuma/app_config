@@ -12,12 +12,6 @@ describe ApiStore do
     ApiStore.to_version.should_not be_nil
   end
 
-  it 'should raise error on unknown option' do
-    lambda do
-      ApiStore.configure(@yaml.merge(:unknown => 'option'))
-    end.should raise_error(NoMethodError)
-  end
-
   it 'should accept a config block' do
     ApiStore.configure {|c| c}.should_not be_nil
   end
