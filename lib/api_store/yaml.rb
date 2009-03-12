@@ -5,7 +5,7 @@ module ApiStore
 
     # Loads @data with the YAML file located at +path+.
     def initialize(path)
-      @data = YAML.load_file(path)
+      @data = Hashish.new(YAML.load_file(path))
     end
 
     # Creates a new Yaml storage with the given +path+ and returns the data.
