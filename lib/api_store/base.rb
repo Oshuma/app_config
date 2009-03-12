@@ -8,6 +8,11 @@ module ApiStore
 
     attr_accessor :storage_method, :path
 
+    DEFAULTS = {
+      :storage_method => :yaml,
+      :path => File.expand_path(File.join(ENV['HOME'], '.api_store.yml'))
+    }
+
     # Accepts either a hash of +options+ or a block (which overrides
     # any options passed in the hash).
     #
@@ -15,7 +20,9 @@ module ApiStore
     # * :sqlite
     # * :yaml
     def initialize(options = {}, &block)
-      options.each_pair { |key, value| self.send("#{key}=", value) }
+      DEFAULTS.merge(options).each_pair do |key, value|
+        self.send("#{ key }=", value)
+      end
       yield self if block_given?
       @storage = initialize_storage
     end
