@@ -4,11 +4,11 @@ require 'yaml'
 
 require 'core_ext/hashish'
 
-require 'api_store/base'
-require 'api_store/yaml'
-
 module ApiStore
   VERSION = '0.0.1'
+
+  autoload :Base, 'api_store/base'
+  autoload :Yaml, 'api_store/yaml'
 
   def self.to_version
     "#{self.class} v#{VERSION}"
