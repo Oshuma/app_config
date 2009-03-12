@@ -2,6 +2,8 @@ $LOAD_PATH.unshift File.dirname(__FILE__)
 
 require 'yaml'
 
+require 'core_ext/hashish'
+
 require 'api_store/base'
 require 'api_store/yaml'
 
