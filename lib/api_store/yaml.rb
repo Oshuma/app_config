@@ -4,6 +4,8 @@ module ApiStore
     attr_reader :data
 
     # Loads @data with the YAML file located at +path+.
+    #
+    # Defaults to $HOME/.api_store.yml
     def initialize(path)
       @data = Hashish.new(YAML.load_file(path))
     end
