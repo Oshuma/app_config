@@ -19,7 +19,16 @@ Spec::Rake::SpecTask.new(:spec) do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
 end
 
-# TODO: Split the doc tasks into their own Rakefile.
+desc 'Run all specs in spec directory with RCov'
+Spec::Rake::SpecTask.new(:rcov) do |t|
+  t.spec_opts = ['--options', 'spec/spec.opts']
+  t.spec_files = FileList['spec/**/*_spec.rb']
+  t.rcov = true
+  t.rcov_opts = lambda do
+    IO.readlines('spec/rcov.opts').map {|l| l.chomp.split ' '}.flatten
+  end
+end
+
 desc 'Generate API documentation'
 task :doc do
   Rake::Task['doc:api'].invoke
