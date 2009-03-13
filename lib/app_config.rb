@@ -4,11 +4,11 @@ require 'yaml'
 
 require 'core_ext/hashish'
 
-module ApiStore
+module AppConfig
   VERSION = '0.0.1'
 
-  autoload :Base, 'api_store/base'
-  autoload :Yaml, 'api_store/yaml'
+  autoload :Base, 'app_config/base'
+  autoload :Yaml, 'app_config/yaml'
 
   def self.to_version
     "#{self.class} v#{VERSION}"
@@ -22,9 +22,9 @@ module ApiStore
   end
 
   # Accepts an +options+ hash or pass a block.
-  # See ApiStore::Base for valid options.
+  # See AppConfig::Base for valid options.
   def self.configure(options = {}, &block)
-    @@storage = ApiStore::Base.new(options, &block)
+    @@storage = AppConfig::Base.new(options, &block)
   end
 
 end

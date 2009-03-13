@@ -1,11 +1,11 @@
-module ApiStore
+module AppConfig
   # YAML storage method.
   class Yaml
     attr_reader :data
 
     # Loads @data with the YAML file located at +path+.
     #
-    # Defaults to $HOME/.api_store.yml
+    # Defaults to $HOME/.app_config.yml
     def initialize(path)
       @data = Hashish.new(YAML.load_file(path))
     end
@@ -17,4 +17,4 @@ module ApiStore
 
   end # Yaml
 
-end # ApiStore
+end # AppConfig

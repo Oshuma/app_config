@@ -1,4 +1,4 @@
-module ApiStore
+module AppConfig
 
   # The Base storage class.
   # Acts as a wrapper for the different storage methods.
@@ -10,7 +10,7 @@ module ApiStore
 
     DEFAULTS = {
       :storage_method => :yaml,
-      :path => File.expand_path(File.join(ENV['HOME'], '.api_store.yml'))
+      :path => File.expand_path(File.join(ENV['HOME'], '.app_config.yml'))
     }
 
     # Accepts either a hash of +options+ or a block (which overrides
@@ -40,10 +40,10 @@ module ApiStore
       when :sqlite
         # TODO: Initialize SQLite3 storage.
       when :yaml
-        ApiStore::Yaml.load(path)
+        AppConfig::Yaml.load(path)
       end
     end
 
   end # Base
 
-end # ApiStore
+end # AppConfig

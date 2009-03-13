@@ -2,9 +2,9 @@ require 'spec/rake/spectask'
 
 task :default => [:spec]
 
-desc 'Start an irb session with ApiStore loaded'
+desc 'Start an irb session with AppConfig loaded'
 task :console do
-  sh "irb -I ./lib -r 'api_store'"
+  sh "irb -I ./lib -r 'app_config'"
 end
 
 desc 'Run the specs with autotest'
@@ -46,7 +46,7 @@ namespace :doc do
       --line-numbers
       --main README
       --op #{File.join(File.dirname(__FILE__), 'doc', 'api')}
-      --title 'ApiStore API Documentation'
+      --title 'AppConfig API Documentation'
     ]
     # Generate a diagram, yes/no?
     @options << '-d' if RUBY_PLATFORM !~ /win32/ && `which dot` =~ /\/dot/ && !ENV['NODOT']

@@ -1,40 +1,39 @@
-= ApiStore
+= AppConfig
 
-An easy to use, customizable library to easily store and retrieve API keys
-for all the flashy new Web 2.0 services.
-
-ApiStore isn't restricted to storing just API keys, however.  You can store
-basically anything in 'key => value' pairs.
+An easy to use, customizable library to easily store and retrieve application
+configuration, API keys or basically anything in 'key => value' pairs.
 
 
 == Usage
 
 Usage is simple.  Just pass either a hash of options, or a block, to
-ApiStore.configure.  See ApiStore::Base for a list of valid options.
+AppConfig.configure.  See AppConfig::Base for a list of valid options.
 
 For example, given this YAML file:
 
   ---
-  api_name: 'Supr Webz 2.0'
-  api_key:  'SUPERAWESOMESERVICE'
+  admin_email: 'admin@example.com'
+  api_name:    'Supr Webz 2.0'
+  api_key:     'SUPERAWESOMESERVICE'
 
 Use it like so:
 
-  require 'api_store'
+  require 'app_config'
 
-  ApiStore.configure do |config|
+  AppConfig.configure do |config|
     config.storage_method = :yaml
-    config.path = '/path/to/api_store.yml'
+    config.path = '/path/to/app_config.yml'
   end
 
-  ApiStore[:api_name]  # => 'Supr Webz 2.0'
-  ApiStore[:api_key]   # => 'SUPERAWESOMESERVICE'
+  AppConfig[admin_email]  # => 'admin@example.com'
+  AppConfig[:api_name]    # => 'Supr Webz 2.0'
+  AppConfig[:api_key]     # => 'SUPERAWESOMESERVICE'
 
 Want SQLite3 support?  No problem!
 
-  ApiStore.configure do |config|
+  AppConfig.configure do |config|
     config.storage_method = :sqlite
     config.database = '/path/to/database.sqlite3'
   end
 
-  ApiStore[:column]  # => 'value'
+  AppConfig[:column]  # => 'value'
