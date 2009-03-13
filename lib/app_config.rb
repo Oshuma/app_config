@@ -5,7 +5,7 @@ require 'yaml'
 require 'core_ext/hashish'
 
 module AppConfig
-  VERSION = '0.0.1'
+  VERSION = '0.1.0'
 
   autoload :Base, 'app_config/base'
   autoload :Storage, 'app_config/storage'
