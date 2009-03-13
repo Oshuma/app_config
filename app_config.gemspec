@@ -4,7 +4,6 @@ Gem::Specification.new do |s|
   s.authors = ['Dale Campbell']
   s.email = ['dale@save-state.net']
   s.homepage = 'http://oshuma.github.com/app_config'
-  s.date = %q{2009-03-12}
   s.summary = %q{Quick and easy application configuration.}
   s.description = %q{An easy to use, customizable library to easily store and retrieve application configuration}
   s.rubygems_version = %q{1.3.1}

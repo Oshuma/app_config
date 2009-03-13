@@ -41,6 +41,8 @@ module AppConfig
         # TODO: Initialize SQLite3 storage.
       when :yaml
         AppConfig::Storage::Yaml.load(path)
+      else
+        raise 'Unknown storage method.'
       end
     end
 
