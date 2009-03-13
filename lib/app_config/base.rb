@@ -40,7 +40,7 @@ module AppConfig
       when :sqlite
         # TODO: Initialize SQLite3 storage.
       when :yaml
-        AppConfig::Yaml.load(path)
+        AppConfig::Storage::Yaml.load(path)
       end
     end
 

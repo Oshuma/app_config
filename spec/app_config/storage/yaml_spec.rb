@@ -1,5 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
+include AppConfig::Storage
 describe Yaml do
 
   it 'should have some values' do

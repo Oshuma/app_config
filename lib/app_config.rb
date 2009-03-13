@@ -8,7 +8,7 @@ module AppConfig
   VERSION = '0.0.1'
 
   autoload :Base, 'app_config/base'
-  autoload :Yaml, 'app_config/yaml'
+  autoload :Storage, 'app_config/storage'
 
   def self.to_version
     "#{self.class} v#{VERSION}"
