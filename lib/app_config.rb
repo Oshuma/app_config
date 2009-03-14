@@ -1,6 +1,13 @@
 $LOAD_PATH.unshift File.dirname(__FILE__)
 
-require 'yaml'
+libs = %w{ sqlite3 yaml }
+
+begin
+  libs.each { |lib| require lib }
+rescue LoadError
+  require 'rubygems'
+  libs.each { |lib| require lib }
+end
 
 require 'core_ext/hashish'
 
