@@ -38,7 +38,7 @@ module AppConfig
     def initialize_storage
       case storage_method
       when :sqlite
-        # TODO: Initialize SQLite3 storage.
+        AppConfig::Storage::Sqlite.load(path)
       when :yaml
         AppConfig::Storage::Yaml.load(path)
       else

@@ -6,6 +6,7 @@ module AppConfig
       attr_reader :data
 
       # Loads @data with the YAML file located at +path+.
+      # @data will be the Hashish that is accessed with AppConfig[:key].
       #
       # Defaults to $HOME/.app_config.yml
       def initialize(path)
