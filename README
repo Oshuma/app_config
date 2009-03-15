@@ -34,6 +34,7 @@ Want SQLite3 support?  No problem!
   AppConfig.setup do |config|
     config[:storage_method] = :sqlite
     config[:database] = '/path/to/database.sqlite3'
+    config[:table] = 'app_config'
   end
 
   AppConfig[:column]  # => 'value'
