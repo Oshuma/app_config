@@ -28,7 +28,7 @@ namespace :doc do
 
   desc 'Remove generated API documentation'
   task :clear do
-    system("rm -rf #{File.join(APP_ROOT, 'doc', 'api')}")
+    sh "rm -rf #{File.join(APP_ROOT, 'doc', 'api')}"
   end
 
   desc 'Rebuild API documentation'
@@ -39,8 +39,7 @@ namespace :doc do
 
   desc 'Rebuild the API documentation and upload to RubyForge'
   task :rubyforge => ['doc:rebuild'] do
-    system "scp -r #{File.join(APP_ROOT, 'doc', 'api')}/* app_config.rubyforge.org:/var/www/gforge-projects/app-config/"
-    # system("")
+    sh "scp -r #{File.join(APP_ROOT, 'doc', 'api')}/* app_config.rubyforge.org:/var/www/gforge-projects/app-config/"
   end
 end
 
@@ -49,5 +48,5 @@ private
 def run_rdoc(options, files)
   options = options.join(' ') if options.is_a? Array
   files   = files.join(' ')   if files.is_a? Array
-  system("rdoc #{options} #{files}")
+  sh "rdoc #{options} #{files}"
 end
