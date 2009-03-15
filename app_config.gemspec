@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'app_config'
-  s.version = '0.1.0'
+  s.version = '0.2.0'
   s.authors = ['Dale Campbell']
   s.email = ['dale@save-state.net']
   s.homepage = 'http://oshuma.github.com/app_config'
