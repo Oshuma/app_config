@@ -7,7 +7,7 @@ configuration, API keys or basically anything in 'key => value' pairs.
 == Usage
 
 Usage is simple.  Just pass either a hash of options, or a block, to
-AppConfig.configure.  See AppConfig::Base for a list of valid options.
+AppConfig.setup.  See AppConfig::Base for a list of valid storage methods.
 
 For example, given this YAML file:
 
@@ -20,9 +20,9 @@ Use it like so:
 
   require 'app_config'
 
-  AppConfig.configure do |config|
-    config.storage_method = :yaml
-    config.path = '/path/to/app_config.yml'
+  AppConfig.setup do |config|
+    config[:storage_method] = :yaml
+    config[:path] = '/path/to/app_config.yml'
   end
 
   AppConfig[admin_email]  # => 'admin@example.com'
@@ -31,9 +31,9 @@ Use it like so:
 
 Want SQLite3 support?  No problem!
 
-  AppConfig.configure do |config|
-    config.storage_method = :sqlite
-    config.database = '/path/to/database.sqlite3'
+  AppConfig.setup do |config|
+    config[:storage_method] = :sqlite
+    config[:database] = '/path/to/database.sqlite3'
   end
 
   AppConfig[:column]  # => 'value'

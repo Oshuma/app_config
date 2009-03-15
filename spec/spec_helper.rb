@@ -13,7 +13,7 @@ end
 
 # AppConfig.configure wrapper.  Accepts a hash of +options+.
 def config_for(options)
-  AppConfig.configure(options)
+  AppConfig.setup(options)
 end
 
 # Setup Yaml options and pass to config_for().

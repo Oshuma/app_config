@@ -6,11 +6,8 @@ module AppConfig
   # See each storage method's documentation for their specific options.
   class Base
 
-    attr_accessor :storage_method, :path
-
     DEFAULTS = {
-      :storage_method => :yaml,
-      :path => File.expand_path(File.join(ENV['HOME'], '.app_config.yml'))
+      :storage_method => :yaml
     }
 
     # Accepts either a hash of +options+ or a block (which overrides
@@ -20,10 +17,8 @@ module AppConfig
     # * :sqlite
     # * :yaml
     def initialize(options = {}, &block)
-      DEFAULTS.merge(options).each_pair do |key, value|
-        self.send("#{ key }=", value)
-      end
-      yield self if block_given?
+      @options = DEFAULTS.merge(options)
+      yield @options if block_given?
       @storage = initialize_storage
     end
 
@@ -36,13 +31,13 @@ module AppConfig
 
     # This decides how to load the data, based on the +storage_method+.
     def initialize_storage
-      case storage_method
+      case @options[:storage_method]
       when :sqlite
-        AppConfig::Storage::Sqlite.load(path)
+        AppConfig::Storage::Sqlite.load(@options)
       when :yaml
-        AppConfig::Storage::Yaml.load(path)
+        AppConfig::Storage::Yaml.load(@options)
       else
-        raise 'Unknown storage method.'
+        raise UnknownStorageMethod
       end
     end
 

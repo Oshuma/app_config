@@ -11,6 +11,9 @@ end
 
 require 'core_ext/hashish'
 
+# TODO: Move these to their own file.
+class UnknownStorageMethod < Exception; end
+
 module AppConfig
   VERSION = '0.1.0'
 
@@ -28,9 +31,9 @@ module AppConfig
     @@storage[key]
   end
 
-  # Accepts an +options+ hash or pass a block.
-  # See AppConfig::Base for valid options.
-  def self.configure(options = {}, &block)
+  # Accepts an +options+ hash or a block.
+  # See AppConfig::Base for valid storage methods.
+  def self.setup(options = {}, &block)
     @@storage = AppConfig::Base.new(options, &block)
   end
 
