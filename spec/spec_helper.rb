@@ -28,10 +28,10 @@ end
 
 # Setup Sqlite options and pass to config_for().
 def config_for_sqlite(opts = {})
-  path = opts[:path] || fixture('app_config.sqlite3')
+  database = opts[:database] || fixture('app_config.sqlite3')
   sqlite = {
     :storage_method => :sqlite,
-    :path => path
+    :database => database
   }
   config_for(sqlite.merge(opts))
 end

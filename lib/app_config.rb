@@ -20,6 +20,7 @@ module AppConfig
   autoload :Base, 'app_config/base'
   autoload :Storage, 'app_config/storage'
 
+  # Returns the AppConfig version string.
   def self.to_version
     "#{self.class} v#{VERSION}"
   end
