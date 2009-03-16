@@ -1,6 +1,6 @@
 $LOAD_PATH.unshift File.dirname(__FILE__)
 
-libs = %w{ sqlite3 yaml }
+libs = %w{ sqlite3 yaml uri }
 
 begin
   libs.each { |lib| require lib }

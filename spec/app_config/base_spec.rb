@@ -14,6 +14,18 @@ describe Base do
     YAML.should_receive(:load_file).with(default_path).and_return({:api => 'key'})
     base = Base.new
     base.instance_variable_get(:@options)[:storage_method].should == :yaml
+    base.instance_variable_get(:@options)[:uri].should be_nil
   end
 
+  it 'should set the storage_method to :sqlite' do
+    uri = "sqlite://#{fixture('app_config.sqlite3')}"
+    base = Base.new(:uri => uri)
+    base.instance_variable_get(:@options)[:storage_method].should == :sqlite
+  end
+
+  it 'should set the storage_method to :yaml' do
+    uri = "yaml://#{fixture('app_config.yml')}"
+    base = Base.new(:uri => uri)
+    base.instance_variable_get(:@options)[:storage_method].should == :yaml
+  end
 end
