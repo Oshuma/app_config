@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'app_config'
-  s.version = '0.2.1'
+  s.version = '0.2.2'
   s.authors = ['Dale Campbell']
   s.email = ['dale@save-state.net']
   s.homepage = 'http://oshuma.github.com/app_config'
@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = %q{app-config}
 
-  s.has_rdoc = true
-  s.rdoc_options << '--title' << 'AppConfig' << '--all' << '--inline-source' << '--line-numbers'
+  # s.has_rdoc = true
+  # s.rdoc_options << '--title' << 'AppConfig' << '--all' << '--inline-source' << '--line-numbers'
 
   s.require_paths = ["lib"]
   s.files = Dir[

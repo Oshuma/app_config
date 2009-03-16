@@ -15,7 +15,7 @@ require 'core_ext/hashish'
 class UnknownStorageMethod < Exception; end
 
 module AppConfig
-  VERSION = '0.2.1'
+  VERSION = '0.2.2'
 
   autoload :Base, 'app_config/base'
   autoload :Storage, 'app_config/storage'
