@@ -26,7 +26,7 @@ class Hashish < Hash
 
   # Assigns a new value to the hash:
   #
-  #   hash = HashWithIndifferentAccess.new
+  #   hash = Hashish.new
   #   hash[:key] = "value"
   #
   def []=(key, value)
@@ -34,15 +34,15 @@ class Hashish < Hash
   end
 
   # Updates the instantized hash with values from the second:
-  # 
-  #   hash_1 = HashWithIndifferentAccess.new
+  #
+  #   hash_1 = Hashish.new
   #   hash_1[:key] = "value"
-  # 
-  #   hash_2 = HashWithIndifferentAccess.new
+  #
+  #   hash_2 = Hashish.new
   #   hash_2[:key] = "New Value!"
-  # 
+  #
   #   hash_1.update(hash_2) # => {"key"=>"New Value!"}
-  # 
+  #
   def update(other_hash)
     other_hash.each_pair { |key, value| regular_writer(convert_key(key), convert_value(value)) }
     self
@@ -52,7 +52,7 @@ class Hashish < Hash
 
   # Checks the hash for a key matching the argument passed in:
   #
-  #   hash = HashWithIndifferentAccess.new
+  #   hash = Hashish.new
   #   hash["key"] = "value"
   #   hash.key? :key  # => true
   #   hash.key? "key" # => true
@@ -72,7 +72,7 @@ class Hashish < Hash
 
   # Returns an array of the values at the specified indices:
   #
-  #   hash = HashWithIndifferentAccess.new
+  #   hash = Hashish.new
   #   hash[:a] = "x"
   #   hash[:b] = "y"
   #   hash.values_at("a", "b") # => ["x", "y"]
@@ -83,7 +83,7 @@ class Hashish < Hash
 
   # Returns an exact copy of the hash.
   def dup
-    HashWithIndifferentAccess.new(self)
+    Hashish.new(self)
   end
 
   # Merges the instantized and the specified hashes together, giving precedence to the values from the second hash
