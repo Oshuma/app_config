@@ -36,10 +36,10 @@ module AppConfig
   def determine_storage_method
     uri = URI.parse(@options[:uri])
     case uri.scheme
-    when 'sqlite':
+    when 'sqlite'
       @options[:storage_method] = :sqlite
       @options[:database] = uri.path
-    when 'yaml': :yaml
+    when 'yaml'
       @options[:storage_method] = :yaml
       @options[:path] = uri.path
     end
