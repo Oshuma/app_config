@@ -16,7 +16,7 @@ def config_for(options)
   AppConfig.setup(options)
 end
 
-# Setup Yaml options and pass to config_for().
+# Setup YAML options and pass to config_for().
 def config_for_yaml(opts = {})
   path = opts[:path] || fixture('app_config.yml')
   yaml = {

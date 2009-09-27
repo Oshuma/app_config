@@ -1,9 +1,9 @@
-# Stolen from Rails Active Support 2.3.0 and renamed to Hashish.
+# Stolen from Rails Active Support and aliased to Hashish.
 #
 # This class has dubious semantics and we only have it so that
 # people can write params[:key] instead of params['key']
 # and they get the same value for both keys.
-class Hashish < Hash
+class HashWithIndifferentAccess < Hash
   def initialize(constructor = {})
     if constructor.is_a?(Hash)
       super()
@@ -26,7 +26,7 @@ class Hashish < Hash
 
   # Assigns a new value to the hash:
   #
-  #   hash = Hashish.new
+  #   hash = HashWithIndifferentAccess.new
   #   hash[:key] = "value"
   #
   def []=(key, value)
@@ -35,10 +35,10 @@ class Hashish < Hash
 
   # Updates the instantized hash with values from the second:
   #
-  #   hash_1 = Hashish.new
+  #   hash_1 = HashWithIndifferentAccess.new
   #   hash_1[:key] = "value"
   #
-  #   hash_2 = Hashish.new
+  #   hash_2 = HashWithIndifferentAccess.new
   #   hash_2[:key] = "New Value!"
   #
   #   hash_1.update(hash_2) # => {"key"=>"New Value!"}
@@ -52,7 +52,7 @@ class Hashish < Hash
 
   # Checks the hash for a key matching the argument passed in:
   #
-  #   hash = Hashish.new
+  #   hash = HashWithIndifferentAccess.new
   #   hash["key"] = "value"
   #   hash.key? :key  # => true
   #   hash.key? "key" # => true
@@ -72,7 +72,7 @@ class Hashish < Hash
 
   # Returns an array of the values at the specified indices:
   #
-  #   hash = Hashish.new
+  #   hash = HashWithIndifferentAccess.new
   #   hash[:a] = "x"
   #   hash[:b] = "y"
   #   hash.values_at("a", "b") # => ["x", "y"]
@@ -83,13 +83,23 @@ class Hashish < Hash
 
   # Returns an exact copy of the hash.
   def dup
-    Hashish.new(self)
+    HashWithIndifferentAccess.new(self)
   end
 
   # Merges the instantized and the specified hashes together, giving precedence to the values from the second hash
   # Does not overwrite the existing hash.
   def merge(hash)
     self.dup.update(hash)
+  end
+
+  # Performs the opposite of merge, with the keys and values from the first hash taking precedence over the second.
+  # This overloaded definition prevents returning a regular hash, if reverse_merge is called on a HashWithDifferentAccess.
+  def reverse_merge(other_hash)
+    super other_hash.with_indifferent_access
+  end
+
+  def reverse_merge!(other_hash)
+    replace(reverse_merge( other_hash ))
   end
 
   # Removes a specified key from the hash.
@@ -103,7 +113,7 @@ class Hashish < Hash
 
   # Convert to a Hash with String keys.
   def to_hash
-    Hash.new(default).merge(self)
+    Hash.new(default).merge!(self)
   end
 
   protected
@@ -122,3 +132,6 @@ class Hashish < Hash
       end
     end
 end
+
+# Simple alias.
+Hashish = HashWithIndifferentAccess

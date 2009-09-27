@@ -2,7 +2,7 @@ module AppConfig
   module Storage
 
     # YAML storage method.
-    class Yaml
+    class YAML
       attr_reader :data
 
       DEFAULTS = {
@@ -15,15 +15,15 @@ module AppConfig
       # Defaults to $HOME/.app_config.yml
       def initialize(options)
         path = options[:path] || DEFAULTS[:path]
-        @data = Hashish.new(YAML.load_file(path))
+        # Make sure to use the top-level YAML module here.
+        @data = Hashish.new(::YAML.load_file(path))
       end
 
-      # Creates a new Yaml storage with the given +path+ and returns the data.
+      # Creates a new YAML storage with the given +path+ and returns the data.
       def self.load(path)
         new(path).data
       end
 
-    end # Yaml
-
+    end # YAML
   end # Storage
 end # AppConfig

@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 include AppConfig::Storage
-describe Yaml do
+describe YAML do
 
   it 'should have some values' do
     config_for_yaml

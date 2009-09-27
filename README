@@ -1,7 +1,7 @@
 = AppConfig
 
 An easy to use, customizable library to easily store and retrieve application
-configuration, API keys or basically anything in 'key => value' pairs.
+(or library) configuration, API keys or basically anything in 'key/value' pairs.
 
 
 == Usage
@@ -25,11 +25,13 @@ Use it like so:
     config[:path] = '/path/to/app_config.yml'
   end
 
-  AppConfig[admin_email]  # => 'admin@example.com'
-  AppConfig[:api_name]    # => 'Supr Webz 2.0'
-  AppConfig[:api_key]     # => 'SUPERAWESOMESERVICE'
+  # Later on...
+  # Strings or symbols as keys.
+  AppConfig['admin_email'] # => 'admin@example.com'
+  AppConfig[:api_name]     # => 'Supr Webz 2.0'
+  AppConfig[:api_key]      # => 'SUPERAWESOMESERVICE'
 
-Want SQLite3 support?  No problem!
+Want SQLite3?  No problem!
 
   AppConfig.setup do |config|
     config[:storage_method] = :sqlite
@@ -39,8 +41,8 @@ Want SQLite3 support?  No problem!
 
   AppConfig[:column]  # => 'value'
 
-You can also pass a <tt>uri</tt> option, which will automatically determine
+You can also pass a <tt>:uri</tt> option, which will automatically determine
 the options for the storage method.  So in the block (or passed in hash):
 
-  config[:uri] = 'sqlite:///path/to/database.sqlite3'
-  config[:uri] = 'yaml:///path/to/app_config.yml'
+  config[:uri] = 'sqlite://path/to/database.sqlite3'
+  config[:uri] = 'yaml://path/to/app_config.yml'

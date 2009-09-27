@@ -28,26 +28,16 @@ module AppConfig
       private
 
       # Returns a Hashish that looks something like {:column => value}.
+      # TODO: This could use a bit of work.
       def load_from_database
         query = ["SELECT * FROM sqlite_master",
                  "WHERE type == 'table' AND name == '#{@options[:table]}'",
                  "AND name != 'sqlite_sequence'"].join(' ')
         table = @db.get_first_row(query).last
-        get_columns_from(table)
+        values(columns(table))
       end
 
-      # Gets the column names for +table+.
-      def get_columns_from(table)
-        columns = table.split(', ')
-        # Trip the first element, since it's the SQL CREATE statement.
-        columns = columns[1, columns.size]
-        # Yes, Ruby is 'elegant', but this is fucking disgusting.  There *must* be a better way.
-        columns.map! {|c| c.split('"').reject {|e| e.empty? }.reject {|e| e.include? '('}}.flatten!
-        values_for(columns)
-      end
-
-      # Returns a Hashish mapping of the +columns+ and their values.
-      def values_for(columns)
+      def values(columns)
         data = Hashish.new
         query = "SELECT #{columns.join(', ')} FROM #{@options[:table]}"
         @db.get_first_row(query).each_with_index do |value, index|
@@ -55,7 +45,15 @@ module AppConfig
         end
         data
       end
-    end # Sqlite
 
+      def columns(table)
+        columns = table.split(', ')
+        # Trip the first element, since it's the SQL CREATE statement.
+        columns = columns[1, columns.size]
+        # Yes, Ruby is 'elegant', but this is fucking disgusting.  There *must* be a better way.
+        columns.map! {|c| c.split('"').reject {|e| e.empty? }.reject {|e| e.include? '('}}.flatten!
+      end
+
+    end # Sqlite
   end # Storage
 end # AppConfig

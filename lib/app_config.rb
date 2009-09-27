@@ -1,5 +1,6 @@
 $LOAD_PATH.unshift File.dirname(__FILE__)
 
+# TODO: Only load deps if needed (no gems unless required).
 libs = %w{ sqlite3 yaml uri }
 
 begin
@@ -13,12 +14,12 @@ require 'core_ext/hashish'
 
 # TODO: Move these to their own file.
 class NotConfigured < Exception
-  def to_s; "Must call 'AppConfig.configure' to setup storage!"; end
+  def to_s; "Must call 'AppConfig.setup' to setup storage!"; end
 end
 class UnknownStorageMethod < Exception; end
 
 module AppConfig
-  VERSION = '0.2.2'
+  VERSION = '0.2.3'
 
   autoload :Base, 'app_config/base'
   autoload :Storage, 'app_config/storage'
