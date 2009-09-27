@@ -12,6 +12,9 @@ end
 require 'core_ext/hashish'
 
 # TODO: Move these to their own file.
+class NotConfigured < Exception
+  def to_s; "Must call 'AppConfig.configure' to setup storage!"; end
+end
 class UnknownStorageMethod < Exception; end
 
 module AppConfig
@@ -27,8 +30,7 @@ module AppConfig
 
   # Access the configured <tt>key</tt>'s value.
   def self.[](key)
-    error = "Must call '#{self}.configure' to setup storage!"
-    raise error if @@storage.nil?
+    raise NotConfigured unless defined?(@@storage)
     @@storage[key]
   end
 
