@@ -41,4 +41,4 @@ module AppConfig
     @@storage = AppConfig::Base.new(options, &block)
   end
 
-end
+end # AppConfig
