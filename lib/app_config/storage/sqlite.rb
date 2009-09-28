@@ -37,6 +37,7 @@ module AppConfig
         values(columns(table))
       end
 
+      # Return the values for a given +columns+ (as a Hashish).
       def values(columns)
         data = Hashish.new
         query = "SELECT #{columns.join(', ')} FROM #{@options[:table]}"
@@ -46,6 +47,7 @@ module AppConfig
         data
       end
 
+      # Return the column names of a given +table+ (as an Array).
       def columns(table)
         columns = table.split(', ')
         # Trip the first element, since it's the SQL CREATE statement.
