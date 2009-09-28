@@ -13,7 +13,6 @@ module AppConfig
     # TODO: Change the default storage method to not use YAML.
     DEFAULTS = {
       :storage_method => :yaml,
-      :uri => nil
     }
 
     # Accepts either a hash of +options+ or a block (which overrides
@@ -34,7 +33,7 @@ module AppConfig
 
   # Sets the storage_method depending on the URI given.
   def determine_storage_method
-    uri = URI.parse(@options[:uri])
+    uri = URI.parse(@options.delete(:uri))
     case uri.scheme
     when 'sqlite'
       @options[:storage_method] = :sqlite

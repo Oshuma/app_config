@@ -19,7 +19,7 @@ end
 class UnknownStorageMethod < Exception; end
 
 module AppConfig
-  VERSION = '0.2.3'
+  VERSION = '0.2.4'
 
   autoload :Base, 'app_config/base'
   autoload :Storage, 'app_config/storage'
