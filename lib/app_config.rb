@@ -14,7 +14,7 @@ end
 require 'core_ext/hashish'
 
 module AppConfig
-  VERSION = '0.3.1'
+  VERSION = '0.4.0'
 
   autoload :Base, 'app_config/base'
   autoload :Error, 'app_config/error'

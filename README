@@ -49,27 +49,24 @@ Use it like so:
   AppConfig[:column]  # => 'value'
 
 
-== Rails Mode
+== Environment Mode
 
-As of version 0.3.1, there's a 'Rails mode' where you can organize
+As of version 0.4.0, there's an 'environment mode' where you can organize
 the config file sort of like Rails' database config.
-
-*NOTE:* This might get renamed to a more Rack-ish 'environment' mode.
 
   # config/app_config.yml
   development:
-    name: 'Dev Mode'
+    title: 'Development Mode'
 
   production:
-    name: 'Production Mode'
+    title: 'Production Mode'
 
-Then set the <tt>:rails</tt> option to true (it's false by default).
+Then set the <tt>:env</tt> option to your desired environment.
 
-  # config/initializers/load_app_config.rb
   AppConfig.setup do |config|
-    config[:rails] = true
+    config[:env] = Rails.env  # or any string.
     config[:uri] = 'yaml://path/to/app_config.yml'
   end
 
-  # If Rails.env is 'production'
-  AppConfig[:name] = 'Production Mode'
+  # Uses the given environment section of the config.
+  AppConfig[:title] = 'Production Mode'
