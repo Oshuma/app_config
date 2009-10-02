@@ -5,6 +5,10 @@ describe AppConfig do
     AppConfig.to_version.should_not be_nil
   end
 
+  it 'should act like a normal Hash' do
+    AppConfig[:not_a_key].should be_nil
+  end
+
   it 'should have to_hash' do
     config_for_yaml
     AppConfig.to_hash.class.should == Hash

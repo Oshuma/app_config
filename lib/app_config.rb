@@ -13,16 +13,11 @@ end
 # AppConfig stuff.
 require 'core_ext/hashish'
 
-# TODO: Move these to their own file.
-class NotConfigured < Exception
-  def to_s; "Must call 'AppConfig.setup' to setup storage!"; end
-end
-class UnknownStorageMethod < Exception; end
-
 module AppConfig
   VERSION = '0.3.1'
 
   autoload :Base, 'app_config/base'
+  autoload :Error, 'app_config/error'
   autoload :Storage, 'app_config/storage'
 
   # Returns the AppConfig version string.
@@ -32,7 +27,6 @@ module AppConfig
 
   # Access the configured <tt>key</tt>'s value.
   def self.[](key)
-    raise NotConfigured unless defined?(@@storage)
     @@storage[key]
   end
 

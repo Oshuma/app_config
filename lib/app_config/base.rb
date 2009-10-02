@@ -31,7 +31,6 @@ module AppConfig
     end
 
     def storage
-      raise NotConfigured unless defined?(@storage)
       rails_enabled? ? @storage[::Rails.env] : @storage
     end
 
@@ -63,7 +62,7 @@ module AppConfig
       when :yaml
         AppConfig::Storage::YAML.load(@options)
       else
-        raise UnknownStorageMethod
+        raise Error::UnknownStorageMethod
       end
     end
 

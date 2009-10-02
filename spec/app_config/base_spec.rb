@@ -5,7 +5,7 @@ describe Base do
   it 'should raise UnknownStorageMethod' do
     lambda do
       Base.new(:storage_method => 'not_a_real_storage_method')
-    end.should raise_error(UnknownStorageMethod)
+    end.should raise_error(Error::UnknownStorageMethod)
   end
 
   it 'should have default options' do
