@@ -27,7 +27,16 @@ module AppConfig
 
     # Access the <tt>key</tt>'s value in @storage.
     def [](key)
-      rails_enabled? ? @storage[::Rails.env][key] : @storage[key]
+      storage[key]
+    end
+
+    def storage
+      raise NotConfigured unless defined?(@storage)
+      rails_enabled? ? @storage[::Rails.env] : @storage
+    end
+
+    def to_hash
+      storage.to_hash
     end
 
     private

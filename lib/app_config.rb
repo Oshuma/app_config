@@ -42,4 +42,8 @@ module AppConfig
     @@storage = AppConfig::Base.new(options, &block)
   end
 
+  def self.to_hash
+    @@storage.to_hash
+  end
+
 end # AppConfig
