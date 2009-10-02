@@ -11,7 +11,7 @@ def fixture(name)
   File.expand_path(File.join(File.dirname(__FILE__), 'fixtures', name))
 end
 
-# AppConfig.configure wrapper.  Accepts a hash of +options+.
+# AppConfig.setup wrapper.  Accepts a hash of +options+.
 def config_for(options)
   AppConfig.setup(options)
 end

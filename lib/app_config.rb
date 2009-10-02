@@ -1,15 +1,16 @@
 $LOAD_PATH.unshift File.dirname(__FILE__)
 
 # TODO: Only load deps if needed (no gems unless required).
-libs = %w{ sqlite3 yaml uri }
+dependencies = %w{ sqlite3 yaml uri }
 
 begin
-  libs.each { |lib| require lib }
+  dependencies.each { |lib| require lib }
 rescue LoadError
   require 'rubygems'
-  libs.each { |lib| require lib }
+  dependencies.each { |lib| require lib }
 end
 
+# AppConfig stuff.
 require 'core_ext/hashish'
 
 # TODO: Move these to their own file.
@@ -26,7 +27,7 @@ module AppConfig
 
   # Returns the AppConfig version string.
   def self.to_version
-    "#{self.class} v#{VERSION}"
+    "#{self.name} v#{VERSION}"
   end
 
   # Access the configured <tt>key</tt>'s value.

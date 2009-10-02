@@ -135,3 +135,11 @@ end
 
 # Simple alias.
 Hashish = HashWithIndifferentAccess
+
+class Hash
+  def with_indifferent_access
+    hash = Hashish.new(self)
+    hash.default = self.default
+    hash
+  end
+end
