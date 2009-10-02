@@ -9,7 +9,7 @@ An easy to use, customizable library to easily store and retrieve application
 Usage is simple.  Just pass either a hash of options, or a block, to
 AppConfig.setup.  See AppConfig::Base for a list of valid storage methods.
 
-=== AppConfig::Storage::YAML
+== AppConfig::Storage::YAML
 
 Given this YAML file:
 
@@ -35,7 +35,7 @@ Use it like so:
   AppConfig[:api_name]     # => 'Supr Webz 2.0'
   AppConfig[:api_key]      # => 'SUPERAWESOMESERVICE'
 
-=== AppConfig::Storage::Sqlite
+== AppConfig::Storage::Sqlite
 
   AppConfig.setup do |config|
     config[:storage_method] = :sqlite
