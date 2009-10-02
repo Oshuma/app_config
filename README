@@ -23,6 +23,8 @@ Use it like so:
   AppConfig.setup do |config|
     config[:storage_method] = :yaml
     config[:path] = '/path/to/app_config.yml'
+    # ..or..
+    config[:uri] = 'yaml://path/to/app_config.yml'
   end
 
   # Later on...
@@ -36,13 +38,34 @@ Want SQLite3?  No problem!
   AppConfig.setup do |config|
     config[:storage_method] = :sqlite
     config[:database] = '/path/to/database.sqlite3'
-    config[:table] = 'app_config'
+    # ..or..
+    config[:uri] = 'sqlite://path/to/database.sqlite3'
+
+    config[:table] = 'app_config' # defaults to 'app_config'
   end
 
   AppConfig[:column]  # => 'value'
 
-You can also pass a <tt>:uri</tt> option, which will automatically determine
-the options for the storage method.  So in the block (or passed in hash):
 
-  config[:uri] = 'sqlite://path/to/database.sqlite3'
-  config[:uri] = 'yaml://path/to/app_config.yml'
+== Rails Mode
+
+As of version 0.3.1, there's a 'Rails mode' where you can organize
+the config file sort of like Rails' database config.
+
+*NOTE:* This might get renamed to a more Rack-ish 'environment' mode.
+
+  development:
+    name: 'Dev Mode'
+
+  production:
+    name: 'Production Mode'
+
+Then set the <tt>:rails</tt> option to true (it's false by default).
+
+  AppConfig.setup do |config|
+    config[:rails] = true
+    config[:uri] = 'yaml://path/to/app_config.yml'
+  end
+
+  # If Rails.env is 'production'
+  AppConfig[:name] = 'Production Mode'
