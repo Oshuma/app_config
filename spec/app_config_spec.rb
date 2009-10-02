@@ -16,4 +16,12 @@ describe AppConfig do
       AppConfig[key].should == value
     end
   end
+
+  describe 'environment mode' do
+    it 'should load the proper environment' do
+      config_for_yaml(:path => fixture('env_app_config.yml'),
+                      :env  => 'development')
+      AppConfig[:api_key].should_not be_nil
+    end
+  end
 end

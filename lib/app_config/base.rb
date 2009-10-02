@@ -30,9 +30,15 @@ module AppConfig
       storage[key]
     end
 
-    # Returns the <tt>@storage</tt> contents.
+    def environment
+      (@options[:environment] || @options[:env]) || nil
+    end
+    alias_method :env, :environment
+
+    # Returns the <tt>@storage</tt> contents, which is what is exposed
+    # as the configuration.
     def storage
-      rails_enabled? ? @storage[::Rails.env] : @storage
+      environment ? @storage[environment] : @storage
     end
 
     def to_hash
@@ -65,10 +71,6 @@ module AppConfig
       else
         raise Error::UnknownStorageMethod
       end
-    end
-
-    def rails_enabled?
-      @options[:rails] || false
     end
 
   end # Base
