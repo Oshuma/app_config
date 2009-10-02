@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.version = "0.3.1"
   s.authors = ['Dale Campbell']
   s.email = ['oshuma@gmail.com']
-  s.date = %q{2009-09-27}
+  s.date = %q{2009-10-01}
   s.homepage = 'http://oshuma.github.com/app_config'
 
   s.summary = %q{Quick and easy application configuration.}
