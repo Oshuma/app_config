@@ -9,7 +9,9 @@ An easy to use, customizable library to easily store and retrieve application
 Usage is simple.  Just pass either a hash of options, or a block, to
 AppConfig.setup.  See AppConfig::Base for a list of valid storage methods.
 
-For example, given this YAML file:
+=== AppConfig::Storage::YAML
+
+Given this YAML file:
 
   ---
   admin_email: 'admin@example.com'
@@ -33,7 +35,7 @@ Use it like so:
   AppConfig[:api_name]     # => 'Supr Webz 2.0'
   AppConfig[:api_key]      # => 'SUPERAWESOMESERVICE'
 
-Want SQLite3?  No problem!
+=== AppConfig::Storage::Sqlite
 
   AppConfig.setup do |config|
     config[:storage_method] = :sqlite
@@ -54,6 +56,7 @@ the config file sort of like Rails' database config.
 
 *NOTE:* This might get renamed to a more Rack-ish 'environment' mode.
 
+  # config/app_config.yml
   development:
     name: 'Dev Mode'
 
@@ -62,6 +65,7 @@ the config file sort of like Rails' database config.
 
 Then set the <tt>:rails</tt> option to true (it's false by default).
 
+  # config/initializers/load_app_config.rb
   AppConfig.setup do |config|
     config[:rails] = true
     config[:uri] = 'yaml://path/to/app_config.yml'

@@ -25,11 +25,12 @@ module AppConfig
       @storage = initialize_storage
     end
 
-    # Access the <tt>key</tt>'s value in @storage.
+    # Access the <tt>key</tt>'s value in storage.
     def [](key)
       storage[key]
     end
 
+    # Returns the <tt>@storage</tt> contents.
     def storage
       rails_enabled? ? @storage[::Rails.env] : @storage
     end
