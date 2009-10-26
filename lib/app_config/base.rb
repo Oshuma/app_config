@@ -12,7 +12,7 @@ module AppConfig
 
     # TODO: Change the default storage method to not use YAML.
     DEFAULTS = {
-      :storage_method => :yaml,
+      # :storage_method => :yaml,
     }
 
     # Accepts either a hash of +options+ or a block (which overrides
@@ -69,7 +69,8 @@ module AppConfig
       when :yaml
         AppConfig::Storage::YAML.load(@options)
       else
-        raise Error::UnknownStorageMethod
+        AppConfig::Storage::Memory.load(@options)
+        # raise Error::UnknownStorageMethod
       end
     end
 
