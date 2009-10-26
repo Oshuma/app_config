@@ -1,7 +1,12 @@
 module AppConfig
   module Storage
 
-    require 'sqlite3'
+    begin
+      require 'sqlite3'
+    rescue LoadError
+      require 'rubygems'
+      require 'sqlite3'
+    end
 
     # SQLite3 storage method.
     class Sqlite < BaseStorage

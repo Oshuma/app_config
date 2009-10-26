@@ -9,6 +9,13 @@ An easy to use, customizable library to easily store and retrieve application
 Usage is simple.  Just pass either a hash of options, or a block, to
 AppConfig.setup.  See AppConfig::Base for a list of valid storage methods.
 
+As of version 0.4.1, if the <tt>:storage_method</tt> is not set, AppConfig
+will act pretty much just like a normal Hash:
+
+  AppConfig.setup(:email => 'admin@example.com')
+  AppConfig[:email]    # => 'admin@example.com'
+
+
 == AppConfig::Storage::YAML
 
 Given this YAML file:
@@ -35,15 +42,16 @@ Use it like so:
   AppConfig[:api_name]     # => 'Supr Webz 2.0'
   AppConfig[:api_key]      # => 'SUPERAWESOMESERVICE'
 
+
 == AppConfig::Storage::Sqlite
 
   AppConfig.setup do |config|
     config[:storage_method] = :sqlite
+    config[:table] = 'app_config' # defaults to 'app_config'
+
     config[:database] = '/path/to/database.sqlite3'
     # ..or..
     config[:uri] = 'sqlite://path/to/database.sqlite3'
-
-    config[:table] = 'app_config' # defaults to 'app_config'
   end
 
   AppConfig[:column]  # => 'value'

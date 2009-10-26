@@ -12,4 +12,8 @@ describe Sqlite do
     config_for_sqlite
     AppConfig[:api_key].should_not be_nil
   end
+
+  it 'should honor the :env option' do
+    pending "TODO: Still haven't made up my mind on how I want to do this"
+  end
 end
