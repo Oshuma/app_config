@@ -4,8 +4,7 @@ module AppConfig
     require 'sqlite3'
 
     # SQLite3 storage method.
-    class Sqlite
-      attr_accessor :data
+    class Sqlite < BaseStorage
 
       DEFAULTS = {
         :database => File.expand_path(File.join(ENV['HOME'], '.app_config.sqlite3')),
@@ -20,11 +19,6 @@ module AppConfig
         @options = DEFAULTS.merge(options)
         @db = SQLite3::Database.open(@options[:database])
         @data = load_from_database
-      end
-
-      # Creates a new Sqlite storage with the given +path+ and returns the data.
-      def self.load(path)
-        new(path).data
       end
 
       private

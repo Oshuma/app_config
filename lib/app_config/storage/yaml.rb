@@ -4,8 +4,7 @@ module AppConfig
     require 'yaml'
 
     # YAML storage method.
-    class YAML
-      attr_reader :data
+    class YAML < BaseStorage
 
       DEFAULTS = {
         :path => File.expand_path(File.join(ENV['HOME'], '.app_config.yml'))
@@ -19,11 +18,6 @@ module AppConfig
         path = options[:path] || DEFAULTS[:path]
         # Make sure to use the top-level YAML module here.
         @data = Hashish.new(::YAML.load_file(path))
-      end
-
-      # Creates a new YAML storage with the given +path+ and returns the data.
-      def self.load(path)
-        new(path).data
       end
 
     end # YAML
