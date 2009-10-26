@@ -8,13 +8,14 @@ module AppConfig
   # See each storage method's documentation for their specific options.
   #
   # Valid storage methods:
+  # * :memory (AppConfig::Storage::Memory)
   # * :sqlite (AppConfig::Storage::Sqlite)
   # * :yaml (AppConfig::Storage::YAML)
   class Base
 
-    # TODO: Change the default storage method to not use YAML.
+    # TODO: All these DEFAULTS constants are kinda annoying.
     DEFAULTS = {
-      # :storage_method => :yaml,
+      :storage_method => :memory,
     }
 
     # Accepts either a hash of +options+ or a block (which overrides
@@ -66,13 +67,14 @@ module AppConfig
     # TODO: Maybe purge AppConfig options (ie, those not related to the user-end).
     def initialize_storage
       case @options[:storage_method]
+      when :memory
+        AppConfig::Storage::Memory.load(@options)
       when :sqlite
         AppConfig::Storage::Sqlite.load(@options)
       when :yaml
         AppConfig::Storage::YAML.load(@options)
       else
-        AppConfig::Storage::Memory.load(@options)
-        # raise Error::UnknownStorageMethod
+        raise Error::UnknownStorageMethod
       end
     end
 
