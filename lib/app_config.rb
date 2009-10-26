@@ -1,15 +1,5 @@
 $LOAD_PATH.unshift File.dirname(__FILE__)
 
-# TODO: Only load deps if needed (no gems unless required).
-dependencies = %w{ sqlite3 yaml uri }
-
-begin
-  dependencies.each { |lib| require lib }
-rescue LoadError
-  require 'rubygems'
-  dependencies.each { |lib| require lib }
-end
-
 # AppConfig stuff.
 require 'core_ext/hashish'
 

@@ -1,5 +1,7 @@
 module AppConfig
 
+  require 'uri'
+
   # The Base storage class.
   # Acts as a wrapper for the different storage methods.
   #

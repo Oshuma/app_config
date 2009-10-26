@@ -1,7 +1,6 @@
 module AppConfig
   module Storage
 
-    # TODO: Memcache shit will probably go here.
     class Memory
       attr_reader :data
 

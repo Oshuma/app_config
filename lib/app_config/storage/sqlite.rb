@@ -1,6 +1,8 @@
 module AppConfig
   module Storage
 
+    require 'sqlite3'
+
     # SQLite3 storage method.
     class Sqlite
       attr_accessor :data
