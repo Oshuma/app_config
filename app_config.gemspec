@@ -20,23 +20,12 @@ Gem::Specification.new do |s|
     'README',
     'lib/app_config.rb',
     'lib/app_config/base.rb',
+    'lib/app_config/error.rb',
     'lib/app_config/storage.rb',
+    'lib/app_config/storage/base_storage.rb',
+    'lib/app_config/storage/memory.rb',
     'lib/app_config/storage/sqlite.rb',
     'lib/app_config/storage/yaml.rb',
     'lib/core_ext/hashish.rb',
   ]
-
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 3
-
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency('sqlite3-ruby')
-    else
-      s.add_dependency('sqlite3-ruby')
-    end
-  else
-    s.add_dependency('sqlite3-ruby')
-  end
 end

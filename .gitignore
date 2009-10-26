@@ -1,4 +1,5 @@
 .DS_Store
+*.gem
 coverage/
 doc/api/
 pkg/*
