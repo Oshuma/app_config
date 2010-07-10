@@ -14,6 +14,6 @@ describe Sqlite do
   end
 
   it 'should honor the :env option' do
-    pending "TODO: Still haven't made up my mind on how I want to do this"
+    pending "TODO: Still haven't made up my mind on how I want to do this; maybe a column named 'env'."
   end
 end

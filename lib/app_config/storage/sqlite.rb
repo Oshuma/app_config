@@ -51,7 +51,7 @@ module AppConfig
       # Return the column names of a given +table+ (as an Array).
       def columns(table)
         columns = table.split(', ')
-        # Trip the first element, since it's the SQL CREATE statement.
+        # Strip the first element, since it's the SQL CREATE statement.
         columns = columns[1, columns.size]
         # Yes, Ruby is 'elegant', but this is fucking disgusting.  There *must* be a better way.
         columns.map! {|c| c.split('"').reject {|e| e.empty? }.reject {|e| e.include? '('}}.flatten!
