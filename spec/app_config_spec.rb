@@ -21,7 +21,7 @@ describe AppConfig do
     end.should raise_error(AppConfig::Error::NotSetup)
   end
 
-  it 'is raised when calling to_hash()' do
+  it 'Error::NotSetup is raised when calling to_hash()' do
     # First, reset the storage variable.
     AppConfig.send(:class_variable_set, :@@storage, nil)
     lambda do
