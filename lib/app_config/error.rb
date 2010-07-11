@@ -1,8 +1,8 @@
 module AppConfig
   module Error
 
-    class NotConfigured < Exception
-      def to_s; "Must call 'AppConfig.setup' to setup storage!"; end
+    class NotSetup < Exception
+      def to_s; "Must call 'AppConfig.setup' to configure storage!"; end
     end
 
     class UnknownStorageMethod < Exception; end

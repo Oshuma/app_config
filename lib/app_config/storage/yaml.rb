@@ -1,8 +1,7 @@
+require 'yaml'
+
 module AppConfig
   module Storage
-
-    require 'yaml'
-
     # YAML storage method.
     class YAML < BaseStorage
 
