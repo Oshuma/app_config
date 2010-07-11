@@ -20,6 +20,9 @@ module AppConfig
 
     # Accepts either a hash of +options+ or a block (which overrides
     # any options passed in the hash).
+    # FIXME: Allow +options+ hash keys to be string or symbol.
+    # TODO: Rework this into something like <tt>Base.initialize_storage()</tt>; returns an instance of Storage type.
+    # TODO: Rename the +storage_method+ option to +storage+.
     def initialize(options = {}, &block)
       @options = DEFAULTS.merge(options)
       yield @options if block_given?
@@ -30,9 +33,23 @@ module AppConfig
 
     # Access the <tt>key</tt>'s value in storage.
     def [](key)
-      storage[key]
+      if storage.respond_to?(:[])
+        storage[key]
+      else
+        raise AppConfig::Error::MustOverride.new('#[]')
+      end
     end
 
+    # Set a new <tt>value</tt> for <tt>key</tt>.
+    def []=(key, value)
+      if storage.respond_to?(:[]=)
+        storage[key] = value
+      else
+        raise AppConfig::Error::MustOverride.new('#[]=')
+      end
+    end
+
+    # Returns the current environment setting, or +nil+ if none is set.
     def environment
       (@options[:environment] || @options[:env]) || nil
     end
@@ -64,7 +81,7 @@ module AppConfig
     end
 
     # This decides how to load the data, based on the +storage_method+.
-    # TODO: Maybe purge AppConfig options (ie, those not related to the user-end).
+    # FIXME: Purge AppConfig-related options before sending to the storage method.
     def initialize_storage
       case @options[:storage_method]
       when :memory

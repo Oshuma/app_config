@@ -4,7 +4,7 @@ $LOAD_PATH.unshift File.dirname(__FILE__)
 require 'core_ext/hashish'
 
 module AppConfig
-  VERSION = '0.5.0'
+  VERSION = '0.5.1'
 
   autoload :Base, 'app_config/base'
   autoload :Error, 'app_config/error'
@@ -27,15 +27,28 @@ module AppConfig
       @@storage = nil
     end
 
+    # Returns the <tt>@@storage</tt> as a Hash-ish object.
+    def to_hash
+      validate!
+      @@storage.to_hash
+    end
+
     # Access the configured <tt>key</tt>'s value.
     def [](key)
-      raise AppConfig::Error::NotSetup unless @@storage
+      validate!
       @@storage[key]
     end
 
-    def to_hash
-      raise AppConfig::Error::NotSetup unless @@storage
-      @@storage.to_hash
+    # Set a new <tt>value</tt> for <tt>key</tt>.
+    def []=(key, value)
+      validate!
+      @@storage[key] = value
+    end
+
+    private
+
+    def validate!
+      raise AppConfig::Error::NotSetup unless defined?(@@storage) && @@storage
     end
 
   end # self

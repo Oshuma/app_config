@@ -13,6 +13,7 @@ end
 
 # AppConfig.setup wrapper.  Accepts a hash of +options+.
 def config_for(options)
+  AppConfig.reset!
   AppConfig.setup(options)
 end
 

@@ -25,6 +25,17 @@ module AppConfig
         @data = load_from_database
       end
 
+      def [](key)
+        @data[key]
+      end
+
+      # Set a new <tt>value</tt> for <tt>key</tt>.
+      def []=(key, value)
+        @data[key] = value
+        # TODO: Implement value saving.
+        # save!
+      end
+
       private
 
       # Returns a Hashish that looks something like {:column => value}.
