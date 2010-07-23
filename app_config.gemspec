@@ -22,8 +22,7 @@ Gem::Specification.new do |s|
     'lib/app_config/error.rb',
     'lib/app_config/storage.rb',
     'lib/app_config/storage/base.rb',
-    'lib/app_config/storage/memory.rb',
-    'lib/app_config/storage/sqlite.rb',
+    'lib/app_config/storage/mongo.rb',
     'lib/app_config/storage/yaml.rb',
     'lib/core_ext/hashish.rb',
   ]
