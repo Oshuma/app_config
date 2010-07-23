@@ -9,6 +9,7 @@ module AppConfig
   #
   # Valid storage methods:
   # * :memory (AppConfig::Storage::Memory)
+  # * :mongo (AppConfig::Storage::MongoDB)
   # * :sqlite (AppConfig::Storage::Sqlite)
   # * :yaml (AppConfig::Storage::YAML)
   class Base
@@ -86,6 +87,8 @@ module AppConfig
       case @options[:storage_method]
       when :memory
         AppConfig::Storage::Memory.load(@options)
+      when :mongo
+        AppConfig::Storage::MongoDB.load(@options)
       when :sqlite
         AppConfig::Storage::Sqlite.load(@options)
       when :yaml

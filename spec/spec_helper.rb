@@ -36,3 +36,17 @@ def config_for_sqlite(opts = {})
   }
   config_for(sqlite.merge(opts))
 end
+
+def config_for_mongo(opts = {})
+  mongo = {
+    :storage_method => :mongo,
+    :host => 'localhost',
+    :database => 'app_config_spec',
+    :environment => 'test',
+  }
+  begin
+    config_for(mongo.merge(opts))
+  rescue Mongo::ConnectionFailure
+    pending "***** Mongo specs require a running MongoDB server *****"
+  end
+end
