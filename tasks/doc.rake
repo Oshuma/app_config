@@ -36,11 +36,6 @@ namespace :doc do
     Rake::Task['doc:clear'].invoke
     Rake::Task['doc:api'].invoke
   end
-
-  desc 'Rebuild the API documentation and upload to RubyForge'
-  task :rubyforge => ['doc:rebuild'] do
-    sh "scp -r #{File.join(APP_ROOT, 'doc', 'api')}/* app_config.rubyforge.org:/var/www/gforge-projects/app-config/"
-  end
 end
 
 private

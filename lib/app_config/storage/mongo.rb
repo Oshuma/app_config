@@ -7,14 +7,15 @@ end
 
 module AppConfig
   module Storage
-    # MongoDB storage method.
-    class MongoDB < BaseStorage
+
+    # Mongo storage method.
+    class Mongo < Base
 
       DEFAULTS = {
-        :environment => 'development',
         :host => 'localhost',
         :port => '27017',
         :database => 'app_config',
+        :collection => 'app_config',
         :user => nil,
         :password => nil
       }
@@ -37,18 +38,25 @@ module AppConfig
 
       private
 
+      def save!
+        collection.save(@data)
+      end
+
       def setup_connection
-        @connection = Mongo::Connection.new(@options[:host], @options[:port].to_i)
+        @connection = ::Mongo::Connection.new(@options[:host], @options[:port].to_i)
         authenticate_connection if @options[:user] && @options[:password]
-        @connected = true
       end
 
       def authenticate_connection
         database.authenticate(@options[:user], @options[:password])
       end
 
+      def connected?
+        @connection && @connection.connected?
+      end
+
       def fetch_data
-        raise 'Not connected to MongoDB' unless @connected
+        raise 'Not connected to MongoDB' unless connected?
         Hashish.new(collection.find_one)
       end
 
@@ -57,7 +65,7 @@ module AppConfig
       end
 
       def collection
-        @collection ||= database.collection(@options[:environment])
+        @collection ||= database.collection(@options[:collection])
       end
 
     end # Mongo

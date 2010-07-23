@@ -1,9 +1,9 @@
 Gem::Specification.new do |s|
   s.name = %q{app_config}
-  s.version = "0.5.1"
+  s.version = "1.0.0"
   s.authors = ['Dale Campbell']
   s.email = ['oshuma@gmail.com']
-  s.date = %q{2010-07-11}
+  s.date = %q{2010-07-23}
   s.homepage = 'http://oshuma.github.com/app_config'
 
   s.summary = %q{Quick and easy application configuration.}
@@ -19,10 +19,9 @@ Gem::Specification.new do |s|
     'Rakefile',
     'README',
     'lib/app_config.rb',
-    'lib/app_config/base.rb',
     'lib/app_config/error.rb',
     'lib/app_config/storage.rb',
-    'lib/app_config/storage/base_storage.rb',
+    'lib/app_config/storage/base.rb',
     'lib/app_config/storage/memory.rb',
     'lib/app_config/storage/sqlite.rb',
     'lib/app_config/storage/yaml.rb',

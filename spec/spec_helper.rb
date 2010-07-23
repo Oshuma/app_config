@@ -27,16 +27,6 @@ def config_for_yaml(opts = {})
   config_for(yaml.merge(opts))
 end
 
-# Setup Sqlite options and pass to config_for().
-def config_for_sqlite(opts = {})
-  database = opts[:database] || fixture('app_config.sqlite3')
-  sqlite = {
-    :storage_method => :sqlite,
-    :database => database
-  }
-  config_for(sqlite.merge(opts))
-end
-
 def config_for_mongo(opts = {})
   mongo = {
     :storage_method => :mongo,

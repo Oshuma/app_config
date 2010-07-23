@@ -1,16 +1,22 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'spec_helper'
 
 describe AppConfig do
-  it 'should have a version' do
-    AppConfig.to_version.should_not be_nil
+
+  it 'has a version' do
+    AppConfig::VERSION.should_not be_nil
+  end
+
+  it 'responds to .setup()' do
+    AppConfig.should respond_to(:setup)
+  end
+
+  it 'responds to .reset!()' do
+    AppConfig.should respond_to(:reset!)
   end
 
   it 'should have to_hash' do
     config_for_yaml
     AppConfig.to_hash.class.should == Hash
-    AppConfig.to_hash.each_pair do |key, value|
-      AppConfig[key].should == value
-    end
   end
 
   it 'should reset @@storage' do
@@ -29,11 +35,4 @@ describe AppConfig do
     end.should raise_error(AppConfig::Error::NotSetup)
   end
 
-  describe 'environment mode' do
-    it 'should load the proper environment' do
-      config_for_yaml(:path => fixture('env_app_config.yml'),
-                      :env  => 'development')
-      AppConfig[:api_key].should_not be_nil
-    end
-  end
 end
