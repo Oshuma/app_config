@@ -21,6 +21,6 @@ namespace :gem do
   task :install => ['gem:rebuild'] do
     gem = FileList["#{APP_DIR}/*.gem"].first
     raise 'Gem not found!' unless gem && File.exists?(gem)
-    sh "gem uninstall app_config; gem install #{gem}"
+    sh "sudo gem uninstall app_config; sudo gem install --no-ri --no-rdoc #{gem}"
   end
 end
