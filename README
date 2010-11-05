@@ -1,1 +1,80 @@
-AppConfig
+= AppConfig
+
+An easy to use, customizable library to easily store and retrieve application
+(or library) configuration, API keys or basically anything in 'key/value' pairs.
+
+
+== Usage
+
+Usage is simple.  Just pass either a hash of options, or a block, to
+AppConfig.setup.  See AppConfig::Base for a list of valid storage methods.
+
+As of version 0.4.1, if the <tt>:storage_method</tt> is not set, AppConfig
+will act pretty much just like a normal Hash:
+
+  AppConfig.setup(:email => 'admin@example.com')
+  AppConfig[:email]    # => 'admin@example.com'
+
+
+== AppConfig::Storage::YAML
+
+Given this YAML file:
+
+  ---
+  admin_email: 'admin@example.com'
+  api_name:    'Supr Webz 2.0'
+  api_key:     'SUPERAWESOMESERVICE'
+
+Use it like so:
+
+  require 'app_config'
+
+  AppConfig.setup do |config|
+    config[:storage_method] = :yaml
+    config[:path] = '/path/to/app_config.yml'
+    # ..or..
+    config[:uri] = 'yaml://path/to/app_config.yml'
+  end
+
+  # Later on...
+  # Strings or symbols as keys.
+  AppConfig['admin_email'] # => 'admin@example.com'
+  AppConfig[:api_name]     # => 'Supr Webz 2.0'
+  AppConfig[:api_key]      # => 'SUPERAWESOMESERVICE'
+
+
+== AppConfig::Storage::Sqlite
+
+  AppConfig.setup do |config|
+    config[:storage_method] = :sqlite
+    config[:table] = 'app_config' # defaults to 'app_config'
+
+    config[:database] = '/path/to/database.sqlite3'
+    # ..or..
+    config[:uri] = 'sqlite://path/to/database.sqlite3'
+  end
+
+  AppConfig[:column]  # => 'value'
+
+
+== Environment Mode
+
+As of version 0.4.0, there's an 'environment mode' where you can organize
+the config file sort of like Rails' database config.
+
+  # config/app_config.yml
+  development:
+    title: 'Development Mode'
+
+  production:
+    title: 'Production Mode'
+
+Then set the <tt>:env</tt> option to your desired environment.
+
+  AppConfig.setup do |config|
+    config[:env] = Rails.env  # or any string.
+    config[:uri] = 'yaml://path/to/app_config.yml'
+  end
+
+  # Uses the given environment section of the config.
+  AppConfig[:title] = 'Production Mode'

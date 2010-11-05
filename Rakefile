@@ -1,9 +1,4 @@
-begin
-  require 'spec/rake/spectask'
-rescue LoadError
-  require 'rubygems'
-  require 'spec/rake/spectask'
-end
+require 'spec/rake/spectask'
 
 FileList[File.dirname(__FILE__) + '/tasks/**/*.rake'].each { |task| load task }
 
