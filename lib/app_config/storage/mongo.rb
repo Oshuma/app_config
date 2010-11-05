@@ -9,7 +9,7 @@ module AppConfig
   module Storage
 
     # Mongo storage method.
-    class Mongo < Base
+    class Mongo < Storage::Base
 
       DEFAULTS = {
         :host => 'localhost',

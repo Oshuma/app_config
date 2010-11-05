@@ -9,7 +9,7 @@ module AppConfig
     end
 
     # SQLite3 storage method.
-    class Sqlite < BaseStorage
+    class Sqlite < Storage::Base
 
       DEFAULTS = {
         :database => File.expand_path(File.join(ENV['HOME'], '.app_config.sqlite3')),

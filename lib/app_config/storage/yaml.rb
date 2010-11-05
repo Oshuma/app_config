@@ -4,7 +4,7 @@ module AppConfig
     require 'yaml'
 
     # YAML storage method.
-    class YAML < BaseStorage
+    class YAML < Storage::Base
 
       DEFAULTS = {
         :path => File.expand_path(File.join(ENV['HOME'], '.app_config.yml'))

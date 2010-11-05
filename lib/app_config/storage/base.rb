@@ -4,18 +4,10 @@ module AppConfig
 
       attr_reader :data
 
-      def to_hash
-        @data.to_hash
+      def self.load(options)
+        new(options).data
       end
 
-      def [](key)
-        raise Error::MustOverride.new("[](key)")
-      end
-
-      def []=(key, value)
-        raise Error::MustOverride.new("[]=(key, value)")
-      end
-
-    end # Base
+    end # BaseStorage
   end # Storage
 end # AppConfig

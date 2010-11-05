@@ -1,11 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe AppConfig::Storage::Mongo do
-  it 'connects to the MongoDB host' do
-    pending "TODO: Spec this out"
-  end
 
-  it 'authenticates with MongoDB' do
+  before(:each) do
     pending "TODO: Spec this out"
   end
 

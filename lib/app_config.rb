@@ -4,30 +4,47 @@ $LOAD_PATH.unshift File.dirname(__FILE__)
 require 'core_ext/hashish'
 
 module AppConfig
-  VERSION = '0.4.1'
+  VERSION = '0.5.2'
 
   autoload :Base, 'app_config/base'
   autoload :Error, 'app_config/error'
   autoload :Storage, 'app_config/storage'
 
-  # Returns the AppConfig version string.
-  def self.to_version
-    "#{self.name} v#{VERSION}"
-  end
+  class << self
 
-  # Access the configured <tt>key</tt>'s value.
-  def self.[](key)
-    @@storage[key]
-  end
+    # Accepts an +options+ hash or a block.
+    # See AppConfig::Base for valid storage methods.
+    def setup(options = {}, &block)
+      @@storage = AppConfig::Base.new(options, &block)
+    end
 
-  # Accepts an +options+ hash or a block.
-  # See AppConfig::Base for valid storage methods.
-  def self.setup(options = {}, &block)
-    @@storage = AppConfig::Base.new(options, &block)
-  end
+    # Clears the <tt>@@storage</tt>.
+    def reset!
+      @@storage = nil if defined?(@@storage)
+    end
 
-  def self.to_hash
-    @@storage.to_hash
-  end
+    # Access the configured <tt>key</tt>'s value.
+    def [](key)
+      validate!
+      @@storage[key]
+    end
 
+    # Set a new <tt>value</tt> for <tt>key</tt> (persistence depends on the type of Storage).
+    def []=(key, value)
+      validate!
+      @@storage[key] = value
+    end
+
+    def to_hash
+      validate!
+      @@storage.to_hash
+    end
+
+    private
+
+    def validate!
+      raise AppConfig::Error::NotSetup unless defined?(@@storage) && @@storage
+    end
+
+  end # self
 end # AppConfig

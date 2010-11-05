@@ -1,4 +1,4 @@
-# Stolen from Rails Active Support and aliased to Hashish.
+# Stolen from Rails Active Support and renamed to Hashish.
 #
 # This class has dubious semantics and we only have it so that
 # people can write params[:key] instead of params['key']
@@ -117,18 +117,28 @@ class Hashish < Hash
   end
 
   protected
-    def convert_key(key)
-      key.kind_of?(Symbol) ? key.to_s : key
-    end
 
-    def convert_value(value)
-      case value
-      when Hash
-        value.with_indifferent_access
-      when Array
-        value.collect { |e| e.is_a?(Hash) ? e.with_indifferent_access : e }
-      else
-        value
-      end
+  def convert_key(key)
+    key.kind_of?(Symbol) ? key.to_s : key
+  end
+
+  def convert_value(value)
+    case value
+    when Hash
+      value.with_indifferent_access
+    when Array
+      value.collect { |e| e.is_a?(Hash) ? e.with_indifferent_access : e }
+    else
+      value
     end
+  end
+
+end # Hashish
+
+class Hash
+  def with_indifferent_access
+    hash = Hashish.new(self)
+    hash.default = self.default
+    hash
+  end
 end

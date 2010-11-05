@@ -30,7 +30,19 @@ module AppConfig
 
     # Access the <tt>key</tt>'s value in storage.
     def [](key)
-      storage[key]
+      if storage.respond_to?(:[])
+        storage[key]
+      else
+        raise AppConfig::Error::MustOverride.new('#[]')
+      end
+    end
+
+    def []=(key, value)
+      if storage.respond_to?(:[]=)
+        storage[key] = value
+      else
+        raise AppConfig::Error::MustOverride.new('#[]=')
+      end
     end
 
     def environment
@@ -74,7 +86,7 @@ module AppConfig
       when :yaml
         AppConfig::Storage::YAML.load(@options)
       else
-        raise Error::UnknownStorageMethod
+        raise AppConfig::Error::UnknownStorageMethod
       end
     end
 
