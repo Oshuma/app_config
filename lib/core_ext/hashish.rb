@@ -3,7 +3,7 @@
 # This class has dubious semantics and we only have it so that
 # people can write params[:key] instead of params['key']
 # and they get the same value for both keys.
-class HashWithIndifferentAccess < Hash
+class Hashish < Hash
   def initialize(constructor = {})
     if constructor.is_a?(Hash)
       super()
@@ -131,15 +131,4 @@ class HashWithIndifferentAccess < Hash
         value
       end
     end
-end
-
-# Simple alias.
-Hashish = HashWithIndifferentAccess
-
-class Hash
-  def with_indifferent_access
-    hash = Hashish.new(self)
-    hash.default = self.default
-    hash
-  end
 end

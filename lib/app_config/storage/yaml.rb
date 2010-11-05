@@ -1,9 +1,10 @@
-require 'yaml'
-
 module AppConfig
   module Storage
+
+    require 'yaml'
+
     # YAML storage method.
-    class YAML < Base
+    class YAML < BaseStorage
 
       DEFAULTS = {
         :path => File.expand_path(File.join(ENV['HOME'], '.app_config.yml'))
@@ -17,15 +18,6 @@ module AppConfig
         path = options[:path] || DEFAULTS[:path]
         # Make sure to use the top-level YAML module here.
         @data = Hashish.new(::YAML.load_file(path))
-      end
-
-      def [](key)
-        @data[key]
-      end
-
-      # TODO: Save <tt>@data</tt> back to the YAML file.
-      def []=(key, value)
-        @data[key] = value
       end
 
     end # YAML
