@@ -10,6 +10,10 @@ describe AppConfig do
     AppConfig.should respond_to(:setup)
   end
 
+  it 'responds to .setup?()' do
+    AppConfig.should respond_to(:setup?)
+  end
+
   it 'responds to .reset!()' do
     AppConfig.should respond_to(:reset!)
   end
@@ -41,6 +45,16 @@ describe AppConfig do
                       :env  => 'development')
       AppConfig[:api_key].should_not be_nil
     end
+  end
+
+  it 'should not be setup' do
+    AppConfig.reset!
+    AppConfig.should_not be_setup
+  end
+
+  it 'should be setup' do
+    config_for_yaml
+    AppConfig.should be_setup
   end
 
 end

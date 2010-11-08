@@ -4,7 +4,7 @@ $LOAD_PATH.unshift File.dirname(__FILE__)
 require 'core_ext/hashish'
 
 module AppConfig
-  VERSION = '0.5.2'
+  VERSION = '0.5.3'
 
   autoload :Base, 'app_config/base'
   autoload :Error, 'app_config/error'
@@ -16,6 +16,11 @@ module AppConfig
     # See AppConfig::Base for valid storage methods.
     def setup(options = {}, &block)
       @@storage = AppConfig::Base.new(options, &block)
+    end
+
+    # Returns +true+ if +AppConfig.setup()+ has been called.
+    def setup?
+      defined?(@@storage) && @@storage
     end
 
     # Clears the <tt>@@storage</tt>.
