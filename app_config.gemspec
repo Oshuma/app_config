@@ -5,7 +5,7 @@ require "#{File.dirname(__FILE__)}/lib/app_config"
 Gem::Specification.new do |s|
   s.name = %q{app_config}
   s.version = AppConfig::VERSION
-  s.date = %q{2010-11-07}
+  s.date = %q{2010-11-12}
 
   s.authors = ['Dale Campbell']
   s.email = ['oshuma@gmail.com']
