@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
 
   s.require_paths = ["lib"]
   s.files = FileList[
-    'README',
+    'README.rdoc',
     'Rakefile',
     'lib/**/*',
     'spec/**/*',
