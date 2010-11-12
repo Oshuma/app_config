@@ -7,7 +7,7 @@ end
 
 namespace :doc do
   task :setup_rdoc do
-    @file_list = FileList[ "#{File.join(APP_ROOT, 'README')}",
+    @file_list = FileList[ "#{File.join(APP_ROOT, 'README.rdoc')}",
                            "#{APP_ROOT}/lib/**/*.rb" ]
     # Substitute APP_ROOT with a dot.  Makes for a better index in the generated docs.
     @files = @file_list.collect  {|f| f.gsub(/#{APP_ROOT}/, '.')}
@@ -15,6 +15,7 @@ namespace :doc do
       --all
       --inline-source
       --line-numbers
+      --main README.rdoc
       --op #{File.join(APP_ROOT, 'doc', 'api')}
       --title 'AppConfig API Documentation'
     ]

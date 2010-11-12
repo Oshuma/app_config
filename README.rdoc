@@ -9,12 +9,6 @@ An easy to use, customizable library to easily store and retrieve application
 Usage is simple.  Just pass either a hash of options, or a block, to
 AppConfig.setup.  See AppConfig::Base for a list of valid storage methods.
 
-As of version 0.4.1, if the <tt>:storage_method</tt> is not set, AppConfig
-will act pretty much just like a normal Hash:
-
-  AppConfig.setup(:email => 'admin@example.com')
-  AppConfig[:email]    # => 'admin@example.com'
-
 
 == AppConfig::Storage::YAML
 
@@ -49,18 +43,18 @@ As of version 0.6.0, you can now use <tt>:mongo</tt> as the storage method.
 The values are read/saved (by default) to the 'app_config' database and
 'app_config' collection.  These defaults can be overridden, however, which
 might lend well to versioned configurations; collection names such as
-'app_config_v1', 'app_config_v2', etc.  See <tt>AppConfig::Storage::Mongo::DEFAULTS</tt>
-for the default Mongo options.
+'app_config_v1', 'app_config_v2', etc.  Check the <tt>DEFAULTS</tt> constant
+in AppConfig::Storage::Mongo for the default Mongo connection options.
 
   AppConfig.setup do |config|
     config[:storage_method] = :mongo
     config[:collection] = 'app_config_v2' # Or any valid Mongo collection name.
 
     # Override an existing value:
-    config[:admin_email] = 'not_the_admin@example.com'
+    config[:admin_email] = 'other_admin@example.com'
   end
 
-If you wanted to read/update the configuration from the 'mongo' client,
+If you wanted to read/update the configuration from the <tt>mongo</tt> client,
 it would look something like this:
 
   $ mongo
@@ -71,7 +65,7 @@ it would look something like this:
   > db.app_config.find()
   { "_id" : ObjectId("4cddc317da98dd42f8000001"), "admin_email" : "admin@example.com" }
   > db.app_config_v2.find()
-  { "_id" : ObjectId("4cddc317da98dd42f8000001"), "admin_email" : "not_the_admin@example.com" }
+  { "_id" : ObjectId("4cddc317da98dd42f8000001"), "admin_email" : "other_admin@example.com" }
 
 
 == AppConfig::Storage::Sqlite
@@ -86,6 +80,15 @@ it would look something like this:
   end
 
   AppConfig[:column]  # => 'value'
+
+
+== Basically just a Hash...
+
+As of version 0.4.1, if the <tt>:storage_method</tt> is not set, AppConfig
+will act pretty much just like a normal Hash:
+
+  AppConfig.setup(:email => 'admin@example.com')
+  AppConfig[:email]    # => 'admin@example.com'
 
 
 == Environment Mode

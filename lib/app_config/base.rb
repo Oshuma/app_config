@@ -9,6 +9,7 @@ module AppConfig
   #
   # Valid storage methods:
   # * :memory (AppConfig::Storage::Memory)
+  # * :mongo (AppConfig::Storage::Mongo)
   # * :sqlite (AppConfig::Storage::Sqlite)
   # * :yaml (AppConfig::Storage::YAML)
   class Base
