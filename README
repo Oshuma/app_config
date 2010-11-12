@@ -43,6 +43,37 @@ Use it like so:
   AppConfig[:api_key]      # => 'SUPERAWESOMESERVICE'
 
 
+== AppConfig::Storage::Mongo
+
+As of version 0.6.0, you can now use <tt>:mongo</tt> as the storage method.
+The values are read/saved (by default) to the 'app_config' database and
+'app_config' collection.  These defaults can be overridden, however, which
+might lend well to versioned configurations; collection names such as
+'app_config_v1', 'app_config_v2', etc.  See <tt>AppConfig::Storage::Mongo::DEFAULTS</tt>
+for the default Mongo options.
+
+  AppConfig.setup do |config|
+    config[:storage_method] = :mongo
+    config[:collection] = 'app_config_v2' # Or any valid Mongo collection name.
+
+    # Override an existing value:
+    config[:admin_email] = 'not_the_admin@example.com'
+  end
+
+If you wanted to read/update the configuration from the 'mongo' client,
+it would look something like this:
+
+  $ mongo
+  MongoDB shell version: 1.6.4
+  connecting to: test
+  > use app_config
+  switched to db app_config
+  > db.app_config.find()
+  { "_id" : ObjectId("4cddc317da98dd42f8000001"), "admin_email" : "admin@example.com" }
+  > db.app_config_v2.find()
+  { "_id" : ObjectId("4cddc317da98dd42f8000001"), "admin_email" : "not_the_admin@example.com" }
+
+
 == AppConfig::Storage::Sqlite
 
   AppConfig.setup do |config|
