@@ -76,11 +76,14 @@ module AppConfig
     end
 
     # This decides how to load the data, based on the +storage_method+.
-    # TODO: Maybe purge AppConfig options (ie, those not related to the user-end).
+    # TODO: Purge AppConfig options (ie, those not related to the user-end).
+    # TODO: This should return an instance of the storage method, instead of calling Storage::Base.load().
     def initialize_storage
       case @options[:storage_method]
       when :memory
         AppConfig::Storage::Memory.load(@options)
+      when :mongo
+        AppConfig::Storage::Mongo.new(@options)
       when :sqlite
         AppConfig::Storage::Sqlite.load(@options)
       when :yaml

@@ -32,7 +32,6 @@ RSpec.configure do |config|
       :storage_method => :mongo,
       :host => 'localhost',
       :database => 'app_config_spec',
-      :environment => 'test',
     }
     begin
       config_for(mongo.merge(opts))
