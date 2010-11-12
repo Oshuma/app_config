@@ -48,7 +48,7 @@ module AppConfig
     private
 
     def validate!
-      raise AppConfig::Error::NotSetup unless defined?(@@storage) && @@storage
+      raise AppConfig::Error::NotSetup unless setup?
     end
 
   end # self
