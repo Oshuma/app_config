@@ -1,0 +1,5 @@
+# Test values loaded into the Mongo db.
+---
+admin_email: 'admin@example.com'
+api_name:    'Supr Webz 2.0'
+api_key:     'SUPERAWESOMESERVICE'

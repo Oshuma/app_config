@@ -7,13 +7,12 @@ describe AppConfig::Storage::Mongo do
     config_for_mongo
   end
 
-  it 'should save the values' do
+  it 'should have some values' do
+    AppConfig[:api_key].should_not be_nil
+  end
+
+  it 'should update the values' do
     AppConfig[:api_key] = 'SOME_NEW_API_KEY'
-
-    # Reconfigure AppConfig (reloads the data).
-    AppConfig.reset!
-    config_for_mongo
-
     AppConfig[:api_key].should == 'SOME_NEW_API_KEY'
   end
 end

@@ -40,7 +40,11 @@ module AppConfig
       private
 
       def save!
-        collection.save(@data)
+        if @data.has_key?('_id')
+          collection.update({'_id' => @data['_id']}, @data)
+        else
+          collection.save(@data)
+        end
       end
 
       def setup_connection
