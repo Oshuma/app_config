@@ -6,8 +6,21 @@ An easy to use, customizable library to easily store and retrieve application
 
 == Usage
 
-Usage is simple.  Just pass either a hash of options, or a block, to
-AppConfig.setup.  See AppConfig::Base for a list of valid storage methods.
+Usage is simple.  Just pass either a hash of options, or a block, to AppConfig.setup.
+
+In it's simplest form, you can use it like so:
+
+  AppConfig.setup(:admin_email => 'admin@example.com')
+  # ..or..
+  AppConfig.setup do |config|
+    config[:admin_email] = 'admin@example.com'
+  end
+
+  # Strings or symbols as keys.
+  AppConfig[:admin_email] # => 'admin@example.com'
+
+You may also specify the <tt>:storage_method</tt> along with options specific to that storage method.
+See <tt>AppConfig::Base</tt> for a list of valid storage methods.
 
 
 == AppConfig::Storage::YAML
@@ -80,15 +93,6 @@ it would look something like this:
   end
 
   AppConfig[:column]  # => 'value'
-
-
-== Basically just a Hash...
-
-As of version 0.4.1, if the <tt>:storage_method</tt> is not set, AppConfig
-will act pretty much just like a normal Hash:
-
-  AppConfig.setup(:email => 'admin@example.com')
-  AppConfig[:email]    # => 'admin@example.com'
 
 
 == Environment Mode
