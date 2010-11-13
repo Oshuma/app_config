@@ -21,6 +21,7 @@ In it's simplest form, you can use it like so:
 
 You may also specify the <tt>:storage_method</tt> along with options specific to that storage method.
 See <tt>AppConfig::Base</tt> for a list of valid storage methods.
+Check the wiki[https://github.com/Oshuma/app_config/wiki] for more usage examples.
 
 
 == AppConfig::Storage::YAML
