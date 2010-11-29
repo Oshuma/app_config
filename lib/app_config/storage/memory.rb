@@ -3,6 +3,7 @@ module AppConfig
     class Memory < Storage::Base
 
       def initialize(options)
+        super(options)
         @data = Hashish.new(options)
       end
 

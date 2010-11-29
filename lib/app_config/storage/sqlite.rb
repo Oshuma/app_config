@@ -21,7 +21,7 @@ module AppConfig
       #
       # Defaults to $HOME/.app_config.sqlite3
       def initialize(options)
-        @options = DEFAULTS.merge(options)
+        super(DEFAULTS.merge(options))
         @db = SQLite3::Database.open(@options[:database])
         @data = load_from_database
       end

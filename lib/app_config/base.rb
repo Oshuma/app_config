@@ -12,6 +12,8 @@ module AppConfig
   # * :mongo (AppConfig::Storage::Mongo)
   # * :sqlite (AppConfig::Storage::Sqlite)
   # * :yaml (AppConfig::Storage::YAML)
+  #
+  # TODO: Purge AppConfig options (ie, those not related to the user-end).
   class Base
 
     # TODO: All these DEFAULTS constants are kinda annoying.
@@ -26,7 +28,8 @@ module AppConfig
       yield @options if block_given?
 
       determine_storage_method if @options[:uri]
-      @storage = initialize_storage
+      @storage_method = initialize_storage_method
+      @storage = @storage_method.data
     end
 
     # Access the <tt>key</tt>'s value in storage.
@@ -77,18 +80,16 @@ module AppConfig
     end
 
     # This decides how to load the data, based on the +storage_method+.
-    # TODO: Purge AppConfig options (ie, those not related to the user-end).
-    # TODO: This should return an instance of the storage method, instead of calling Storage::Base.load().
-    def initialize_storage
-      case @options[:storage_method]
+    def initialize_storage_method
+      @storage_method = case @options[:storage_method]
       when :memory
-        AppConfig::Storage::Memory.load(@options)
+        AppConfig::Storage::Memory.new(@options)
       when :mongo
         AppConfig::Storage::Mongo.new(@options)
       when :sqlite
-        AppConfig::Storage::Sqlite.load(@options)
+        AppConfig::Storage::Sqlite.new(@options)
       when :yaml
-        AppConfig::Storage::YAML.load(@options)
+        AppConfig::Storage::YAML.new(@options)
       else
         raise AppConfig::Error::UnknownStorageMethod
       end

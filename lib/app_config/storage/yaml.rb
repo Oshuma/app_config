@@ -15,7 +15,9 @@ module AppConfig
       #
       # Defaults to $HOME/.app_config.yml
       def initialize(options)
-        path = options[:path] || DEFAULTS[:path]
+        super(DEFAULTS.merge(options))
+        path = @options[:path] || DEFAULTS[:path]
+
         # Make sure to use the top-level YAML module here.
         @data = Hashish.new(::YAML.load_file(path))
       end

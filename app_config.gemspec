@@ -2,10 +2,11 @@ require 'rake'
 
 require "#{File.dirname(__FILE__)}/lib/app_config"
 
+# TODO: Add optional dependencies (if that's even possible).
 Gem::Specification.new do |s|
   s.name = %q{app_config}
   s.version = AppConfig::VERSION
-  s.date = %q{2010-11-12}
+  s.date = %q{2010-11-28}
 
   s.authors = ['Dale Campbell']
   s.email = ['oshuma@gmail.com']
