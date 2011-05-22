@@ -24,19 +24,18 @@ describe AppConfig do
   end
 
   it 'should reset @@storage' do
-    config_for_yaml   # configure first
-    AppConfig.reset!  # then reset
-    lambda do
-      AppConfig[:some_key]
-    end.should raise_error(AppConfig::Error::NotSetup)
+    # configure first
+    config_for_yaml(:api_key => 'API_KEY')
+    # then reset
+    AppConfig.reset!
+    AppConfig[:api_key].should be_nil
   end
 
-  it 'Error::NotSetup is raised when calling to_hash()' do
-    # First, reset the storage variable.
-    AppConfig.send(:class_variable_set, :@@storage, nil)
-    lambda do
-      AppConfig.to_hash
-    end.should raise_error(AppConfig::Error::NotSetup)
+  it 'to_hash() returns an empty hash if storage not set' do
+    # # First, reset the storage variable.
+    # AppConfig.send(:class_variable_set, :@@storage, nil)
+    AppConfig.reset!
+    AppConfig.to_hash.should == {}
   end
 
   describe 'environment mode' do

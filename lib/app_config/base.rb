@@ -49,6 +49,14 @@ module AppConfig
       end
     end
 
+    def empty?
+      if storage.respond_to?(:empty?)
+        storage.empty?
+      else
+        raise AppConfig::Error::MustOverride.new('#empty?')
+      end
+    end
+
     def environment
       (@options[:environment] || @options[:env]) || nil
     end
