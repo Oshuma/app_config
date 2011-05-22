@@ -1,7 +1,5 @@
-require 'rubygems' if RUBY_VERSION =~ /^1\.8/
 require 'rspec'
-
-require File.expand_path("#{File.dirname(__FILE__)}/../lib/app_config")
+require "#{File.dirname(__FILE__)}/../lib/app_config"
 
 RSpec.configure do |config|
   include AppConfig

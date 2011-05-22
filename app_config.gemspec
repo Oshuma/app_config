@@ -1,12 +1,9 @@
-require 'rake'
+$:.push File.expand_path("../lib", __FILE__)
+require 'app_config'
 
-require "#{File.dirname(__FILE__)}/lib/app_config"
-
-# TODO: Add optional dependencies (if that's even possible).
 Gem::Specification.new do |s|
-  s.name = %q{app_config}
+  s.name = "app_config"
   s.version = AppConfig::VERSION
-  s.date = %q{2010-11-28}
 
   s.authors = ['Dale Campbell']
   s.email = ['oshuma@gmail.com']
@@ -15,18 +12,15 @@ Gem::Specification.new do |s|
   s.summary = %q{Quick and easy application configuration.}
   s.description = %q{An easy to use, customizable library to easily store and retrieve application configuration.}
 
+  s.add_development_dependency('bson_ext')
+  s.add_development_dependency('mongo')
+  s.add_development_dependency('rspec', '>= 2.6.0')
+  s.add_development_dependency('sqlite3')
+
   s.has_rdoc = true
   s.rdoc_options = ["--inline-source", "--charset=UTF-8"]
 
-  s.add_dependency('sqlite3-ruby', '>= 1.3.1')
-  s.add_development_dependency('rspec', '>= 2.0.1')
-
+  s.files = `git ls-files`.split("\n")
+  s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.require_paths = ["lib"]
-  s.files = FileList[
-    'README.rdoc',
-    'Rakefile',
-    'lib/**/*',
-    'spec/**/*',
-    'tasks/**/*'
-  ].to_a
 end

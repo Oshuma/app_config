@@ -1,3 +1,5 @@
+.rvmrc
 *.gem
 doc/api/
+pkg/
 tmp/**/*

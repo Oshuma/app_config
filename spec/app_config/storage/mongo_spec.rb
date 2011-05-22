@@ -4,7 +4,7 @@ describe AppConfig::Storage::Mongo do
 
   before(:each) do
     AppConfig.reset!
-    config_for_mongo
+    config_for_mongo(:api_key => 'SEEKRET_KEY')
   end
 
   it 'should have some values' do

@@ -4,7 +4,7 @@ $LOAD_PATH.unshift File.dirname(__FILE__)
 require 'core_ext/hashish'
 
 module AppConfig
-  VERSION = '0.6.1'
+  VERSION = '0.7.0'
 
   autoload :Base, 'app_config/base'
   autoload :Error, 'app_config/error'
