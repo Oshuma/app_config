@@ -1,13 +1,11 @@
-$LOAD_PATH.unshift File.dirname(__FILE__)
-
 # AppConfig stuff.
 require 'core_ext/hashish'
 
 module AppConfig
   VERSION = '0.7.1'
 
-  autoload :Base, 'app_config/base'
-  autoload :Error, 'app_config/error'
+  autoload :Base,    'app_config/base'
+  autoload :Error,   'app_config/error'
   autoload :Storage, 'app_config/storage'
 
   class << self

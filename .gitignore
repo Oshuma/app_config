@@ -1,6 +1,7 @@
 .rbenv-*
 .rvmrc
 *.gem
+coverage/
 doc/api/
 pkg/
 tmp/**/*

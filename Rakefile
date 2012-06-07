@@ -1,5 +1,5 @@
 require 'bundler'
-require 'rake/rdoctask'
+require 'rdoc/task'
 require 'rspec/core/rake_task'
 
 Bundler::GemHelper.install_tasks
@@ -12,9 +12,7 @@ task :console do
 end
 
 desc 'Run the specs'
-RSpec::Core::RakeTask.new(:spec) do |t|
-  t.rspec_opts = [ "--color" ]
-end
+RSpec::Core::RakeTask.new(:spec)
 
 namespace :docs do
   Rake::RDocTask.new do |rd|

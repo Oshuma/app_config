@@ -10,7 +10,6 @@ module AppConfig
   # Valid storage methods:
   # * :memory (AppConfig::Storage::Memory)
   # * :mongo (AppConfig::Storage::Mongo)
-  # * :sqlite (AppConfig::Storage::Sqlite)
   # * :yaml (AppConfig::Storage::YAML)
   #
   # TODO: Purge AppConfig options (ie, those not related to the user-end).
@@ -78,9 +77,6 @@ module AppConfig
     def determine_storage_method
       uri = URI.parse(@options.delete(:uri))
       case uri.scheme
-      when 'sqlite'
-        @options[:storage_method] = :sqlite
-        @options[:database] = uri.path
       when 'yaml'
         @options[:storage_method] = :yaml
         @options[:path] = uri.path
@@ -94,8 +90,6 @@ module AppConfig
         AppConfig::Storage::Memory.new(@options)
       when :mongo
         AppConfig::Storage::Mongo.new(@options)
-      when :sqlite
-        AppConfig::Storage::Sqlite.new(@options)
       when :yaml
         AppConfig::Storage::YAML.new(@options)
       else

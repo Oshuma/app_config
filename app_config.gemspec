@@ -12,15 +12,17 @@ Gem::Specification.new do |s|
   s.summary = %q{Quick and easy application configuration.}
   s.description = %q{An easy to use, customizable library to easily store and retrieve application configuration.}
 
-  s.add_development_dependency('bson_ext')
-  s.add_development_dependency('mongo')
-  s.add_development_dependency('rspec', '>= 2.6.0')
-  s.add_development_dependency('sqlite3')
+  s.add_development_dependency 'bson_ext'
+  s.add_development_dependency 'mongo'
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rspec', '~> 2.10.0'
+  s.add_development_dependency 'simplecov'
 
   s.has_rdoc = true
   s.rdoc_options = ["--inline-source", "--charset=UTF-8"]
 
-  s.files = `git ls-files`.split("\n")
-  s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.require_paths = ["lib"]
+  s.files = `git ls-files`.split("\n")
+
+  s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
 end
