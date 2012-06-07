@@ -1,3 +1,4 @@
+.rbenv-*
 .rvmrc
 *.gem
 doc/api/
