@@ -15,7 +15,6 @@ module AppConfig
   # TODO: Purge AppConfig options (ie, those not related to the user-end).
   class Base
 
-    # TODO: All these DEFAULTS constants are kinda annoying.
     DEFAULTS = {
       :storage_method => :memory,
     }
