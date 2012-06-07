@@ -1,5 +1,10 @@
+require 'simplecov'
+SimpleCov.start do
+  add_filter '/spec'
+end
+
 require 'rspec'
-require "#{File.dirname(__FILE__)}/../lib/app_config"
+require 'app_config'
 
 RSpec.configure do |config|
   include AppConfig
@@ -29,7 +34,7 @@ RSpec.configure do |config|
     mongo = AppConfig::Storage::Mongo::DEFAULTS.merge({
       :storage_method => :mongo,
       :host => 'localhost',
-      :database => 'app_config_spec',
+      :database => 'app_config_test',
     })
     begin
       config_for(mongo.merge(opts))

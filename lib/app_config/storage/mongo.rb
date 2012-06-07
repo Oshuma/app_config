@@ -1,24 +1,19 @@
-begin
-  require 'mongo'
-rescue LoadError
-  require 'rubygems'
-  require 'mongo'
-end
-
 module AppConfig
   module Storage
+
+    require 'mongo'
 
     # Mongo storage method.
     # FIXME: Come up with a way of removing stale config entries.
     class Mongo < Storage::Base
 
       DEFAULTS = {
-        :host => 'localhost',
-        :port => '27017',
-        :database => 'app_config',
+        :host       => 'localhost',
+        :port       => '27017',
+        :database   => 'app_config',
         :collection => 'app_config',
-        :user => nil,
-        :password => nil
+        :user       => nil,
+        :password   => nil
       }
 
       def initialize(options)

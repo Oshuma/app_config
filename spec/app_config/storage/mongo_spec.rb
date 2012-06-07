@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe AppConfig::Storage::Mongo do
 
-  before(:each) do
+  before(:all) do
     AppConfig.reset!
     config_for_mongo(:api_key => 'SEEKRET_KEY')
   end
