@@ -19,12 +19,17 @@ module AppConfig
 
     # Returns `true` if {AppConfig.setup AppConfig.setup} has been called.
     def setup?
-      defined?(@@storage) && !@@storage.empty?
+      !!(defined?(@@storage) && !@@storage.empty?)
     end
 
     # Clears the `@@storage`.
     def reset!
-      @@storage = Hashish.new
+      if defined?(@@storage)
+        remove_class_variable(:@@storage)
+        true
+      else
+        false
+      end
     end
 
     # Access the configured `key`'s value.
@@ -35,11 +40,12 @@ module AppConfig
 
     # Set a new `value` for `key` (persistence depends on the type of Storage).
     def []=(key, value)
+      setup unless setup?
       @@storage[key] = value
     end
 
     def to_hash
-      @@storage.to_hash
+      setup? ? @@storage.to_hash : {}
     end
 
   end # self

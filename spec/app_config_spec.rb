@@ -32,8 +32,6 @@ describe AppConfig do
   end
 
   it 'to_hash() returns an empty hash if storage not set' do
-    # # First, reset the storage variable.
-    # AppConfig.send(:class_variable_set, :@@storage, nil)
     AppConfig.reset!
     AppConfig.to_hash.should == {}
   end
