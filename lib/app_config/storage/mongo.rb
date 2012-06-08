@@ -16,11 +16,10 @@ module AppConfig
       }
 
       def initialize(options)
-        super(DEFAULTS.merge(options))
         @connected = false
         @options = DEFAULTS.merge(options)
         setup_connection
-        @data = fetch_data
+        fetch_data!
       end
 
       def [](key)
@@ -32,11 +31,15 @@ module AppConfig
         save!
       end
 
+      def empty?
+        @data.empty?
+      end
+
       private
 
       def save!
-        if @data.has_key?('_id')
-          collection.update({'_id' => @data['_id']}, @data)
+        if @_id
+          collection.update({ '_id' => @_id}, @data)
         else
           collection.save(@data)
         end
@@ -55,9 +58,10 @@ module AppConfig
         @connection && @connection.connected?
       end
 
-      def fetch_data
+      def fetch_data!
         raise 'Not connected to MongoDB' unless connected?
-        Hashish.new(collection.find_one)
+        @data = Hashish.new(collection.find_one)
+        @_id = @data.delete('_id')
       end
 
       def database

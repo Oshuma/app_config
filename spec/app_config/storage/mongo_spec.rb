@@ -13,14 +13,17 @@ describe AppConfig::Storage::Mongo do
   end
 
   it 'should update the values' do
-    pending 'Needs a little work...'
-    AppConfig.class_variable_get(:@@storage).
-      instance_variable_get(:@storage).should_receive(:save!)
+    AppConfig.class_variable_get(:@@storage).should_receive(:save!)
     AppConfig[:api_key] = 'SOME_NEW_API_KEY'
-
-    # now reload the config options and check the value
-    AppConfig.reset!
-    config_for_mongo({}, false)  # use default options and do not load test data
     AppConfig[:api_key].should == 'SOME_NEW_API_KEY'
+  end
+
+  it 'should not have the Mongo _id in storage' do
+    AppConfig['_id'].should be_nil
+  end
+
+  it 'should have a @_id variable for the Mongo ID' do
+    AppConfig.class_variable_get(:@@storage).
+      instance_variable_get(:@_id).should_not be_nil
   end
 end

@@ -54,4 +54,13 @@ describe AppConfig do
     AppConfig.should be_setup
   end
 
+  it 'should create nested keys' do
+    pending 'Implement nested keys'
+    AppConfig.reset!
+    AppConfig.setup
+
+    AppConfig[:name][:first] = 'Dale'
+    AppConfig[:name][:first].should == 'Dale'
+  end
+
 end
