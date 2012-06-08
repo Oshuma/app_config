@@ -19,8 +19,7 @@ In it's simplest form, you can use it like so:
     # Strings or symbols as keys.
     AppConfig[:admin_email] # => 'admin@example.com'
 
-You may also specify the `:storage_method` along with options specific to that storage method.
-See {AppConfig::Base} for a list of valid storage methods.
+You may also specify the storage method along with options specific to that storage method.
 Check the [wiki](https://github.com/Oshuma/app_config/wiki) for more usage examples.
 
 
@@ -35,14 +34,7 @@ Given this YAML file:
 
 Use it like so:
 
-    require 'app_config'
-
-    AppConfig.setup do |config|
-      config[:storage_method] = :yaml
-      config[:path] = '/path/to/app_config.yml'
-      # ..or..
-      config[:uri] = 'yaml://path/to/app_config.yml'
-    end
+    AppConfig.setup(:yaml => '/path/to/app_config.yml')
 
     # Later on...
     # Strings or symbols as keys.
@@ -53,54 +45,53 @@ Use it like so:
 
 ## AppConfig::Storage::Mongo
 
-As of version 0.6.0, you can now use `:mongo` as the storage method.
+You can pass a `:mongo` options hash to {AppConfig.setup} which should contain
+configuration values for a Mongo database.  Check the {AppConfig::Storage::Mongo::DEFAULTS}
+constant for the default Mongo connection options.
+
+    mongo_opts = {
+      :host       => 'localhost',   # default
+      :database   => 'app_config',  # default
+      :collection => 'app_config'   # default
+    }
+
+    AppConfig.setup(:mongo => mongo_opts)
+
+    AppConfig[:admin_email]
+    # => 'admin@example.com'
+
+    # Override an existing value (saves to the database):
+    AppConfig[:admin_email] = 'other_admin@example.com'
+
 The values are read/saved (by default) to the `app_config` database and
 `app_config` collection.  These defaults can be overridden, however, which
 might lend well to versioned configurations; collection names such as
-`app_config_v1`, `app_config_v2`, etc.  Check the {AppConfig::Storage::Mongo::DEFAULTS} constant
-in {AppConfig::Storage::Mongo} for the default Mongo connection options.
+`app_config_v1`, `app_config_v2`, etc.
 
-    AppConfig.setup do |config|
-      config[:storage_method] = :mongo
-      config[:collection] = 'app_config_v2' # Or any valid Mongo collection name.
-
-      # Override an existing value:
-      config[:admin_email] = 'other_admin@example.com'
-    end
-
-If you wanted to read/update the configuration from the `mongo` client,
-it would look something like this:
-
-    $ mongo
-    MongoDB shell version: 1.6.4
-    connecting to: test
-    > use app_config
-    switched to db app_config
-    > db.app_config.find()
-    { "_id" : ObjectId("4cddc317da98dd42f8000001"), "admin_email" : "admin@example.com" }
-    > db.app_config_v2.find()
-    { "_id" : ObjectId("4cddc317da98dd42f8000001"), "admin_email" : "other_admin@example.com" }
+    AppConfig.setup(:mongo => { :collection => 'app_config_v2' })
 
 
 ## Environment Mode
 
-As of version 0.4.0, there's an 'environment mode' where you can organize
-the config file sort of like Rails' database config.
+There's also an 'environment mode' where you can organize the config
+sort of like the Rails database config. Given this YAML file:
 
-    # config/app_config.yml
+    # Rails.root/config/app_config.yml
     development:
       title: 'Development Mode'
 
     production:
       title: 'Production Mode'
 
-Then set the `:env` option to your desired environment.
+Set the `:env` option to your desired environment.
 
-    AppConfig.setup do |config|
-      config[:env] = Rails.env  # or any string.
-      config[:uri] = 'yaml://path/to/app_config.yml'
-    end
+    # Rails.root/config/initializers/app_config.rb
+    AppConfig.setup({
+      :yaml => "#{Rails.root}/config/app_config.yml",
+      :env  => Rails.env  # or any string
+    })
 
     # Uses the given environment section of the config.
-    AppConfig[:title] = 'Production Mode'
+    AppConfig[:title]
+    # => 'Production Mode'
 

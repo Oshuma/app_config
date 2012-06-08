@@ -26,14 +26,14 @@ RSpec.configure do |config|
     config_for({ :yaml => path }.merge(opts))
   end
 
-  def config_for_mongo(opts = {})
+  def config_for_mongo(opts = {}, load_test_data = true)
     mongo = AppConfig::Storage::Mongo::DEFAULTS.merge({
       :host => 'localhost',
       :database => 'app_config_test',
     })
     begin
+      load_mongo_test_config(mongo) if load_test_data
       config_for({:mongo => mongo}.merge(opts))
-      load_mongo_test_config(mongo)
     rescue Mongo::ConnectionFailure
       pending "***** Mongo specs require a running MongoDB server *****"
     end
