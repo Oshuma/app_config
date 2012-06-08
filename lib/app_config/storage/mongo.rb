@@ -4,7 +4,6 @@ module AppConfig
     require 'mongo'
 
     # Mongo storage method.
-    # FIXME: Come up with a way of removing stale config entries.
     class Mongo < Storage::Base
 
       DEFAULTS = {

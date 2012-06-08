@@ -9,13 +9,8 @@ describe AppConfig::Storage::YAML do
 
   it 'should raise file not found' do
     lambda do
-      config_for_yaml(:path => 'not/a/real/file.yml')
+      config_for_yaml(:yaml => 'not/a/real/file.yml')
     end.should raise_error(Errno::ENOENT)
-  end
-
-  it 'parses the URI properly' do
-    AppConfig.setup(:uri => "yaml://#{fixture('app_config.yml')}")
-    AppConfig[:api_key].should_not be_nil
   end
 
   it 'saves the new value in memory' do

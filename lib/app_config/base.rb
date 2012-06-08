@@ -1,7 +1,5 @@
 module AppConfig
 
-  require 'uri'
-
   # The Base storage class.
   # Acts as a wrapper for the different storage methods.
   #
@@ -11,23 +9,21 @@ module AppConfig
   # * `:memory` - {AppConfig::Storage::Memory AppConfig::Storage::Memory}
   # * `:mongo` - {AppConfig::Storage::Mongo AppConfig::Storage::Mongo}
   # * `:yaml` - {AppConfig::Storage::YAML AppConfig::Storage::YAML}
-  #
-  # TODO: Purge AppConfig options (ie, those not related to the user-end).
   class Base
 
-    DEFAULTS = {
-      :storage_method => :memory,
-    }
-
-    # Accepts either a hash of `options` or a block (which overrides
-    # any options passed in the hash).
+    # Accepts either a hash of `options` or a block (which overrides any options passed in the hash).
     def initialize(options = {}, &block)
-      @options = DEFAULTS.merge(options)
-      yield @options if block_given?
+      @options = options
 
-      determine_storage_method if @options[:uri]
-      @storage_method = initialize_storage_method
-      @storage = @storage_method.data
+      if @options[:yaml]
+        @storage = AppConfig::Storage::YAML.new(@options.delete(:yaml))
+      elsif @options[:mongo]
+        @storage = AppConfig::Storage::Mongo.new(@options.delete(:mongo))
+      else
+        @storage = AppConfig::Storage::Memory.new(@options)
+      end
+
+      yield @storage if block_given?
     end
 
     # Access the `key`'s value in storage.
@@ -68,32 +64,6 @@ module AppConfig
 
     def to_hash
       storage.to_hash
-    end
-
-    private
-
-    # Sets the storage_method depending on the URI given.
-    def determine_storage_method
-      uri = URI.parse(@options.delete(:uri))
-      case uri.scheme
-      when 'yaml'
-        @options[:storage_method] = :yaml
-        @options[:path] = uri.path
-      end
-    end
-
-    # This decides how to load the data, based on the `storage_method`.
-    def initialize_storage_method
-      @storage_method = case @options[:storage_method]
-      when :memory
-        AppConfig::Storage::Memory.new(@options)
-      when :mongo
-        AppConfig::Storage::Mongo.new(@options)
-      when :yaml
-        AppConfig::Storage::YAML.new(@options)
-      else
-        raise AppConfig::Error::UnknownStorageMethod
-      end
     end
 
   end # Base

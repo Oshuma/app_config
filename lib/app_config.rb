@@ -11,8 +11,6 @@ module AppConfig
 
     # Accepts an `options` hash or a block.
     # See {AppConfig::Base AppConfig::Base} for valid storage methods.
-    #
-    # TODO: Use :yaml, :mongo, etc. keys instead of using :storage_method or :uri.
     def setup(options = {}, &block)
       @@storage = AppConfig::Base.new(options, &block)
     end
@@ -45,7 +43,7 @@ module AppConfig
     end
 
     def to_hash
-      setup? ? @@storage.to_hash : {}
+      setup? ? @@storage.to_hash : Hashish.new
     end
 
   end # self

@@ -12,6 +12,8 @@ describe AppConfig::Storage::Mongo do
   end
 
   it 'should update the values' do
+    AppConfig.class_variable_get(:@@storage).
+      instance_variable_get(:@storage).should_receive(:save!)
     AppConfig[:api_key] = 'SOME_NEW_API_KEY'
     AppConfig[:api_key].should == 'SOME_NEW_API_KEY'
   end

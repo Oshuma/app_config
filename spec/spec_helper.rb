@@ -22,22 +22,17 @@ RSpec.configure do |config|
 
   # Setup YAML options and pass to config_for().
   def config_for_yaml(opts = {})
-    path = opts[:path] || fixture('app_config.yml')
-    yaml = {
-      :storage_method => :yaml,
-      :path => path,
-    }
-    config_for(yaml.merge(opts))
+    path = opts[:yaml] || fixture('app_config.yml')
+    config_for({ :yaml => path }.merge(opts))
   end
 
   def config_for_mongo(opts = {})
     mongo = AppConfig::Storage::Mongo::DEFAULTS.merge({
-      :storage_method => :mongo,
       :host => 'localhost',
       :database => 'app_config_test',
     })
     begin
-      config_for(mongo.merge(opts))
+      config_for({:mongo => mongo}.merge(opts))
       load_mongo_test_config(mongo)
     rescue Mongo::ConnectionFailure
       pending "***** Mongo specs require a running MongoDB server *****"
