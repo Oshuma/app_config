@@ -22,6 +22,11 @@ In it's simplest form, you can use it like so:
 You may also specify the storage method along with options specific to that storage method.
 Check the [wiki](https://github.com/Oshuma/app_config/wiki) for more usage examples.
 
+## Deprecation Note
+
+Version `1.0` is **not** backwards compatible with `0.7.1`!  See the [wiki](https://github.com/Oshuma/app_config/wiki)
+for upgrade instructions.
+
 
 ## AppConfig::Storage::YAML
 
