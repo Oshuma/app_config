@@ -19,7 +19,7 @@ task :doc => [ 'doc:clean', 'doc:api' ]
 namespace :doc do
   require 'yard'
   YARD::Rake::YardocTask.new(:api) do |t|
-    t.files = ['README.rdoc', 'lib/**/*.rb']
+    t.files = ['lib/**/*.rb']
     t.options = [
       '--output-dir', 'doc/api',
       '--markup', 'markdown'
