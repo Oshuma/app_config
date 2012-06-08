@@ -24,7 +24,7 @@ Check the [wiki](https://github.com/Oshuma/app_config/wiki) for more usage examp
 
 ## Deprecation Note
 
-Version `1.0` is **not** backwards compatible with `0.7.1`!  See the [wiki](https://github.com/Oshuma/app_config/wiki)
+Version `1.0` is \***not**\* backwards compatible with `0.7.1`!  See the [wiki](https://github.com/Oshuma/app_config/wiki)
 for upgrade instructions.
 
 
