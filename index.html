@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>AppConfig by Oshuma</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>AppConfig</h1>
+        <h2>Simple Ruby framework-agnostic application configuration.</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/Oshuma/app_config/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/Oshuma/app_config/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/Oshuma/app_config" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>AppConfig</h1>
+
+<p>An easy to use, customizable library to easily store and retrieve application
+(or library) configuration, API keys or basically anything in 'key/value' pairs.</p>
+
+<h2>Usage</h2>
+
+<p>Usage is simple.  Just pass either a hash of options, or a block, to {AppConfig.setup}.</p>
+
+<p>In it's simplest form, you can use it like so:</p>
+
+<div class="highlight">
+<pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="ss">:admin_email</span> <span class="o">=&gt;</span> <span class="s1">'admin@example.com'</span><span class="p">)</span>
+<span class="c1"># ..or..</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">setup</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="o">[</span><span class="ss">:admin_email</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'admin@example.com'</span>
+<span class="k">end</span>
+
+<span class="c1"># Strings or symbols as keys.</span>
+<span class="no">AppConfig</span><span class="o">[</span><span class="ss">:admin_email</span><span class="o">]</span> <span class="c1"># =&gt; 'admin@example.com'</span>
+</pre>
+</div>
+
+
+<p>You may also specify the storage method along with options specific to that storage method.
+Check the <a href="https://github.com/Oshuma/app_config/wiki">wiki</a> for more usage examples.</p>
+
+<h2>AppConfig::Storage::YAML</h2>
+
+<p>Given this YAML file:</p>
+
+<div class="highlight">
+<pre><span class="nn">---</span>
+<span class="l-Scalar-Plain">admin_email</span><span class="p-Indicator">:</span> <span class="s">'admin@example.com'</span>
+<span class="l-Scalar-Plain">api_name</span><span class="p-Indicator">:</span>    <span class="s">'Supr</span><span class="nv"> </span><span class="s">Webz</span><span class="nv"> </span><span class="s">2.0'</span>
+<span class="l-Scalar-Plain">api_key</span><span class="p-Indicator">:</span>     <span class="s">'SUPERAWESOMESERVICE'</span>
+</pre>
+</div>
+
+
+<p>Use it like so:</p>
+
+<div class="highlight">
+<pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="ss">:yaml</span> <span class="o">=&gt;</span> <span class="s1">'/path/to/app_config.yml'</span><span class="p">)</span>
+
+<span class="c1"># Later on...</span>
+<span class="c1"># Strings or symbols as keys.</span>
+<span class="no">AppConfig</span><span class="o">[</span><span class="s1">'admin_email'</span><span class="o">]</span> <span class="c1"># =&gt; 'admin@example.com'</span>
+<span class="no">AppConfig</span><span class="o">[</span><span class="ss">:api_name</span><span class="o">]</span>     <span class="c1"># =&gt; 'Supr Webz 2.0'</span>
+<span class="no">AppConfig</span><span class="o">[</span><span class="ss">:api_key</span><span class="o">]</span>      <span class="c1"># =&gt; 'SUPERAWESOMESERVICE'</span>
+</pre>
+</div>
+
+
+<h2>AppConfig::Storage::Mongo</h2>
+
+<p>You can pass a <code>:mongo</code> options hash to {AppConfig.setup} which should contain
+configuration values for a Mongo database.  Check the {AppConfig::Storage::Mongo::DEFAULTS}
+constant for the default Mongo connection options.</p>
+
+<div class="highlight">
+<pre><span class="n">mongo_opts</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:host</span>       <span class="o">=&gt;</span> <span class="s1">'localhost'</span><span class="p">,</span>   <span class="c1"># default</span>
+  <span class="ss">:database</span>   <span class="o">=&gt;</span> <span class="s1">'app_config'</span><span class="p">,</span>  <span class="c1"># default</span>
+  <span class="ss">:collection</span> <span class="o">=&gt;</span> <span class="s1">'app_config'</span>   <span class="c1"># default</span>
+<span class="p">}</span>
+
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="ss">:mongo</span> <span class="o">=&gt;</span> <span class="n">mongo_opts</span><span class="p">)</span>
+
+<span class="no">AppConfig</span><span class="o">[</span><span class="ss">:admin_email</span><span class="o">]</span>
+<span class="c1"># =&gt; 'admin@example.com'</span>
+
+<span class="c1"># Override an existing value (saves to the database):</span>
+<span class="no">AppConfig</span><span class="o">[</span><span class="ss">:admin_email</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'other_admin@example.com'</span>
+</pre>
+</div>
+
+
+<p>The values are read/saved (by default) to the <code>app_config</code> database and
+<code>app_config</code> collection.  These defaults can be overridden, however, which
+might lend well to versioned configurations; collection names such as
+<code>app_config_v1</code>, <code>app_config_v2</code>, etc.</p>
+
+<div class="highlight">
+<pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="ss">:mongo</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:collection</span> <span class="o">=&gt;</span> <span class="s1">'app_config_v2'</span> <span class="p">})</span>
+</pre>
+</div>
+
+
+<h2>Environment Mode</h2>
+
+<p>There's also an 'environment mode' where you can organize the config
+sort of like the Rails database config. Given this YAML file:</p>
+
+<div class="highlight">
+<pre><span class="c1"># Rails.root/config/app_config.yml</span>
+<span class="l-Scalar-Plain">development</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">title</span><span class="p-Indicator">:</span> <span class="s">'Development</span><span class="nv"> </span><span class="s">Mode'</span>
+
+<span class="l-Scalar-Plain">production</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">title</span><span class="p-Indicator">:</span> <span class="s">'Production</span><span class="nv"> </span><span class="s">Mode'</span>
+</pre>
+</div>
+
+
+<p>Set the <code>:env</code> option to your desired environment.</p>
+
+<div class="highlight">
+<pre><span class="c1"># Rails.root/config/initializers/app_config.rb</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">setup</span><span class="p">({</span>
+  <span class="ss">:yaml</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="si">#{</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="si">}</span><span class="s2">/config/app_config.yml"</span><span class="p">,</span>
+  <span class="ss">:env</span>  <span class="o">=&gt;</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span>  <span class="c1"># or any string</span>
+<span class="p">})</span>
+
+<span class="c1"># Uses the given environment section of the config.</span>
+<span class="no">AppConfig</span><span class="o">[</span><span class="ss">:title</span><span class="o">]</span>
+<span class="c1"># =&gt; 'Production Mode'</span>
+</pre>
+</div>
+
+      </section>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-19817598-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
