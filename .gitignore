@@ -1,5 +1,6 @@
 .rbenv-*
 .rvmrc
+.yardoc/
 *.gem
 coverage/
 doc/api/

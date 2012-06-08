@@ -8,9 +8,9 @@ module AppConfig
   # See each storage method's documentation for their specific options.
   #
   # Valid storage methods:
-  # * :memory (AppConfig::Storage::Memory)
-  # * :mongo (AppConfig::Storage::Mongo)
-  # * :yaml (AppConfig::Storage::YAML)
+  # * `:memory` - {AppConfig::Storage::Memory AppConfig::Storage::Memory}
+  # * `:mongo` - {AppConfig::Storage::Mongo AppConfig::Storage::Mongo}
+  # * `:yaml` - {AppConfig::Storage::YAML AppConfig::Storage::YAML}
   #
   # TODO: Purge AppConfig options (ie, those not related to the user-end).
   class Base
@@ -19,7 +19,7 @@ module AppConfig
       :storage_method => :memory,
     }
 
-    # Accepts either a hash of +options+ or a block (which overrides
+    # Accepts either a hash of `options` or a block (which overrides
     # any options passed in the hash).
     def initialize(options = {}, &block)
       @options = DEFAULTS.merge(options)
@@ -30,7 +30,7 @@ module AppConfig
       @storage = @storage_method.data
     end
 
-    # Access the <tt>key</tt>'s value in storage.
+    # Access the `key`'s value in storage.
     def [](key)
       if storage.respond_to?(:[])
         storage[key]
@@ -60,7 +60,7 @@ module AppConfig
     end
     alias_method :env, :environment
 
-    # Returns the <tt>@storage</tt> contents, which is what is exposed
+    # Returns the `@storage` contents, which is what is exposed
     # as the configuration.
     def storage
       environment ? @storage[environment] : @storage
@@ -82,7 +82,7 @@ module AppConfig
       end
     end
 
-    # This decides how to load the data, based on the +storage_method+.
+    # This decides how to load the data, based on the `storage_method`.
     def initialize_storage_method
       @storage_method = case @options[:storage_method]
       when :memory

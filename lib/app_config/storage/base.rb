@@ -4,7 +4,7 @@ module AppConfig
 
       attr_reader :data
 
-      # DEPRECATED
+      # @deprecated
       def self.load(options)
         STDERR.puts("DEPRECATED: AppConfig::Storage::Base.load() has been deprecated")
         new(options).data

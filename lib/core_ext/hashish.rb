@@ -1,7 +1,7 @@
 # Stolen from Rails Active Support and renamed to Hashish.
 #
 # This class has dubious semantics and we only have it so that
-# people can write params[:key] instead of params['key']
+# people can write `params[:key]` instead of `params['key']`
 # and they get the same value for both keys.
 class Hashish < Hash
   def initialize(constructor = {})
@@ -26,23 +26,21 @@ class Hashish < Hash
 
   # Assigns a new value to the hash:
   #
-  #   hash = HashWithIndifferentAccess.new
-  #   hash[:key] = "value"
-  #
+  #     hash = HashWithIndifferentAccess.new
+  #     hash[:key] = "value"
   def []=(key, value)
     regular_writer(convert_key(key), convert_value(value))
   end
 
   # Updates the instantized hash with values from the second:
   #
-  #   hash_1 = HashWithIndifferentAccess.new
-  #   hash_1[:key] = "value"
+  #     hash_1 = HashWithIndifferentAccess.new
+  #     hash_1[:key] = "value"
   #
-  #   hash_2 = HashWithIndifferentAccess.new
-  #   hash_2[:key] = "New Value!"
+  #     hash_2 = HashWithIndifferentAccess.new
+  #     hash_2[:key] = "New Value!"
   #
-  #   hash_1.update(hash_2) # => {"key"=>"New Value!"}
-  #
+  #     hash_1.update(hash_2) # => {"key"=>"New Value!"}
   def update(other_hash)
     other_hash.each_pair { |key, value| regular_writer(convert_key(key), convert_value(value)) }
     self
@@ -52,11 +50,10 @@ class Hashish < Hash
 
   # Checks the hash for a key matching the argument passed in:
   #
-  #   hash = HashWithIndifferentAccess.new
-  #   hash["key"] = "value"
-  #   hash.key? :key  # => true
-  #   hash.key? "key" # => true
-  #
+  #     hash = HashWithIndifferentAccess.new
+  #     hash["key"] = "value"
+  #     hash.key? :key  # => true
+  #     hash.key? "key" # => true
   def key?(key)
     super(convert_key(key))
   end
@@ -65,18 +62,17 @@ class Hashish < Hash
   alias_method :has_key?, :key?
   alias_method :member?, :key?
 
-  # Fetches the value for the specified key, same as doing hash[key]
+  # Fetches the value for the specified key, same as doing `hash[key]`.
   def fetch(key, *extras)
     super(convert_key(key), *extras)
   end
 
   # Returns an array of the values at the specified indices:
   #
-  #   hash = HashWithIndifferentAccess.new
-  #   hash[:a] = "x"
-  #   hash[:b] = "y"
-  #   hash.values_at("a", "b") # => ["x", "y"]
-  #
+  #     hash = HashWithIndifferentAccess.new
+  #     hash[:a] = "x"
+  #     hash[:b] = "y"
+  #     hash.values_at("a", "b") # => ["x", "y"]
   def values_at(*indices)
     indices.collect {|key| self[convert_key(key)]}
   end

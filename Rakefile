@@ -14,20 +14,20 @@ end
 desc 'Run the specs'
 RSpec::Core::RakeTask.new(:spec)
 
-namespace :docs do
-  Rake::RDocTask.new do |rd|
-    rd.title = "AppConfig API"
-    rd.main = "README.rdoc"
-    rd.rdoc_dir = "#{File.dirname(__FILE__)}/doc/api"
-    rd.rdoc_files.include("README.rdoc", "lib/**/*.rb")
-    rd.options << "--all"
-  end
-end
+task :doc => [ 'doc:clean', 'doc:api' ]
 
-desc 'Build the API docs'
-task :docs do
-  Rake::Task['docs:rerdoc'].invoke
-  STDOUT.puts "Copying Javascript files..."
-  doc_root = "#{File.dirname(__FILE__)}/doc"
-  system("cp -r #{doc_root}/js #{doc_root}/api/")
+namespace :doc do
+  require 'yard'
+  YARD::Rake::YardocTask.new(:api) do |t|
+    t.files = ['README.rdoc', 'lib/**/*.rb']
+    t.options = [
+      '--output-dir', 'doc/api',
+      '--markup', 'markdown'
+    ]
+  end
+
+  desc 'Remove YARD Documentation'
+  task :clean do
+    system("rm -rf #{File.dirname(__FILE__)}/doc/api")
+  end
 end

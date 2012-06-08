@@ -1,4 +1,3 @@
-# AppConfig stuff.
 require 'core_ext/hashish'
 
 module AppConfig
@@ -10,30 +9,31 @@ module AppConfig
 
   class << self
 
-    # Accepts an +options+ hash or a block.
-    # See AppConfig::Base for valid storage methods.
+    # Accepts an `options` hash or a block.
+    # See {AppConfig::Base AppConfig::Base} for valid storage methods.
+    #
     # TODO: Use :yaml, :mongo, etc. keys instead of using :storage_method or :uri.
     def setup(options = {}, &block)
       @@storage = AppConfig::Base.new(options, &block)
     end
 
-    # Returns +true+ if +AppConfig.setup()+ has been called.
+    # Returns `true` if {AppConfig.setup AppConfig.setup} has been called.
     def setup?
       defined?(@@storage) && !@@storage.empty?
     end
 
-    # Clears the <tt>@@storage</tt>.
+    # Clears the `@@storage`.
     def reset!
       @@storage = Hashish.new
     end
 
-    # Access the configured <tt>key</tt>'s value.
+    # Access the configured `key`'s value.
     def [](key)
       setup unless setup?
       @@storage[key]
     end
 
-    # Set a new <tt>value</tt> for <tt>key</tt> (persistence depends on the type of Storage).
+    # Set a new `value` for `key` (persistence depends on the type of Storage).
     def []=(key, value)
       @@storage[key] = value
     end
