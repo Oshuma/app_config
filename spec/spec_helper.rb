@@ -26,6 +26,25 @@ RSpec.configure do |config|
     config_for({ :yaml => path }.merge(opts))
   end
 
+  def temp_config_file
+    require 'tempfile'
+    Tempfile.new('config')
+  end
+
+  def example_yaml_config
+    config = AppConfig.setup(:yaml => temp_config_file) do |c|
+      c[:name] = 'Dale'
+      c[:nick] = 'Oshuma'
+    end
+    config.should be_instance_of(Storage::YAML)
+    config[:date] = Date.today
+    config
+  end
+
+  def save_config(file)
+    AppConfig.to_yaml.should eq File.read(file)
+  end
+
   def config_for_mongo(opts = {}, load_test_data = true)
     mongo = AppConfig::Storage::Mongo::DEFAULTS.merge({
       :host => 'localhost',

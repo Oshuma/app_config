@@ -15,4 +15,23 @@ describe Hashish do
     hashish = Hashish.new(@symbols)
     hashish['key'].should == 'value'
   end
+
+  it 'should be convertable to YAML with strings' do
+    hashish = Hashish.new(@strings)
+    hashish.to_yaml.should eq "---\nkey: value\nfour: 20\n"
+  end
+
+  it 'should be convertable to YAML with symbols' do
+    hashish = Hashish.new(@symbols)
+    hashish.to_yaml.should eq "---\nkey: value\nfour: 20\n"
+  end
+
+  it 'should be saveable' do
+    require "tempfile"
+    config_file = Tempfile.new("config")
+
+    hashish = Hashish.new(@symbols)
+    hashish.save!(config_file, :format => :yaml)
+    hashish.to_yaml.should eq File.read(config_file)
+  end
 end

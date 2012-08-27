@@ -112,6 +112,19 @@ class Hashish < Hash
     Hash.new(default).merge!(self)
   end
 
+  def to_yaml
+    require 'yaml'
+    to_hash.to_yaml
+  end
+
+  def save!(file, options={})
+    raise ArgumentError, "You have to specify :format" unless options[:format]
+    # :format => :to_format
+    format = "to_#{options[:format]}".to_sym
+    content = send(format)
+    File.open(file, 'w') { |f| f.puts content }
+  end
+
   protected
 
   def convert_key(key)

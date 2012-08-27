@@ -18,5 +18,4 @@ describe AppConfig::Storage::YAML do
     AppConfig[:new_key] = 'new value'
     AppConfig[:new_key].should == 'new value'
   end
-
 end

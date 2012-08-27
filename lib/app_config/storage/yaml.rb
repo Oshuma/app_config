@@ -5,6 +5,7 @@ module AppConfig
 
     # YAML storage method.
     class YAML < Storage::Base
+      attr_reader :path
 
       DEFAULT_PATH = File.expand_path(File.join(ENV['HOME'], '.app_config.yml'))
 
@@ -14,6 +15,7 @@ module AppConfig
       # Defaults to `$HOME/.app_config.yml`
       def initialize(path = DEFAULT_PATH)
         # Make sure to use the top-level YAML module here.
+        @path = path
         @data = Hashish.new(::YAML.load_file(path))
       end
 
@@ -27,6 +29,10 @@ module AppConfig
 
       def empty?
         @data.empty?
+      end
+
+      def save!(file=@path)
+        to_hash.save!(file, :format => :yaml)
       end
 
     end # YAML

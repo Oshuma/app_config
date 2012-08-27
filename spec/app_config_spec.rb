@@ -63,13 +63,26 @@ describe AppConfig do
     AppConfig[:name][:first].should == 'Dale'
   end
 
-  it 'returns a Hashish on setup' do
+  it 'returns a Storage::Memory on setup' do
     AppConfig.reset!
     config = AppConfig.setup do |c|
       c[:name] = 'Dale'
       c[:nick] = 'Oshuma'
     end
-    config.should be_instance_of(Hashish)
+    config.should be_instance_of(Storage::Memory)
   end
 
+  it 'saves data as Storage::YAML by AppConfig' do
+    AppConfig.reset!
+    config = example_yaml_config
+    AppConfig.save!
+    save_config(config.path)
+  end
+
+  it 'saves data as Storage::YAML by Hashish' do
+    AppConfig.reset!
+    config = example_yaml_config
+    config.save!
+    save_config(config.path)
+  end
 end

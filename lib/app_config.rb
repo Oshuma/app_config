@@ -28,7 +28,7 @@ module AppConfig
 
       yield @@storage if block_given?
 
-      to_hash
+      @@storage
     end
 
     # Returns `true` if {AppConfig.setup AppConfig.setup} has been called.
@@ -65,6 +65,16 @@ module AppConfig
     def to_hash
       setup? ? storage.to_hash : Hashish.new
     end
+
+    def to_yaml
+      setup? ? storage.to_yaml : Hashish.new
+    end
+
+    def save!
+      raise "#{storage.class.name} doesn't support save!" unless storage.respond_to? :save!
+      storage.save!
+    end
+    alias :write! :save!
 
     private
 
