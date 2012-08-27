@@ -1,7 +1,7 @@
 require 'core_ext/hashish'
 
 module AppConfig
-  VERSION = '1.0.1'
+  VERSION = '1.0.2'
 
   autoload :Error,   'app_config/error'
   autoload :Storage, 'app_config/storage'
