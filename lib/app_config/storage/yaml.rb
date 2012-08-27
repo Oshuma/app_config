@@ -29,10 +29,6 @@ module AppConfig
         @data.empty?
       end
 
-      def to_hash
-        @data.to_hash
-      end
-
     end # YAML
   end # Storage
 end # AppConfig

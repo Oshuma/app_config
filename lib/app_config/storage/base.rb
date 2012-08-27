@@ -7,7 +7,7 @@ module AppConfig
       end
 
       def to_hash
-        @data.to_hash
+        Hashish.new(@data.to_hash)
       end
 
     end # Base

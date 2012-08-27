@@ -20,7 +20,7 @@ describe AppConfig do
 
   it 'should have to_hash' do
     config_for_yaml
-    AppConfig.to_hash.class.should == Hash
+    AppConfig.to_hash.class.should == Hashish
   end
 
   it 'should reset @@storage' do
@@ -61,6 +61,15 @@ describe AppConfig do
 
     AppConfig[:name][:first] = 'Dale'
     AppConfig[:name][:first].should == 'Dale'
+  end
+
+  it 'returns a Hashish on setup' do
+    AppConfig.reset!
+    config = AppConfig.setup do |c|
+      c[:name] = 'Dale'
+      c[:nick] = 'Oshuma'
+    end
+    config.should be_instance_of(Hashish)
   end
 
 end
