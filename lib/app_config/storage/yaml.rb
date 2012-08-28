@@ -13,9 +13,10 @@ module AppConfig
       # `@data` will be the Hashish that is accessed with `AppConfig[:key]`.
       #
       # Defaults to `$HOME/.app_config.yml`
-      def initialize(path = DEFAULT_PATH)
+      def initialize(path = DEFAULT_PATH, options={})
         # Make sure to use the top-level YAML module here.
         @path = path
+        create_file(path) if options[:creation]
         @data = Hashish.new(::YAML.load_file(path))
       end
 
@@ -33,6 +34,15 @@ module AppConfig
 
       def save!(file=@path)
         to_hash.save!(file, :format => :yaml)
+      end
+
+      private
+
+      def create_file(path)
+        require 'fileutils'
+        dirname = File.dirname(path)
+        FileUtils.mkdir_p dirname
+        FileUtils.touch path
       end
 
     end # YAML
