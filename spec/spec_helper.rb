@@ -16,7 +16,6 @@ RSpec.configure do |config|
 
   # AppConfig.setup wrapper.  Accepts a hash of +options+.
   def config_for(options)
-    AppConfig.reset!
     AppConfig.setup(options)
   end
 
@@ -42,8 +41,8 @@ RSpec.configure do |config|
     config
   end
 
-  def save_config(file)
-    AppConfig.to_yaml.should eq File.read(file)
+  def check_save_config(yaml, file)
+    yaml.should eq File.read(file)
   end
 
   def config_for_mongo(opts = {}, load_test_data = true)

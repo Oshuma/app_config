@@ -21,18 +21,16 @@ module AppConfig
         @data = Hashish.new(::YAML.load_file(path))
       end
 
-      def [](key)
-        @data[key]
-      end
-
       def []=(key, value)
         @data[key] = value
         save! if save?
       end
 
-      def empty?
-        @data.empty?
+      # Clears the `@@storage`.
+      def reset!
+        @data.clear
       end
+      alias :clear! :reset!
 
       def save?
         !!@save

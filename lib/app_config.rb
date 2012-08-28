@@ -28,53 +28,13 @@ module AppConfig
 
       yield @@storage if block_given?
 
-      @@storage
+      storage
     end
 
     # Returns `true` if {AppConfig.setup AppConfig.setup} has been called.
     def setup?
       !!(defined?(@@storage) && !@@storage.empty?)
     end
-
-    # Clears the `@@storage`.
-    def reset!
-      if defined?(@@storage)
-        remove_class_variable(:@@storage)
-        true
-      else
-        false
-      end
-    end
-
-    # Access the configured `key`'s value.
-    def [](key)
-      setup unless setup?
-      storage[key]
-    end
-
-    # Set a new `value` for `key` (persistence depends on the type of Storage).
-    def []=(key, value)
-      setup unless setup?
-      storage[key] = value
-    end
-
-    def empty?
-      storage.empty?
-    end
-
-    def to_hash
-      setup? ? storage.to_hash : Hashish.new
-    end
-
-    def to_yaml
-      setup? ? storage.to_yaml : Hashish.new
-    end
-
-    def save!
-      raise "#{storage.class.name} doesn't support save!" unless storage.respond_to? :save!
-      storage.save!
-    end
-    alias :write! :save!
 
     private
 
