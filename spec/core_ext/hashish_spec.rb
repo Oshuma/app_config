@@ -27,8 +27,7 @@ describe Hashish do
   end
 
   it 'should be saveable' do
-    require "tempfile"
-    config_file = Tempfile.new("config")
+    config_file = temp_config_file
 
     hashish = Hashish.new(@symbols)
     hashish.save!(config_file, :format => :yaml)
