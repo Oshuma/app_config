@@ -16,7 +16,6 @@ RSpec.configure do |config|
 
   # AppConfig.setup wrapper.  Accepts a hash of +options+.
   def config_for(options)
-    AppConfig.reset!
     AppConfig.setup(options)
   end
 
@@ -24,6 +23,26 @@ RSpec.configure do |config|
   def config_for_yaml(opts = {})
     path = opts[:yaml] || fixture('app_config.yml')
     config_for({ :yaml => path }.merge(opts))
+  end
+
+  def temp_config_file
+    require 'tempfile'
+    Tempfile.new('config')
+  end
+
+  def example_yaml_config(options={})
+    options = {:yaml => temp_config_file}.update(options)
+    config = AppConfig.setup(options) do |c|
+      c[:name] = 'Dale'
+      c[:nick] = 'Oshuma'
+    end
+    config.should be_instance_of(Storage::YAML)
+    config[:date] = Date.today
+    config
+  end
+
+  def check_save_config(yaml, file)
+    yaml.should eq File.read(file)
   end
 
   def config_for_mongo(opts = {}, load_test_data = true)
