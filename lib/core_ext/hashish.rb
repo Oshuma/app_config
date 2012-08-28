@@ -142,6 +142,15 @@ class Hashish < Hash
     end
   end
 
+  private
+
+  def method_missing(method, *args, &blk)
+    prefix = '_'
+    method = method[prefix.length..-1] if method.to_s.start_with? prefix
+
+    fetch(method, *args) if has_key? method
+  end
+
 end # Hashish
 
 class Hash

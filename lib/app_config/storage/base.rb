@@ -15,6 +15,12 @@ module AppConfig
         to_hash.to_yaml
       end
 
+      private
+
+      def method_missing(method, *args, &blk)
+        to_hash.send(method, *args, &blk)
+      end
+
     end # Base
   end # Storage
 end # AppConfig

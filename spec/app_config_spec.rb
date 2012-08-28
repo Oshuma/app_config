@@ -85,4 +85,23 @@ describe AppConfig do
     config.save!
     save_config(config.path)
   end
+
+  it 'should be able to access values by methods' do
+    AppConfig.reset!
+    config = AppConfig.setup do |c|
+      c[:key]  = 'value'
+      c[:four] = 20
+      c[:name] = 'Dale'
+    end
+
+    config.four.should       == 20
+    config._four.should      == 20
+
+    config.name.should       == 'Dale'
+    config._name.should      == 'Dale'
+
+    # Hash#key(value) is already defined (see Hashish#method_missing)
+    expect { config.key }.to raise_error(ArgumentError)
+    config._key.should       == 'value'
+  end
 end

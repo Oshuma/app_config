@@ -33,4 +33,15 @@ describe Hashish do
     hashish.save!(config_file, :format => :yaml)
     hashish.to_yaml.should eq File.read(config_file)
   end
+
+  it 'should be able to access values by methods' do
+    hashish = Hashish.new(@strings)
+
+    hashish.four.should       == 20
+    hashish._four.should      == 20
+
+    # Hash#key(value) is already defined
+    expect { hashish.key }.to raise_error(ArgumentError)
+    hashish._key.should       == 'value'
+  end
 end
