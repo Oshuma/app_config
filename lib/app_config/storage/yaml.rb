@@ -17,6 +17,7 @@ module AppConfig
         # Make sure to use the top-level YAML module here.
         @path = path
         create_file(path) if options[:creation]
+        @save = options[:save_changes]
         @data = Hashish.new(::YAML.load_file(path))
       end
 
@@ -26,10 +27,15 @@ module AppConfig
 
       def []=(key, value)
         @data[key] = value
+        save! if save?
       end
 
       def empty?
         @data.empty?
+      end
+
+      def save?
+        !!@save
       end
 
       def save!(file=@path)

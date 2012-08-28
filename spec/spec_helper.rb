@@ -31,8 +31,9 @@ RSpec.configure do |config|
     Tempfile.new('config')
   end
 
-  def example_yaml_config
-    config = AppConfig.setup(:yaml => temp_config_file) do |c|
+  def example_yaml_config(options={})
+    options = {:yaml => temp_config_file}.update(options)
+    config = AppConfig.setup(options) do |c|
       c[:name] = 'Dale'
       c[:nick] = 'Oshuma'
     end

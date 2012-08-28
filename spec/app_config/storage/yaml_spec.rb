@@ -27,4 +27,12 @@ describe AppConfig::Storage::YAML do
     AppConfig[:new_key] = 'new value'
     AppConfig[:new_key].should == 'new value'
   end
+
+  it 'saves the new value in file' do
+    config = example_yaml_config(:save_changes => true)
+    path = config.path
+    config[:new_key] = 'new value'
+    config2 = config_for_yaml(:yaml => path)
+    config2[:new_key].should == 'new value'
+  end
 end
