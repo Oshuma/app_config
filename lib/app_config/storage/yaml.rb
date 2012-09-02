@@ -16,7 +16,7 @@ module AppConfig
       def initialize(path = DEFAULT_PATH, options={})
         # Make sure to use the top-level YAML module here.
         @path = path
-        create_file(path) if options[:creation]
+        create_file(path) if options[:create]
         @save = options[:save_changes]
         @data = Hashish.new(::YAML.load_file(path))
       end
