@@ -8,6 +8,8 @@ module AppConfig
       @config ||= new_config
     end
 
+    private
+
     def force?
       [:force, :reload].any? { |o| @options[o] }
     end
