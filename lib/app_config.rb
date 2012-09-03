@@ -5,6 +5,7 @@ module AppConfig
 
   autoload :Error,   'app_config/error'
   autoload :Storage, 'app_config/storage'
+  autoload :Configurable, 'app_config/configurable'
 
   class << self
 
