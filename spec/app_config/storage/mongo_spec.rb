@@ -1,11 +1,7 @@
 require 'spec_helper'
 
-# TODO: Drop the Mongo test db before running specs.
 describe AppConfig::Storage::Mongo do
-
-  before(:all) do
-    config = config_for_mongo
-  end
+  let(:config) { config_for_mongo }
 
   it 'should have some values' do
     config[:api_key].should_not be_nil

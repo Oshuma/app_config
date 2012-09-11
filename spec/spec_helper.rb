@@ -51,6 +51,7 @@ RSpec.configure do |config|
       :database => 'app_config_test',
     })
     begin
+      remove_mongo_test_collection(mongo)
       load_mongo_test_config(mongo) if load_test_data
       config_for({:mongo => mongo}.merge(opts))
     rescue Mongo::ConnectionFailure
@@ -72,5 +73,12 @@ RSpec.configure do |config|
     else
       collection.save(test_data)
     end
+  end
+
+  def remove_mongo_test_collection(options)
+    connection = ::Mongo::Connection.new(options[:host], options[:port].to_i)
+    database   = connection.db(options[:database])
+    collection = database.collection(options[:collection])
+    collection.remove
   end
 end
