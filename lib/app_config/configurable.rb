@@ -7,6 +7,7 @@ module AppConfig
       @config = nil if force?
       @config ||= new_config
     end
+    alias _config config
 
     private
 
