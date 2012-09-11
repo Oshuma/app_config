@@ -33,6 +33,11 @@ describe Configurable do
     config.should include(:newkey)
   end
 
+  it "should not eval block if option 'force' is false" do
+    config(:force => false) { |config| config[:newkey] = :newvalue }
+    config.should_not include(:newkey)
+  end
+
   it "should set a new key value pair" do
     config.should_not include(:newkey)
     config[:newkey] = :newvalue
