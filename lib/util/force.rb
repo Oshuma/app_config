@@ -14,11 +14,17 @@ class Force
   end
 
   def true?
-    values.any?
+    set? && values.any?
   end
 
   def false?
-    !true?
+    set? && !true?
+  end
+
+  def to_s
+    return "true"  if true?
+    return "false" if false?
+    return "unset" if nil?
   end
 
   private
