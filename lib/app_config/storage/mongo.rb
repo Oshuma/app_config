@@ -16,8 +16,9 @@ module AppConfig
       }
 
       def initialize(options)
-        @connected = false
         @options = DEFAULTS.merge(options)
+        super(@options)
+        @connected = false
         setup_connection
         fetch_data!
       end

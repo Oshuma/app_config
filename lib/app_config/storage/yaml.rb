@@ -14,6 +14,7 @@ module AppConfig
       #
       # Defaults to `$HOME/.app_config.yml`
       def initialize(path = DEFAULT_PATH, options={})
+        super(options)
         # Make sure to use the top-level YAML module here.
         @path = path
         create_file(path) if options[:create]
