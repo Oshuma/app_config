@@ -24,17 +24,13 @@ describe Configurable do
   end
 
   it "should eval block if force or reload is set" do
-    expect {
-      config(:force => true) { |config| config[:newkey] = :newvalue }
-    }.to_not raise_error ArgumentError, "Block will be ignored"
+    config(:force => true) { |config| config[:newkey] = :newvalue }
     config.should include(:newkey)
   end
 
-  it "should raise ArgumentError if block will be ignored" do
-    expect {
-      config { |config| config[:newkey] = :newvalue }
-    }.to raise_error ArgumentError, "Block will be ignored"
-    config.should_not include(:newkey)
+  it "should eval block if block is given" do
+    config { |config| config[:newkey] = :newvalue }
+    config.should include(:newkey)
   end
 
   it "should set a new key value pair" do
