@@ -8,10 +8,17 @@ class Force
   def set?
     !values.all? { |o| o.nil? }
   end
-  alias nil? set?
+
+  def nil?
+    !set?
+  end
 
   def true?
     values.any?
+  end
+
+  def false?
+    !true?
   end
 
   private
