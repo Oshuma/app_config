@@ -17,8 +17,7 @@ module AppConfig
         super(options)
         # Make sure to use the top-level YAML module here.
         @path = path
-        create_file(path) if options[:create]
-        @save = options[:save_changes] || false
+        create_file(path) if @options[:create]
         @data = Hashish.new(::YAML.load_file(path)) || {}
       end
 
@@ -41,7 +40,7 @@ module AppConfig
       alias :clear! :reset!
 
       def save?
-        !!@save
+        !!@options[:save_changes]
       end
 
       def save!(file=@path)
