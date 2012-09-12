@@ -14,12 +14,13 @@ module AppConfig
       force = Force.new(@options)
       @options.merge!(:force => true) if @block_given && !force.set?
       return false if force.false?
-      force.true? || options_changed?
+      force.true?
     end
 
     def options_changed?
       old_options = @config.options
       new_options = @options
+      # removes all Force::KEYS
       Force::KEYS.each do |key|
         old_options.delete(key)
         new_options.delete(key)
