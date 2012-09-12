@@ -17,7 +17,7 @@ module AppConfig
     # * `:memory` - {AppConfig::Storage::Memory AppConfig::Storage::Memory}
     # * `:mongo` - {AppConfig::Storage::Mongo AppConfig::Storage::Mongo}
     # * `:yaml` - {AppConfig::Storage::YAML AppConfig::Storage::YAML}
-    def setup(options = {}, &block)
+    def setup(options = {})
       @@options = options
 
       if @@options[:yaml]
