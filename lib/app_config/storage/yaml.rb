@@ -18,8 +18,8 @@ module AppConfig
         # Make sure to use the top-level YAML module here.
         @path = path
         create_file(path) if options[:create]
-        @save = options[:save_changes]
-        @data = Hashish.new(::YAML.load_file(path))
+        @save = options[:save_changes] || false
+        @data = Hashish.new(::YAML.load_file(path)) || {}
       end
 
       def []=(key, value)
@@ -27,9 +27,16 @@ module AppConfig
         save! if save?
       end
 
-      # Clears the `@@storage`.
+      # Clears only the `@@storage`.
+      def reset
+        @data.clear
+      end
+      alias :clear :reset
+
+      # Clears the `@@storage` and saves it if option :save_changes is set.
       def reset!
         @data.clear
+        save! if save?
       end
       alias :clear! :reset!
 
