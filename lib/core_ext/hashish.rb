@@ -123,6 +123,7 @@ class Hashish < Hash
     format = "to_#{options[:format]}".to_sym
     content = send(format)
     File.open(file, 'w') { |f| f.puts content }
+    true
   end
 
   protected
