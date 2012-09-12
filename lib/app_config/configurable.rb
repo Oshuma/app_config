@@ -1,10 +1,13 @@
 module AppConfig
   module Configurable
-    def config(options={}, &blk)
+    def config(options={})
       @options = options
       @block_given = block_given?
       @config = nil if !@config.nil? && refresh?
-      @config ||= AppConfig.setup(@options, &blk)
+      @config ||= AppConfig.setup(@options) do |config|
+        config.clear!
+        yield config if @block_given
+      end
     end
     alias _config config
 
