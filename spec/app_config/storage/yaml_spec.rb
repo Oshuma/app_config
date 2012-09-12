@@ -29,7 +29,7 @@ describe AppConfig::Storage::YAML do
   end
 
   it 'saves the new value in memory' do
-    config = config_for_yaml
+    config = AppConfig.setup
     config[:new_key] = 'new value'
     config[:new_key].should == 'new value'
   end
