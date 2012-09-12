@@ -6,3 +6,5 @@ coverage/
 doc/api/
 pkg/
 tmp/**/*
+start_mongod.sh
+spec/fixtures/db/
