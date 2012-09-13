@@ -1,4 +1,5 @@
-# AppConfig
+# AppConfig [![Build Status](https://secure.travis-ci.org/DSIW/app_config.png)](http://travis-ci.org/DSIW/app_config)
+[![Dependency Status](https://gemnasium.com/DSIW/app_config.png)](https://gemnasium.com/DSIW/app_config)
 
 An easy to use, customizable library to easily store and retrieve application
 (or library) configuration, API keys or basically anything in 'key/value' pairs.
