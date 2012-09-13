@@ -17,7 +17,7 @@ module AppConfig
         # Make sure to use the top-level YAML module here.
         @path = path
         create_file if @options[:create]
-        @data = Hashish.new(::YAML.load_file(path)) || {}
+        @data = load_yaml || {}
       end
 
       def []=(key, value)
@@ -53,6 +53,10 @@ module AppConfig
         dirname = File.dirname(@path)
         FileUtils.mkdir_p dirname
         FileUtils.touch path
+      end
+
+      def load_yaml
+        Hashish.new(::YAML.load(File.read(@path)))
       end
 
     end # YAML
