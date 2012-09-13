@@ -96,22 +96,4 @@ describe Configurable do
   it "should be the same object in each access" do
     config.object_id.should eq @obj_id
   end
-
-  #it "should reload if options changes excepted options force and reload" do
-    #old_obj_id = config(:new_option => true).object_id
-    #new_obj_id = config(:new_option => false).object_id
-    #old_obj_id.should_not eq new_obj_id
-  #end
-
-  #it "should reload if options changes excepted options force and reload" do
-    #old_obj_id = config(:new_option => true).object_id
-    #new_obj_id = config(:new_options => true).object_id
-    #old_obj_id.should_not eq new_obj_id
-  #end
-
-  #it "should not reload if options changes but force is false" do
-    #old_obj_id = config(:new_option => true).object_id
-    #new_obj_id = config(:new_options => false, :force => false).object_id
-    #old_obj_id.should eq new_obj_id
-  #end
 end
