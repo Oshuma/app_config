@@ -16,7 +16,7 @@ module AppConfig
         super(options)
         # Make sure to use the top-level YAML module here.
         @path = path
-        create_file(path) if @options[:create]
+        create_file if @options[:create]
         @data = Hashish.new(::YAML.load_file(path)) || {}
       end
 
@@ -48,9 +48,9 @@ module AppConfig
 
       private
 
-      def create_file(path)
+      def create_file
         require 'fileutils'
-        dirname = File.dirname(path)
+        dirname = File.dirname(@path)
         FileUtils.mkdir_p dirname
         FileUtils.touch path
       end
