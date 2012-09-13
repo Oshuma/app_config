@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'maruku'
   s.add_development_dependency 'mongo'
   s.add_development_dependency 'rake'
-  s.add_development_dependency 'rspec', '~> 2.10.0'
+  s.add_development_dependency 'rspec'
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'yard'
 
