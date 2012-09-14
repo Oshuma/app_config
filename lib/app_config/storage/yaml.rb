@@ -22,23 +22,23 @@ module AppConfig
 
       def []=(key, value)
         @data[key] = value
-        save! if save?
+        save! if save_changes?
       end
 
       # Clears only the `@@storage`.
-      def reset
+      def clear
         @data.clear
       end
-      alias :clear :reset
+      alias :reset :clear
 
       # Clears the `@@storage` and saves it if option :save_changes is set.
-      def reset!
+      def clear!
         @data.clear
-        save! if save?
+        save! if save_changes?
       end
-      alias :clear! :reset!
+      alias :reset! :clear!
 
-      def save?
+      def save_changes?
         !!@options[:save_changes]
       end
 
