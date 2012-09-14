@@ -18,36 +18,36 @@ module AppConfig
     # * `:mongo` - {AppConfig::Storage::Mongo AppConfig::Storage::Mongo}
     # * `:yaml` - {AppConfig::Storage::YAML AppConfig::Storage::YAML}
     def setup(options = {})
-      @@options = options
+      @options = options
 
-      if @@options[:yaml]
-        @@storage = AppConfig::Storage::YAML.new(@@options.delete(:yaml), @@options)
-      elsif @@options[:mongo]
-        @@storage = AppConfig::Storage::Mongo.new(@@options.delete(:mongo))
+      if @options[:yaml]
+        @storage = AppConfig::Storage::YAML.new(@options.delete(:yaml), @options)
+      elsif @options[:mongo]
+        @storage = AppConfig::Storage::Mongo.new(@options.delete(:mongo))
       else
-        @@storage = AppConfig::Storage::Memory.new(@@options)
+        @storage = AppConfig::Storage::Memory.new(@options)
       end
 
-      yield @@storage if block_given?
+      yield @storage if block_given?
 
       storage
     end
 
     # Returns `true` if {AppConfig.setup AppConfig.setup} has been called.
     def setup?
-      !!(defined?(@@storage) && !@@storage.empty?)
+      !!(defined?(@storage) && !@storage.empty?)
     end
 
     private
 
     def environment
-      (@@options[:environment] || @@options[:env]) || nil
+      (@options[:environment] || @options[:env]) || nil
     end
     alias_method :env, :environment
 
-    # Returns the `@@storage` contents, which is what is exposed as the configuration.
+    # Returns the `@storage` contents, which is what is exposed as the configuration.
     def storage
-      environment ? @@storage[environment] : @@storage
+      environment ? @storage[environment] : @storage
     end
 
   end # self
