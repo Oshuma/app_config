@@ -1,36 +1,38 @@
 module AppConfig
+  # This storage saves it data in a YAML file. You can write and read it.
   module Storage
     require 'yaml'
 
     # YAML storage. It can create your file
     #
     # @example Usage with :create and :save_changes
-    #   File.exist?("path/to/file.yaml") #=> false
-    #   config = Storage::YAML.new("path/to/file.yaml", :create => true, :save_changes => true)
-    #   File.exist?("path/to/file.yaml") #=> true
-    #   File.read("path/to/file.yaml").empty? #=> true
+    #   File.exist?("path/to/file.yml") #=> false
+    #   config = Storage::YAML.new("path/to/file.yml", :create => true, :save_changes => true)
+    #   File.exist?("path/to/file.yml") #=> true
+    #   File.read("path/to/file.yml").empty? #=> true
     #   config[:newkey] = "newvalue"
     #   config[:newkey] #=> "newvalue"
-    #   File.read("path/to/file.yaml").empty? #=> false
+    #   File.read("path/to/file.yml").empty? #=> false
     #   config.save!
     #
     # @example Usage without :create and :save_changes
-    #   File.exist?("path/to/file.yaml") #=> false
+    #   File.exist?("path/to/file.yml") #=> false
     #   # Create directories _path_ and _to_...
-    #   # Touch file.yaml
-    #   config = Storage::YAML.new("path/to/file.yaml")
-    #   File.read("path/to/file.yaml").empty? #=> true
+    #   # Touch file.yml
+    #   config = Storage::YAML.new("path/to/file.yml")
+    #   File.read("path/to/file.yml").empty? #=> true
     #   config[:newkey] = "newvalue"
     #   config[:newkey] #=> "newvalue"
-    #   File.read("path/to/file.yaml").empty? #=> true
+    #   File.read("path/to/file.yml").empty? #=> true
     #   config.save!
-    #   File.read("path/to/file.yaml").empty? #=> false
+    #   File.read("path/to/file.yml").empty? #=> false
     class YAML < Storage::Base
       # @example
-      #   yaml = Storage::YAML.new("path/to/file.yaml", :create => true, :save_changes => true)
-      #   yaml.path #=> "path/to/file.yaml"
+      #   yaml = Storage::YAML.new("path/to/file.yml", :create => true, :save_changes => true)
+      #   yaml.path #=> "path/to/file.yml"
       attr_reader :path
 
+      # Default path to your YAML file.
       DEFAULT_PATH = File.expand_path(File.join(ENV['HOME'], '.app_config.yml'))
 
       # Loads @data with the YAML file located at `path`.
@@ -54,21 +56,20 @@ module AppConfig
         @data = Hashish.new(load_yaml)
       end
 
-      # Set config _key_ with _value_.
-      # Save YAML file if option :save_changes is set.
+      # {include:Storage::Base#[]=}
       #
       # @param key [String, Symbol]
       # @param value [String, Symbol]
       #
       # @example
-      #   yaml = Storage.new("path/to/file.yaml")
-      #   yaml[:newkey] = "newvalue"
-      #   yaml[:newkey] #=> "newvalue
+      #   mem = Storage::YAML.new({})
+      #   mem[:newkey] = "newvalue"
+      #   mem[:newkey] #=> "newvalue
       #
       # @note It could overwrite your YAML file if option :save_changes is set.
       def []=(key, value)
         # @override
-        @data[key] = value
+        super(key, value)
         save! if save_changes?
       end
 
@@ -82,11 +83,11 @@ module AppConfig
       # Checks if option :save_changes is set.
       #
       # @example
-      #   yaml = Storage::YAML.new("path/to/file.yaml", :save_changes => true)
+      #   yaml = Storage::YAML.new("path/to/file.yml", :save_changes => true)
       #   yaml.save? #=> true
       #
       # @example
-      #   yaml = Storage::YAML.new("path/to/file.yaml")
+      #   yaml = Storage::YAML.new("path/to/file.yml")
       #   yaml.save_changes? #=> false
       #
       # @return true if option :save_changes is set.
@@ -96,10 +97,11 @@ module AppConfig
 
       # Writes your configuration in file which is located in your specified path.
       #
-      # @note It could overwrite your YAML file.
-      #
       # @param file [String] Path of file, which will be written.
+      #
+      # @note It could overwrite your YAML file.
       def save!(file=@path)
+        # @override
         to_hash.save!(file, :format => :yaml)
       end
 
@@ -114,7 +116,7 @@ module AppConfig
       end
 
       # Loads content of YAML file.
-      # @return hash [Hash]
+      # @return [Hash] hash
       def load_yaml
         # Make sure to use the top-level YAML module here.
         ::YAML.load(File.read(@path)) || {}

@@ -1,6 +1,19 @@
 require 'core_ext/hashish'
 
+# @example Usage
+#   config = AppConfig.setup do |config|
+#     config[:key] = "value"
+#     config[:newkey] = "newvalue"
+#   end
+#   config[:tmp] = "/tmp"
+#   config[:newkey] #=> "newvalue"
+#   config.tmp #=> "/tmp"
+#
+#   config.key # raises ArgumentError, because Hash#key needs an argument.
+#   # But you can use:
+#   config._key #=> "value"
 module AppConfig
+  # Version of this Gem.
   VERSION = '2.0.2'
 
   autoload :Error,        'app_config/error'
@@ -10,13 +23,40 @@ module AppConfig
 
   class << self
 
-    # Accepts an `options` hash or a block.
+    # Accepts an _options_ hash or a block.
     # See each storage method's documentation for their specific options.
     #
     # Valid storage methods:
-    # * `:memory` - {AppConfig::Storage::Memory AppConfig::Storage::Memory}
-    # * `:mongo` - {AppConfig::Storage::Mongo AppConfig::Storage::Mongo}
-    # * `:yaml` - {AppConfig::Storage::YAML AppConfig::Storage::YAML}
+    # * *:memory* - {AppConfig::Storage::Memory AppConfig::Storage::Memory}
+    # * *:mongo* - {AppConfig::Storage::Mongo AppConfig::Storage::Mongo}
+    # * *:yaml* - {AppConfig::Storage::YAML AppConfig::Storage::YAML}
+    #
+    # @param options [Hash]
+    #
+    # It will be configured by the _options_ hash. _options_ can have the following
+    # keys:
+    # * *:yaml*: Path to YAML file.
+    # * *:mongo*: Options for MongoDB database.
+    # * *:create*: This will create the specified YAML file. (:yaml has to be included.)
+    # * *:save_changes*: Every change in your storage object will be saved in your YAML file. (:yaml has to be included.)
+    #
+    # @yieldparam [Storage] config
+    #
+    # @note Your yielded block will be returned.
+    #
+    # @example Initialization without
+    #   config = AppConfig.setup
+    #   config.class #=> AppConfig::Storage::Memory
+    #
+    # @example Initialization with :yaml
+    #   config = AppConfig.setup(:yaml => "/path/to/file.yml")
+    #   config.class #=> AppConfig::Storage::YAML
+    #
+    # @example Initialization with :mongo
+    #   config = AppConfig.setup(:mongo => ??)
+    #   config.class #=> AppConfig::Storage::Mongo
+    #
+    # @return [Storage] config
     def setup(options = {})
       @options = options
 
@@ -33,7 +73,7 @@ module AppConfig
       storage
     end
 
-    # Returns `true` if {AppConfig.setup AppConfig.setup} has been called.
+    # @return true if {AppConfig.setup AppConfig.setup} has been called.
     def setup?
       !!(defined?(@storage) && !@storage.empty?)
     end
@@ -45,7 +85,7 @@ module AppConfig
     end
     alias_method :env, :environment
 
-    # Returns the `@storage` contents, which is what is exposed as the configuration.
+    # @return the `@storage` contents, which is what is exposed as the configuration.
     def storage
       environment ? @storage[environment] : @storage
     end

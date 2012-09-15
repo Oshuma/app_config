@@ -1,5 +1,6 @@
 module AppConfig
   module Storage
+    # This storage saves it data in memory (RAM). There is no save possibility.
     class Memory < Storage::Base
 
       # Instantiates a new Storage::Memory.

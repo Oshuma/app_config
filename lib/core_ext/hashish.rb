@@ -1,8 +1,13 @@
 # Stolen from Rails Active Support and renamed to Hashish.
 #
 # This class has dubious semantics and we only have it so that
-# people can write `params[:key]` instead of `params['key']`
-# and they get the same value for both keys.
+# people can get the same value for key as String and Symbol. See example:
+#
+# @example
+#   hashish = Hashish.new({:key => "value"})
+#   hashish[:key] #=> "value"
+#   hashish["key"] #=> "value"
+
 class Hashish < Hash
   def initialize(constructor = {})
     if constructor.is_a?(Hash)
@@ -26,7 +31,7 @@ class Hashish < Hash
 
   # Assigns a new value to the hash:
   #
-  #     hash = HashWithIndifferentAccess.new
+  #     hash = Hashish.new
   #     hash[:key] = "value"
   def store(key, value)
     regular_writer(convert_key(key), convert_value(value))
@@ -35,10 +40,10 @@ class Hashish < Hash
 
   # Updates the instantized hash with values from the second:
   #
-  #     hash_1 = HashWithIndifferentAccess.new
+  #     hash_1 = Hashish.new
   #     hash_1[:key] = "value"
   #
-  #     hash_2 = HashWithIndifferentAccess.new
+  #     hash_2 = Hashish.new
   #     hash_2[:key] = "New Value!"
   #
   #     hash_1.update(hash_2) # => {"key"=>"New Value!"}
@@ -51,7 +56,7 @@ class Hashish < Hash
 
   # Checks the hash for a key matching the argument passed in:
   #
-  #     hash = HashWithIndifferentAccess.new
+  #     hash = Hashish.new
   #     hash["key"] = "value"
   #     hash.key? :key  # => true
   #     hash.key? "key" # => true
@@ -63,14 +68,21 @@ class Hashish < Hash
   alias_method :has_key?, :key?
   alias_method :member?, :key?
 
-  # Fetches the value for the specified key, same as doing `hash[key]`.
+  # Fetches the value for the specified key.
+  #
+  # @example
+  #   hashish = Hashish.new({:key => "value"})
+  #   hashish.fetch(:key) #=> "value"
+  #   hashish.fetch("key") #=> "value"
+  #   hashish[:key] #=> "value"
+  #   hashish["key"] #=> "value"
   def fetch(key, *extras)
     super(convert_key(key), *extras)
   end
 
   # Returns an array of the values at the specified indices:
   #
-  #     hash = HashWithIndifferentAccess.new
+  #     hash = Hashish.new
   #     hash[:a] = "x"
   #     hash[:b] = "y"
   #     hash.values_at("a", "b") # => ["x", "y"]
@@ -95,6 +107,10 @@ class Hashish < Hash
     super other_hash.with_indifferent_access
   end
 
+  # {include:#reverse_merge} It replaces the actual object.
+  #
+  # @see #reverse_merge
+  #
   def reverse_merge!(other_hash)
     replace(reverse_merge( other_hash ))
   end
@@ -109,20 +125,67 @@ class Hashish < Hash
   def to_options!; self end
 
   # Convert to a Hash with String keys.
+  #
+  # @example
+  #   hashish = Hashish.new({:key => 'value', :four => 20})
+  #   hashish.to_hash #=> {"key" => "value", "four" => 20}
+  #
+  # @return [Hash] hash
   def to_hash
     Hash.new(default).merge!(self)
   end
 
+  # Converts hash to YAML.
+  #
+  # @example
+  #   hashish = Hashish.new({:key => 'value', :four => 20})
+  #   hashish.to_yaml #=> "---\nkey: value\nfour: 20\n"
+  #
+  # @return [::YAML] yaml
   def to_yaml
     require 'yaml'
     to_hash.to_yaml
   end
 
+  # Converts hash to JSON.
+  #
+  # @example
+  #   hashish = Hashish.new({:key => 'value', :four => 20})
+  #   hashish.to_json #=> "{\"key\":\"value\",\"four\":20}"
+  #
+  # @return [JSON] json
   def to_json
     require 'json'
     to_hash.to_json
   end
 
+  alias_method :reset, :clear
+
+  # Writes your configuration in file which is located in your specified path.
+  #
+  # @param file [String] Path of file, which will be written.
+  # @param options [Hash]
+  #
+  # It will be configured by the _options_ hash. _options_ can have the following
+  # keys:
+  # * *:format*: Format (YAML, JSON, Hash) of converted data.
+  #
+  # @raise [ArgumentError] if no format is set.
+  #
+  # @example Save as YAML
+  #   hashish.save!("path/to/file.yml", :format => :yaml)
+  # @example Save as JSON
+  #   hashish.save!("path/to/file.json", :format => :json)
+  # @example Save as Hash
+  #   hashish.save!("path/to/file.txt", :format => :hash)
+  #
+  # @note It could overwrite your file.
+  #
+  # @see #to_yaml
+  # @see #to_json
+  # @see #to_hash
+  #
+  # @return true if file could be written.
   def save!(file, options={})
     raise ArgumentError, "You have to specify :format" unless options[:format]
     # :format => :to_format
@@ -151,6 +214,27 @@ class Hashish < Hash
 
   private
 
+  # You have access by method.
+  #
+  # @note You use Hash. Use methods with prefix "_" to have definitely access to values.
+  #
+  # @example Normal usage
+  #   hashish = Hashish.new({:newkey => "value"})
+  #   hashish[:newkey] #=> "value"
+  #   hashish.newkey #=> "value"
+  #   hashish._newkey #=> "value"
+  #   # with dynamic setter:
+  #   hashish.anotherkey = "anothervalue"
+  #   hashish.anotherkey #=> "anothervalue"
+  #   hashish._somekey = "somevalues"
+  #   hashish.somekey #=> "somevalues"
+  #
+  # @example Problem with Hash methods like Hash#key
+  #   hashish = Hashish.new({:key => "value"})
+  #   hashish[:key] #=> "value"
+  #   config.key # raises ArgumentError, because Hash#key needs an argument.
+  #   # But you can use:
+  #   config._key #=> "value"
   def method_missing(method, *args, &blk)
     prefix = '_'
     method = method[prefix.length..-1] if method.to_s.start_with? prefix
@@ -169,6 +253,7 @@ class Hashish < Hash
 end # Hashish
 
 class Hash
+  # Converts Hash to {Hashish}.
   def with_indifferent_access
     hash = Hashish.new(self)
     hash.default = self.default
