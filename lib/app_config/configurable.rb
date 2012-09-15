@@ -14,7 +14,7 @@ module AppConfig
     # It will be configured by the _options_ hash. _options_ can have the following
     # keys:
     # * *:yaml*: Path to YAML file.
-    # * *:mongo*: ??
+    # * *:mongo*: Options for MongoDB.
     # * *:create*: This will create the specified YAML file. (:yaml has to be included.)
     # * *:save_changes*: Every change in your storage object will be saved in your YAML file. (:yaml has to be included.)
     # * *:force*: Creates a new object.

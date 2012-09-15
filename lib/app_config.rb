@@ -53,7 +53,7 @@ module AppConfig
     #   config.class #=> AppConfig::Storage::YAML
     #
     # @example Initialization with :mongo
-    #   config = AppConfig.setup(:mongo => ??)
+    #   config = AppConfig.setup(:mongo => {:username => "usename", :password => "password"})
     #   config.class #=> AppConfig::Storage::Mongo
     #
     # @return [Storage] config
