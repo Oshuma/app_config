@@ -28,9 +28,10 @@ class Hashish < Hash
   #
   #     hash = HashWithIndifferentAccess.new
   #     hash[:key] = "value"
-  def []=(key, value)
+  def store(key, value)
     regular_writer(convert_key(key), convert_value(value))
   end
+  alias :[]=  :store
 
   # Updates the instantized hash with values from the second:
   #
@@ -79,7 +80,7 @@ class Hashish < Hash
 
   # Returns an exact copy of the hash.
   def dup
-    HashWithIndifferentAccess.new(self)
+    Hashish.new(self)
   end
 
   # Merges the instantized and the specified hashes together, giving precedence to the values from the second hash
@@ -120,7 +121,7 @@ class Hashish < Hash
   def save!(file, options={})
     raise ArgumentError, "You have to specify :format" unless options[:format]
     # :format => :to_format
-    format = "to_#{options[:format]}".to_sym
+    format = "to_#{options[:format].downcase}".to_sym
     content = send(format)
     File.open(file, 'w') { |f| f.puts content }
     true
@@ -149,7 +150,15 @@ class Hashish < Hash
     prefix = '_'
     method = method[prefix.length..-1] if method.to_s.start_with? prefix
 
-    fetch(method, *args) if has_key? method
+    if args.empty?
+      key = method
+      fetch(method, *args) if has_key? key
+    elsif method.to_s.end_with?("=")
+      # :newkey= => :newkey
+      key = method[0..-2].to_sym
+      value = args.first
+      store(key, value)
+    end
   end
 
 end # Hashish

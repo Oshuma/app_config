@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Configurable do
   include Configurable
 
-  before :all do
-    @obj_id = config.object_id
+  before :each do
+    config(:force => true)
   end
 
   it "should be kind of Storage::Base" do
@@ -87,13 +87,26 @@ describe Configurable do
     config.should_not include(:newkey)
   end
 
-  it "should set a new key value pair" do
+  it "should set a new key value pair []=" do
     config.should_not include(:newkey)
     config[:newkey] = :newvalue
     config.should include(:newkey)
   end
 
+  it "should set a new key value pair by store()" do
+    config.should_not include(:newkey_store)
+    config.store(:newkey_store, :newvalue_store)
+    config.should include(:newkey_store)
+  end
+
+  it "should set a new key value pair by dynamic method" do
+    config.should_not include(:newkey_dyn)
+    config.newkey_dyn = :newvalue_dyn
+    config.should include(:newkey_dyn)
+  end
+
   it "should be the same object in each access" do
+    @obj_id = config.object_id
     config.object_id.should eq @obj_id
   end
 end
