@@ -76,8 +76,8 @@ describe AppConfig do
 
   it 'should be able to access values by methods' do
     config = AppConfig.setup do |c|
-      c[:key]  = 'value'
-      c[:four] = 20
+      c.store(:key, 'value')
+      c.four = 20
       c[:name] = 'Dale'
     end
 
