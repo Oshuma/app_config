@@ -8,3 +8,4 @@ pkg/
 tmp/**/*
 start_mongod.sh
 spec/fixtures/db/
+doc
