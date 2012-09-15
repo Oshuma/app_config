@@ -15,15 +15,39 @@ RSpec.configure do |config|
   end
 
   # AppConfig.setup wrapper.  Accepts a hash of +options+.
-  def config_for(options)
-    AppConfig.reset!
-    AppConfig.setup(options)
+  def config_for(options, &blk)
+    AppConfig.setup(options, &blk)
   end
 
   # Setup YAML options and pass to config_for().
-  def config_for_yaml(opts = {})
+  def config_for_yaml(opts = {}, &blk)
     path = opts[:yaml] || fixture('app_config.yml')
-    config_for({ :yaml => path }.merge(opts))
+    config_for({ :yaml => path }.merge(opts), &blk)
+  end
+
+  def temp_config_file
+    require 'tempfile'
+    Tempfile.new('config')
+  end
+
+  def example_yaml_config(options={})
+    options = {:yaml => temp_config_file}.update(options)
+    config = AppConfig.setup(options) do |c|
+      c[:name] = 'Dale'
+      c[:nick] = 'Oshuma'
+      yield c if block_given?
+    end
+    config.should be_instance_of(Storage::YAML)
+    config[:date] = Date.today
+    config
+  end
+
+  def check_save_config(yaml, file)
+    yaml.should eq File.read(file)
+  end
+
+  def load_yaml_of_config(config)
+    YAML.load(File.read(config.path.path))
   end
 
   def config_for_mongo(opts = {}, load_test_data = true)
@@ -32,6 +56,7 @@ RSpec.configure do |config|
       :database => 'app_config_test',
     })
     begin
+      remove_mongo_test_collection(mongo)
       load_mongo_test_config(mongo) if load_test_data
       config_for({:mongo => mongo}.merge(opts))
     rescue Mongo::ConnectionFailure
@@ -53,5 +78,12 @@ RSpec.configure do |config|
     else
       collection.save(test_data)
     end
+  end
+
+  def remove_mongo_test_collection(options)
+    connection = ::Mongo::Connection.new(options[:host], options[:port].to_i)
+    database   = connection.db(options[:database])
+    collection = database.collection(options[:collection])
+    collection.remove
   end
 end

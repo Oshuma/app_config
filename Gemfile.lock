@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    app_config (1.0.1)
+    app_config (2.0.2)
 
 GEM
   remote: http://rubygems.org/
@@ -39,6 +39,6 @@ DEPENDENCIES
   maruku
   mongo
   rake
-  rspec (~> 2.10.0)
+  rspec
   simplecov
   yard

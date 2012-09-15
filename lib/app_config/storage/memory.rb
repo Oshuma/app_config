@@ -1,21 +1,16 @@
 module AppConfig
   module Storage
+    # This storage saves it data in memory (RAM). There is no save possibility.
     class Memory < Storage::Base
 
-      def initialize(options)
-        @data = Hashish.new(options)
-      end
-
-      def [](key)
-        @data[key]
-      end
-
-      def []=(key, value)
-        @data[key] = value
-      end
-
-      def empty?
-        @data.empty?
+      # Instantiates a new Storage::Memory.
+      #
+      # @param data will be saved in an {Hashish}
+      # @param options options hash
+      #
+      # @return [Memory]
+      def initialize(data, options)
+        super(data, options)
       end
 
     end # Memory
