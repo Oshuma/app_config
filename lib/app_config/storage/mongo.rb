@@ -16,9 +16,7 @@ module AppConfig
       }
 
       def initialize(options)
-        @options = DEFAULTS.merge(options)
-        super(@options)
-        @connected = false
+        super({}, DEFAULTS.merge(options))
         setup_connection
         fetch_data!
       end
@@ -28,7 +26,8 @@ module AppConfig
       end
 
       def []=(key, value)
-        @data[key] = value
+        # @override
+        super(key, value)
         save!
       end
 
