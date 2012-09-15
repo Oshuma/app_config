@@ -25,10 +25,10 @@ module AppConfig
       elsif @options[:mongo]
         @storage = AppConfig::Storage::Mongo.new(@options.delete(:mongo))
       else
-        @storage = AppConfig::Storage::Memory.new(@options)
+        @storage = AppConfig::Storage::Memory.new({}, @options)
       end
 
-      yield @storage if block_given?
+      yield storage if block_given?
 
       storage
     end
