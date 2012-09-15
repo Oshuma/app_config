@@ -3,7 +3,8 @@ module AppConfig
     class Base
       attr_reader :options
 
-      def initialize(options)
+      def initialize(data, options={})
+        @data = Hashish.new(data)
         @options = options
       end
 
@@ -18,7 +19,7 @@ module AppConfig
       private
 
       def method_missing(method, *args, &blk)
-        to_hash.send(method, *args, &blk)
+        @data.send(method, *args, &blk)
       end
 
     end # Base
