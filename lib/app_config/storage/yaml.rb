@@ -48,7 +48,7 @@ module AppConfig
       # * *:save_changes*: Every change in your storage object will be saved in your YAML file.
       #
       def initialize(path = DEFAULT_PATH, options={})
-        super(options)
+        super({}, options)
         @path = path
         create_file if @options[:create]
         @data = Hashish.new(load_yaml)
@@ -71,13 +71,6 @@ module AppConfig
         @data[key] = value
         save! if save_changes?
       end
-
-      # Clears data.
-      # But your YAML file won't be written.
-      def clear
-        @data.clear
-      end
-      alias :reset :clear
 
       # Clears data and saves it if option :save_changes is set. This means that your YAML file is empty.
       def clear!
@@ -117,7 +110,7 @@ module AppConfig
         require 'fileutils'
         dirname = File.dirname(@path)
         FileUtils.mkdir_p dirname
-        FileUtils.touch path
+        FileUtils.touch @path
       end
 
       # Loads content of YAML file.
