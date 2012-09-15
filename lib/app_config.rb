@@ -14,7 +14,7 @@ require 'core_ext/hashish'
 #   config._key #=> "value"
 module AppConfig
   # Version of this Gem.
-  VERSION = '2.0.2'
+  VERSION = '2.0.3'
 
   autoload :Error,        'app_config/error'
   autoload :Storage,      'app_config/storage'
