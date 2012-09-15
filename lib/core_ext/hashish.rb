@@ -118,6 +118,11 @@ class Hashish < Hash
     to_hash.to_yaml
   end
 
+  def to_json
+    require 'json'
+    to_hash.to_json
+  end
+
   def save!(file, options={})
     raise ArgumentError, "You have to specify :format" unless options[:format]
     # :format => :to_format
