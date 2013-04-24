@@ -6,7 +6,7 @@ module AppConfig
     # YAML storage method.
     class YAML < Storage::Base
 
-      DEFAULT_PATH = File.expand_path(File.join(ENV['HOME'], '.app_config.yml'))
+      DEFAULT_PATH = File.expand_path(File.join(ENV['HOME'].to_s, '.app_config.yml'))
 
       # Loads `@data` with the YAML file located at `path`.
       # `@data` will be the Hashish that is accessed with `AppConfig[:key]`.
