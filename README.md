@@ -3,6 +3,7 @@
 An easy to use, customizable library to easily store and retrieve application
 (or library) configuration, API keys or basically anything in 'key/value' pairs.
 
+AppConfig requires at least Ruby 1.9.
 
 ## Usage
 
