@@ -19,4 +19,10 @@ describe AppConfig::Storage::YAML do
     AppConfig[:new_key].should == 'new value'
   end
 
+  it "requires the use of 'Dir.home'" do
+    unless Dir.respond_to?(:home)
+      fail "Requires 'Dir.home' which is available in Ruby 1.9"
+    end
+  end
+
 end
