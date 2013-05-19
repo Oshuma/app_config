@@ -20,7 +20,7 @@ describe AppConfig do
 
   it 'should have to_hash' do
     config_for_yaml
-    AppConfig.to_hash.class.should == Hashish
+    AppConfig.to_hash.class.should == Hash
   end
 
   it 'should reset @@storage' do
@@ -28,7 +28,7 @@ describe AppConfig do
     config_for_yaml(:api_key => 'API_KEY')
     # then reset
     AppConfig.reset!
-    AppConfig[:api_key].should be_nil
+    AppConfig[:api_key].should be_empty
   end
 
   it 'to_hash() returns an empty hash if storage not set' do
@@ -55,21 +55,20 @@ describe AppConfig do
   end
 
   it 'should create nested keys' do
-    pending 'Implement nested keys'
     AppConfig.reset!
     AppConfig.setup
 
-    AppConfig[:name][:first] = 'Dale'
-    AppConfig[:name][:first].should == 'Dale'
+    AppConfig[:person][:name][:first] = 'Dale'
+    AppConfig[:person][:name][:first].should == 'Dale'
   end
 
-  it 'returns a Hashish on setup' do
+  it 'returns a Hash on setup' do
     AppConfig.reset!
     config = AppConfig.setup do |c|
       c[:name] = 'Dale'
       c[:nick] = 'Oshuma'
     end
-    config.should be_instance_of(Hashish)
+    config.should be_instance_of(Hash)
   end
 
 end

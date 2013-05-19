@@ -12,7 +12,6 @@ module AppConfig
     # See each storage method's documentation for their specific options.
     #
     # Valid storage methods:
-    # * `:memory` - {AppConfig::Storage::Memory AppConfig::Storage::Memory}
     # * `:mongo` - {AppConfig::Storage::Mongo AppConfig::Storage::Mongo}
     # * `:yaml` - {AppConfig::Storage::YAML AppConfig::Storage::YAML}
     def setup(options = {}, &block)
@@ -23,7 +22,7 @@ module AppConfig
       elsif @@options[:mongo]
         @@storage = AppConfig::Storage::Mongo.new(@@options.delete(:mongo))
       else
-        @@storage = AppConfig::Storage::Memory.new(@@options)
+        @@storage = Hash.new(&Storage::DEEP_HASH)
       end
 
       yield @@storage if block_given?

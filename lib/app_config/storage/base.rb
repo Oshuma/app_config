@@ -7,7 +7,7 @@ module AppConfig
       end
 
       def to_hash
-        Hashish.new(@data.to_hash)
+        defined?(@data) ? @data.to_hash : Hash.new(&Storage::DEEP_HASH)
       end
 
     end # Base

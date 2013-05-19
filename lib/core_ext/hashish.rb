@@ -1,4 +1,4 @@
-# Stolen from Rails Active Support and renamed to Hashish.
+# Stolen from Rails `ActiveSupport::HashWithIndifferentAccess` and renamed to Hashish.
 #
 # This class has dubious semantics and we only have it so that
 # people can write `params[:key]` instead of `params['key']`
