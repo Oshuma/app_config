@@ -19,7 +19,7 @@ describe AppConfig::Storage::Mongo do
   end
 
   it 'should not have the Mongo _id in storage' do
-    AppConfig['_id'].should be_nil
+    AppConfig['_id'].should be_empty
   end
 
   it 'should have a @_id variable for the Mongo ID' do

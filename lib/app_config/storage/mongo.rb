@@ -60,7 +60,10 @@ module AppConfig
 
       def fetch_data!
         raise 'Not connected to MongoDB' unless connected?
+
         @data = Hashish.new(collection.find_one)
+        @data.default_proc = Storage::DEEP_HASH
+
         @_id = @data.delete('_id')
       end
 

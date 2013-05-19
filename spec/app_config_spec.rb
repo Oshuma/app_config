@@ -71,4 +71,10 @@ describe AppConfig do
     config.should be_instance_of(Hash)
   end
 
+  it '.default_storage() returns a nested Hash' do
+    hash = AppConfig.send(:default_storage)
+    hash[:name][:first] = 'Dale'
+    hash[:name][:first].should == 'Dale'
+  end
+
 end

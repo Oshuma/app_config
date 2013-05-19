@@ -62,10 +62,19 @@ module AppConfig
     end
 
     def to_hash
-      setup? ? storage.to_hash : Hashish.new
+      unless setup?
+        @@storage = default_storage
+      end
+
+      storage.to_hash
     end
 
     private
+
+    # Returns a nested Hash as a sane default.
+    def default_storage
+      Hash.new(&Storage::DEEP_HASH)
+    end
 
     def environment
       (@@options[:environment] || @@options[:env]) || nil
