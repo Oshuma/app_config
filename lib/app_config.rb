@@ -1,5 +1,3 @@
-require 'core_ext/hashish'
-
 require 'ostruct'
 
 module AppConfig

@@ -9,7 +9,7 @@ module AppConfig
       DEFAULT_PATH = File.join(Dir.home, '.app_config.yml')
 
       # Loads `@data` with the YAML file located at `path`.
-      # `@data` will be the Hashish that is accessed with `AppConfig[:key]`.
+      # `@data` will be the OpenStruct that is accessed with `AppConfig.some_var`.
       #
       # Defaults to `Dir.home/.app_config.yml`
       def initialize(path = DEFAULT_PATH)
