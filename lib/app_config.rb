@@ -1,7 +1,7 @@
 require 'core_ext/hashish'
 
 module AppConfig
-  VERSION = '1.1.0'
+  VERSION = '1.1.1'
 
   autoload :Error,   'app_config/error'
   autoload :Storage, 'app_config/storage'
@@ -15,6 +15,7 @@ module AppConfig
     # * `:mongo` - {AppConfig::Storage::Mongo AppConfig::Storage::Mongo}
     # * `:yaml` - {AppConfig::Storage::YAML AppConfig::Storage::YAML}
     def setup(options = {}, &block)
+      warn "DEPRECATED: AppConfig.setup will be renamed to AppConfig.setup! in 2.0."
       @@options = options
 
       if @@options[:yaml]
@@ -47,17 +48,20 @@ module AppConfig
 
     # Access the configured `key`'s value.
     def [](key)
+      warn "DEPRECATED: AppConfig.[] is deprecated and will be removed in 2.0."
       setup unless setup?
       storage[key]
     end
 
     # Set a new `value` for `key` (persistence depends on the type of Storage).
     def []=(key, value)
+      warn "DEPRECATED: AppConfig.[]= is deprecated and will be removed in 2.0."
       setup unless setup?
       storage[key] = value
     end
 
     def empty?
+      warn "DEPRECATED: AppConfig.empty? is deprecated and will be removed in 2.0."
       storage.empty?
     end
 
@@ -77,6 +81,7 @@ module AppConfig
     end
 
     def environment
+      warn "DEPRECATED: Environment mode will be removed in 2.0."
       (@@options[:environment] || @@options[:env]) || nil
     end
     alias_method :env, :environment
