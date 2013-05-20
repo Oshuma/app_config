@@ -22,21 +22,6 @@ module AppConfig
         fetch_data!
       end
 
-      def [](key)
-        @data[key]
-      end
-
-      def []=(key, value)
-        @data[key] = value
-        save!
-      end
-
-      def empty?
-        @data.empty?
-      end
-
-      private
-
       def save!
         if @_id
           collection.update({ '_id' => @_id}, @data)
@@ -44,6 +29,8 @@ module AppConfig
           collection.save(@data)
         end
       end
+
+      private
 
       def setup_connection
         @connection = ::Mongo::Connection.new(@options[:host], @options[:port].to_i)
@@ -61,10 +48,8 @@ module AppConfig
       def fetch_data!
         raise 'Not connected to MongoDB' unless connected?
 
-        @data = Hashish.new(collection.find_one)
-        @data.default_proc = Storage::DEEP_HASH
-
-        @_id = @data.delete('_id')
+        @data = OpenStruct.new(collection.find_one)
+        @_id = @data._id
       end
 
       def database

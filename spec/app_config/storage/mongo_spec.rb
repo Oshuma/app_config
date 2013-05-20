@@ -9,17 +9,15 @@ describe AppConfig::Storage::Mongo do
   end
 
   it 'should have some values' do
-    AppConfig[:api_key].should_not be_nil
+    AppConfig.api_key.should_not be_nil
   end
 
   it 'should update the values' do
-    AppConfig.class_variable_get(:@@storage).should_receive(:save!)
-    AppConfig[:api_key] = 'SOME_NEW_API_KEY'
-    AppConfig[:api_key].should == 'SOME_NEW_API_KEY'
-  end
+    AppConfig.api_key = 'SOME_NEW_API_KEY'
+    AppConfig.api_key.should == 'SOME_NEW_API_KEY'
 
-  it 'should not have the Mongo _id in storage' do
-    AppConfig['_id'].should be_empty
+    AppConfig.class_variable_get(:@@storage).should_receive(:save!)
+    AppConfig.save!
   end
 
   it 'should have a @_id variable for the Mongo ID' do
