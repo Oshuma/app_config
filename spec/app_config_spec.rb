@@ -28,20 +28,12 @@ describe AppConfig do
     config_for_yaml(:api_key => 'API_KEY')
     # then reset
     AppConfig.reset!
-    AppConfig[:api_key].should be_empty
+    AppConfig.send(:storage).should be_nil
   end
 
   it 'to_hash() returns an empty hash if storage not set' do
     AppConfig.reset!
     AppConfig.to_hash.should == {}
-  end
-
-  describe 'environment mode' do
-    it 'should load the proper environment' do
-      config_for_yaml(:yaml => fixture('env_app_config.yml'),
-                      :env  => 'development')
-      AppConfig[:api_key].should_not be_nil
-    end
   end
 
   it 'should not be setup' do
@@ -55,26 +47,21 @@ describe AppConfig do
   end
 
   it 'should create nested keys' do
+    pending 'Re-implement this later.'
     AppConfig.reset!
     AppConfig.setup
 
-    AppConfig[:person][:name][:first] = 'Dale'
-    AppConfig[:person][:name][:first].should == 'Dale'
+    AppConfig.person.name.first = 'Dale'
+    AppConfig.person.name.first.should == 'Dale'
   end
 
   it 'returns a Hash on setup' do
     AppConfig.reset!
     config = AppConfig.setup do |c|
-      c[:name] = 'Dale'
-      c[:nick] = 'Oshuma'
+      c.name = 'Dale'
+      c.nick = 'Oshuma'
     end
     config.should be_instance_of(Hash)
-  end
-
-  it '.default_storage() returns a nested Hash' do
-    hash = AppConfig.send(:default_storage)
-    hash[:name][:first] = 'Dale'
-    hash[:name][:first].should == 'Dale'
   end
 
 end

@@ -14,19 +14,7 @@ module AppConfig
       # Defaults to `Dir.home/.app_config.yml`
       def initialize(path = DEFAULT_PATH)
         # Make sure to use the top-level YAML module here.
-        @data = Hashish.new(::YAML.load_file(path))
-      end
-
-      def [](key)
-        @data[key]
-      end
-
-      def []=(key, value)
-        @data[key] = value
-      end
-
-      def empty?
-        @data.empty?
+        @data = OpenStruct.new(::YAML.load_file(path))
       end
 
     end # YAML

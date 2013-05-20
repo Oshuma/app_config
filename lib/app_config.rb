@@ -1,7 +1,9 @@
 require 'core_ext/hashish'
 
+require 'ostruct'
+
 module AppConfig
-  VERSION = '1.1.0'
+  autoload :VERSION, 'app_config/version'
 
   autoload :Error,   'app_config/error'
   autoload :Storage, 'app_config/storage'
@@ -22,7 +24,7 @@ module AppConfig
       elsif @@options[:mongo]
         @@storage = AppConfig::Storage::Mongo.new(@@options.delete(:mongo))
       else
-        @@storage = Hash.new(&Storage::DEEP_HASH)
+        @@storage = AppConfig::Storage::Base.new
       end
 
       yield @@storage if block_given?
@@ -32,58 +34,28 @@ module AppConfig
 
     # Returns `true` if {AppConfig.setup AppConfig.setup} has been called.
     def setup?
-      !!(defined?(@@storage) && !@@storage.empty?)
+      defined?(@@storage) && !@@storage.nil?
     end
 
     # Clears the `@@storage`.
     def reset!
-      if defined?(@@storage)
-        remove_class_variable(:@@storage)
-        true
-      else
-        false
-      end
-    end
-
-    # Access the configured `key`'s value.
-    def [](key)
-      setup unless setup?
-      storage[key]
-    end
-
-    # Set a new `value` for `key` (persistence depends on the type of Storage).
-    def []=(key, value)
-      setup unless setup?
-      storage[key] = value
-    end
-
-    def empty?
-      storage.empty?
+      @@storage = nil
     end
 
     def to_hash
-      unless setup?
-        @@storage = default_storage
-      end
+      storage ? storage.to_hash : {}
+    end
 
-      storage.to_hash
+    # Wrap `method_missing` to proxy to `storage`.
+    def method_missing(name, *args)
+      storage.send(name.to_sym, args)
     end
 
     private
 
-    # Returns a nested Hash as a sane default.
-    def default_storage
-      Hash.new(&Storage::DEEP_HASH)
-    end
-
-    def environment
-      (@@options[:environment] || @@options[:env]) || nil
-    end
-    alias_method :env, :environment
-
     # Returns the `@@storage` contents, which is what is exposed as the configuration.
     def storage
-      environment ? @@storage[environment] : @@storage
+      @@storage
     end
 
   end # self
