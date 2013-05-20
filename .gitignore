@@ -5,4 +5,4 @@
 coverage/
 doc/api/
 pkg/
-tmp/**/*
+tmp/
