@@ -6,8 +6,8 @@ describe AppConfig do
     AppConfig::VERSION.should_not be_nil
   end
 
-  it 'responds to .setup()' do
-    AppConfig.should respond_to(:setup)
+  it 'responds to .setup!()' do
+    AppConfig.should respond_to(:setup!)
   end
 
   it 'responds to .setup?()' do
@@ -49,7 +49,7 @@ describe AppConfig do
   it 'should create nested keys' do
     pending 'Re-implement this later.'
     AppConfig.reset!
-    AppConfig.setup
+    AppConfig.setup!
 
     AppConfig.person.name.first = 'Dale'
     AppConfig.person.name.first.should == 'Dale'
@@ -57,7 +57,7 @@ describe AppConfig do
 
   it 'returns a Hash on setup' do
     AppConfig.reset!
-    config = AppConfig.setup do |c|
+    config = AppConfig.setup! do |c|
       c.name = 'Dale'
       c.nick = 'Oshuma'
     end

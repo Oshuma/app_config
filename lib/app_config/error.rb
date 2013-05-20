@@ -8,7 +8,7 @@ module AppConfig
     end
 
     class NotSetup < Exception
-      def to_s; "Must call 'AppConfig.setup' to setup storage!"; end
+      def to_s; "Must call 'AppConfig.setup!' to setup storage!"; end
     end
 
     class UnknownStorageMethod < Exception; end

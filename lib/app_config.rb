@@ -14,7 +14,7 @@ module AppConfig
     # Valid storage methods:
     # * `:mongo` - {AppConfig::Storage::Mongo AppConfig::Storage::Mongo}
     # * `:yaml` - {AppConfig::Storage::YAML AppConfig::Storage::YAML}
-    def setup(options = {}, &block)
+    def setup!(options = {}, &block)
       @@options = options
 
       if @@options[:yaml]
@@ -30,7 +30,7 @@ module AppConfig
       to_hash
     end
 
-    # Returns `true` if {AppConfig.setup AppConfig.setup} has been called.
+    # Returns `true` if {AppConfig.setup! AppConfig.setup!} has been called.
     def setup?
       defined?(@@storage) && !@@storage.nil?
     end
