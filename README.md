@@ -1,4 +1,4 @@
-# AppConfig
+# AppConfig [![Build Status](https://travis-ci.org/Oshuma/app_config.png?branch=master)](https://travis-ci.org/Oshuma/app_config)
 
 An easy to use, customizable library to easily store and retrieve application
 (or library) configuration, API keys or basically anything in 'key/value' pairs.

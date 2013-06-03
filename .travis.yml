@@ -1,0 +1,13 @@
+language: ruby
+rvm:
+  - 1.9.2
+  - 1.9.3
+  - 2.0
+
+env:
+  # Ignore warnings when running specs.
+  - RUBYOPT="-W0"
+
+branches:
+  only:
+    - master
