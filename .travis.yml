@@ -11,3 +11,9 @@ env:
 branches:
   only:
     - master
+
+before_install:
+  # Install and start MongoDB so we can test that storage method.
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq mongodb
+  - sudo service mongodb start
