@@ -74,6 +74,10 @@ header h2 {
   margin: 0;
 }
 
+#donate {
+  border-top: 1px dashed #b5e853;
+}
+
 /* Main Content
 */
 
