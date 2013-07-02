@@ -22,12 +22,15 @@ module AppConfig
         fetch_data!
       end
 
+      # Saves the data back to Mongo.  Returns `true`/`false`.
       def save!
         if @_id
-          collection.update({ '_id' => @_id}, @data)
+          retval = collection.update({ '_id' => @_id}, @data.to_h)
         else
-          collection.save(@data)
+          retval = collection.save(@data.to_h)
         end
+
+        !!retval
       end
 
       private

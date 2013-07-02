@@ -46,7 +46,7 @@ module AppConfig
 
     # Wrap `method_missing` to proxy to `storage`.
     def method_missing(name, *args)
-      storage.send(name.to_sym, args)
+      storage.send(name.to_sym, *args)
     end
 
     private
