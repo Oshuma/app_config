@@ -19,7 +19,7 @@ Usage is simple.  Just pass either a hash of options, or a block, to {AppConfig.
 
 In it's simplest form, you can use it like so:
 
-    AppConfig.setup!(:admin_email => 'admin@example.com')
+    AppConfig.setup!(admin_email: 'admin@example.com')
     # ..or..
     AppConfig.setup! do |config|
       config.admin_email = 'admin@example.com'
@@ -42,7 +42,7 @@ Given this YAML file:
 
 Use it like so:
 
-    AppConfig.setup!(:yaml => '/path/to/app_config.yml')
+    AppConfig.setup!(yaml: '/path/to/app_config.yml')
 
     # Later on...
     AppConfig.admin_email  # => 'admin@example.com'
@@ -57,12 +57,12 @@ configuration values for a Mongo database.  Check the {AppConfig::Storage::Mongo
 constant for the default Mongo connection options.
 
     mongo_opts = {
-      :host       => 'localhost',   # default
-      :database   => 'app_config',  # default
-      :collection => 'app_config'   # default
+      host:       'localhost',   # default
+      database:   'app_config',  # default
+      collection: 'app_config'   # default
     }
 
-    AppConfig.setup!(:mongo => mongo_opts)
+    AppConfig.setup!(mongo: mongo_opts)
 
     AppConfig.admin_email  # => 'admin@example.com'
 
@@ -75,5 +75,5 @@ The values are read/saved (by default) to the `app_config` database and
 might lend well to versioned configurations; collection names such as
 `app_config_v1`, `app_config_v2`, etc.
 
-    AppConfig.setup!(:mongo => { :collection => 'app_config_v2' })
+    AppConfig.setup!(mongo: { :collection => 'app_config_v2' })
 
