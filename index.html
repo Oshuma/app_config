@@ -4,7 +4,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
@@ -40,7 +40,7 @@
 
 <p>In it's simplest form, you can use it like so:</p>
 
-<div class="highlight"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">:admin_email</span> <span class="o">=&gt;</span> <span class="s1">'admin@example.com'</span><span class="p">)</span>
+<div class="highlight"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="n">admin_email</span><span class="p">:</span> <span class="s1">'admin@example.com'</span><span class="p">)</span>
 <span class="c1"># ..or..</span>
 <span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
   <span class="n">config</span><span class="o">.</span><span class="n">admin_email</span> <span class="o">=</span> <span class="s1">'admin@example.com'</span>
@@ -64,7 +64,7 @@
 
 <p>Use it like so:</p>
 
-<div class="highlight"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">:yaml</span> <span class="o">=&gt;</span> <span class="s1">'/path/to/app_config.yml'</span><span class="p">)</span>
+<div class="highlight"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">yaml</span><span class="p">:</span> <span class="s1">'/path/to/app_config.yml'</span><span class="p">)</span>
 
 <span class="c1"># Later on...</span>
 <span class="no">AppConfig</span><span class="o">.</span><span class="n">admin_email</span>  <span class="c1"># =&gt; 'admin@example.com'</span>
@@ -80,11 +80,11 @@ configuration values for a Mongo database.  Check the <code>AppConfig::Storage::
 constant for the default Mongo connection options.</p>
 
 <div class="highlight"><pre><span class="n">mongo_opts</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">:host</span>       <span class="o">=&gt;</span> <span class="s1">'localhost'</span><span class="p">,</span>   <span class="c1"># default</span>
-  <span class="ss">:database</span>   <span class="o">=&gt;</span> <span class="s1">'app_config'</span><span class="p">,</span>  <span class="c1"># default</span>
-  <span class="ss">:collection</span> <span class="o">=&gt;</span> <span class="s1">'app_config'</span>   <span class="c1"># default</span>
+  <span class="ss">host</span><span class="p">:</span>       <span class="s1">'localhost'</span><span class="p">,</span>   <span class="c1"># default</span>
+  <span class="ss">database</span><span class="p">:</span>   <span class="s1">'app_config'</span><span class="p">,</span>  <span class="c1"># default</span>
+  <span class="ss">collection</span><span class="p">:</span> <span class="s1">'app_config'</span>   <span class="c1"># default</span>
 <span class="p">}</span>
-<span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">:mongo</span> <span class="o">=&gt;</span> <span class="n">mongo_opts</span><span class="p">)</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">mongo</span><span class="p">:</span> <span class="n">mongo_opts</span><span class="p">)</span>
 
 <span class="no">AppConfig</span><span class="o">.</span><span class="n">admin_email</span>  <span class="c1"># =&gt; 'admin@example.com'</span>
 
@@ -98,7 +98,7 @@ constant for the default Mongo connection options.</p>
 might lend well to versioned configurations; collection names such as
 <code>app_config_v1</code>, <code>app_config_v2</code>, etc.</p>
 
-<div class="highlight"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">:mongo</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:collection</span> <span class="o">=&gt;</span> <span class="s1">'app_config_v2'</span> <span class="p">})</span>
+<div class="highlight"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">mongo</span><span class="p">:</span> <span class="p">{</span> <span class="ss">collection</span><span class="p">:</span> <span class="s1">'app_config_v2'</span> <span class="p">})</span>
 </pre></div>
 
 <h2>
