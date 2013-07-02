@@ -3,166 +3,131 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
-    <title>AppConfig - Simple Ruby framework-agnostic application configuration.</title>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>AppConfig by Oshuma</title>
   </head>
 
   <body>
-
     <header>
-      <div class="container">
+      <div class="inner">
         <h1>AppConfig</h1>
         <h2>Simple Ruby framework-agnostic application configuration.</h2>
-
-        <section id="downloads">
-          <a href="https://github.com/Oshuma/app_config" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-          <a href="https://github.com/Oshuma/app_config/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/Oshuma/app_config/tarball/master" class="btn">Download as .tar.gz</a>
-        </section>
+        <a href="https://github.com/Oshuma/app_config" class="button"><small>View project on</small>GitHub</a>
       </div>
     </header>
 
-    <div class="container">
-      <section id="main_content">
-<p>An easy to use, customizable library to easily store and retrieve application
-(or library) configuration, API keys or basically anything in 'key/value' pairs.</p>
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h2>
+<a name="deprecation-note" class="anchor" href="#deprecation-note"><span class="octicon octicon-link"></span></a>Deprecation Note</h2>
 
-<h2>Usage</h2>
+<p>Version <code>2.0</code> is <strong>not</strong> backwards compatible with the <a href="https://github.com/Oshuma/app_config/tree/1.x">1.x</a> branch.</p>
 
-<p>Usage is simple.  Just pass either a hash of options, or a block, to {AppConfig.setup}.</p>
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Usage is simple.  Just pass either a hash of options, or a block, to <code>AppConfig.setup!</code>.</p>
 
 <p>In it's simplest form, you can use it like so:</p>
 
-<div class="highlight">
-<pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="ss">:admin_email</span> <span class="o">=&gt;</span> <span class="s1">'admin@example.com'</span><span class="p">)</span>
+<div class="highlight"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">:admin_email</span> <span class="o">=&gt;</span> <span class="s1">'admin@example.com'</span><span class="p">)</span>
 <span class="c1"># ..or..</span>
-<span class="no">AppConfig</span><span class="o">.</span><span class="n">setup</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-  <span class="n">config</span><span class="o">[</span><span class="ss">:admin_email</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'admin@example.com'</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">admin_email</span> <span class="o">=</span> <span class="s1">'admin@example.com'</span>
 <span class="k">end</span>
 
-<span class="c1"># Strings or symbols as keys.</span>
-<span class="no">AppConfig</span><span class="o">[</span><span class="ss">:admin_email</span><span class="o">]</span> <span class="c1"># =&gt; 'admin@example.com'</span>
-</pre>
-</div>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">admin_email</span>  <span class="c1"># =&gt; 'admin@example.com'</span>
+</pre></div>
 
+<p>You may also specify the storage method along with options specific to that storage method.</p>
 
-<p>You may also specify the storage method along with options specific to that storage method.
-Check the <a href="https://github.com/Oshuma/app_config/wiki">wiki</a> for more usage examples.</p>
-
-<h2>Deprecation Note</h2>
-
-<p>
-Version <code>1.0</code> is <strong>*not*</strong> backwards compatible with <code>0.7.1</code>!
-See the <a href="https://github.com/Oshuma/app_config/wiki">wiki</a> for upgrade instructions.
-</p>
-
-
-<h2>AppConfig::Storage::YAML</h2>
+<h2>
+<a name="yaml" class="anchor" href="#yaml"><span class="octicon octicon-link"></span></a>YAML</h2>
 
 <p>Given this YAML file:</p>
 
-<div class="highlight">
-<pre><span class="nn">---</span>
+<div class="highlight"><pre><span class="nn">---</span>
 <span class="l-Scalar-Plain">admin_email</span><span class="p-Indicator">:</span> <span class="s">'admin@example.com'</span>
 <span class="l-Scalar-Plain">api_name</span><span class="p-Indicator">:</span>    <span class="s">'Supr</span><span class="nv"> </span><span class="s">Webz</span><span class="nv"> </span><span class="s">2.0'</span>
 <span class="l-Scalar-Plain">api_key</span><span class="p-Indicator">:</span>     <span class="s">'SUPERAWESOMESERVICE'</span>
-</pre>
-</div>
-
+</pre></div>
 
 <p>Use it like so:</p>
 
-<div class="highlight">
-<pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="ss">:yaml</span> <span class="o">=&gt;</span> <span class="s1">'/path/to/app_config.yml'</span><span class="p">)</span>
+<div class="highlight"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">:yaml</span> <span class="o">=&gt;</span> <span class="s1">'/path/to/app_config.yml'</span><span class="p">)</span>
 
 <span class="c1"># Later on...</span>
-<span class="c1"># Strings or symbols as keys.</span>
-<span class="no">AppConfig</span><span class="o">[</span><span class="s1">'admin_email'</span><span class="o">]</span> <span class="c1"># =&gt; 'admin@example.com'</span>
-<span class="no">AppConfig</span><span class="o">[</span><span class="ss">:api_name</span><span class="o">]</span>     <span class="c1"># =&gt; 'Supr Webz 2.0'</span>
-<span class="no">AppConfig</span><span class="o">[</span><span class="ss">:api_key</span><span class="o">]</span>      <span class="c1"># =&gt; 'SUPERAWESOMESERVICE'</span>
-</pre>
-</div>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">admin_email</span>  <span class="c1"># =&gt; 'admin@example.com'</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">api_name</span>     <span class="c1"># =&gt; 'Supr Webz 2.0'</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">api_key</span>      <span class="c1"># =&gt; 'SUPERAWESOMESERVICE'</span>
+</pre></div>
 
+<h2>
+<a name="mongo" class="anchor" href="#mongo"><span class="octicon octicon-link"></span></a>Mongo</h2>
 
-<h2>AppConfig::Storage::Mongo</h2>
-
-<p>You can pass a <code>:mongo</code> options hash to {AppConfig.setup} which should contain
-configuration values for a Mongo database.  Check the {AppConfig::Storage::Mongo::DEFAULTS}
+<p>You can pass a <code>:mongo</code> options hash to <code>AppConfig.setup!</code> which should contain
+configuration values for a Mongo database.  Check the <code>AppConfig::Storage::Mongo::DEFAULTS</code>
 constant for the default Mongo connection options.</p>
 
-<div class="highlight">
-<pre><span class="n">mongo_opts</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight"><pre><span class="n">mongo_opts</span> <span class="o">=</span> <span class="p">{</span>
   <span class="ss">:host</span>       <span class="o">=&gt;</span> <span class="s1">'localhost'</span><span class="p">,</span>   <span class="c1"># default</span>
   <span class="ss">:database</span>   <span class="o">=&gt;</span> <span class="s1">'app_config'</span><span class="p">,</span>  <span class="c1"># default</span>
   <span class="ss">:collection</span> <span class="o">=&gt;</span> <span class="s1">'app_config'</span>   <span class="c1"># default</span>
 <span class="p">}</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">:mongo</span> <span class="o">=&gt;</span> <span class="n">mongo_opts</span><span class="p">)</span>
 
-<span class="no">AppConfig</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="ss">:mongo</span> <span class="o">=&gt;</span> <span class="n">mongo_opts</span><span class="p">)</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">admin_email</span>  <span class="c1"># =&gt; 'admin@example.com'</span>
 
-<span class="no">AppConfig</span><span class="o">[</span><span class="ss">:admin_email</span><span class="o">]</span>
-<span class="c1"># =&gt; 'admin@example.com'</span>
-
-<span class="c1"># Override an existing value (saves to the database):</span>
-<span class="no">AppConfig</span><span class="o">[</span><span class="ss">:admin_email</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'other_admin@example.com'</span>
-</pre>
-</div>
-
+<span class="c1"># Override an existing value and save to the database:</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">admin_email</span> <span class="o">=</span> <span class="s1">'other_admin@example.com'</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">save!</span>
+</pre></div>
 
 <p>The values are read/saved (by default) to the <code>app_config</code> database and
 <code>app_config</code> collection.  These defaults can be overridden, however, which
 might lend well to versioned configurations; collection names such as
 <code>app_config_v1</code>, <code>app_config_v2</code>, etc.</p>
 
-<div class="highlight">
-<pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="ss">:mongo</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:collection</span> <span class="o">=&gt;</span> <span class="s1">'app_config_v2'</span> <span class="p">})</span>
-</pre>
-</div>
+<div class="highlight"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">:mongo</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:collection</span> <span class="o">=&gt;</span> <span class="s1">'app_config_v2'</span> <span class="p">})</span>
+</pre></div>
 
+<h2>
+<a name="more-usage-examples" class="anchor" href="#more-usage-examples"><span class="octicon octicon-link"></span></a>More Usage Examples</h2>
 
-<h2>Environment Mode</h2>
+<ul>
+<li><a href="https://github.com/Oshuma/app_config/wiki/Mongo">Mongo</a></li>
+<li><a href="https://github.com/Oshuma/app_config/wiki/YAML">YAML</a></li>
+</ul>
+        </section>
 
-<p>There's also an 'environment mode' where you can organize the config
-sort of like the Rails database config. Given this YAML file:</p>
+        <aside id="sidebar">
+          <a href="https://github.com/Oshuma/app_config/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/Oshuma/app_config/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
 
-<div class="highlight">
-<pre><span class="c1"># Rails.root/config/app_config.yml</span>
-<span class="l-Scalar-Plain">development</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">title</span><span class="p-Indicator">:</span> <span class="s">'Development</span><span class="nv"> </span><span class="s">Mode'</span>
+          <p class="repo-owner"><a href="https://github.com/Oshuma/app_config"></a> is maintained by <a href="https://github.com/Oshuma">Oshuma</a>.</p>
 
-<span class="l-Scalar-Plain">production</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">title</span><span class="p-Indicator">:</span> <span class="s">'Production</span><span class="nv"> </span><span class="s">Mode'</span>
-</pre>
-</div>
-
-
-<p>Set the <code>:env</code> option to your desired environment.</p>
-
-<div class="highlight">
-<pre><span class="c1"># Rails.root/config/initializers/app_config.rb</span>
-<span class="no">AppConfig</span><span class="o">.</span><span class="n">setup</span><span class="p">({</span>
-  <span class="ss">:yaml</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="si">#{</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="si">}</span><span class="s2">/config/app_config.yml"</span><span class="p">,</span>
-  <span class="ss">:env</span>  <span class="o">=&gt;</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span>  <span class="c1"># or any string</span>
-<span class="p">})</span>
-
-<span class="c1"># Uses the given environment section of the config.</span>
-<span class="no">AppConfig</span><span class="o">[</span><span class="ss">:title</span><span class="o">]</span>
-<span class="c1"># =&gt; 'Production Mode'</span>
-</pre>
-</div>
-
-    <div id="donate">
-      <p>Please help support this project by donating a buck or two.</p>
-      <a title="Donate with PayPal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=3N885MZB7QCY6&lc=US&item_name=Dale%20Campbell&item_number=app_config&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted"><img alt="PayPal - The safer, easier way to pay online!" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" /></a>
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
     </div>
 
-      </section>
-    </div>
-
-              <script type="text/javascript">
+            <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -172,5 +137,6 @@ sort of like the Rails database config. Given this YAML file:</p>
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
+
   </body>
 </html>
