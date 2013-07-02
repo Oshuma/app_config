@@ -75,5 +75,5 @@ The values are read/saved (by default) to the `app_config` database and
 might lend well to versioned configurations; collection names such as
 `app_config_v1`, `app_config_v2`, etc.
 
-    AppConfig.setup!(mongo: { :collection => 'app_config_v2' })
+    AppConfig.setup!(mongo: { collection: 'app_config_v2' })
 
