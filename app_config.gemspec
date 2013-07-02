@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
 
   s.authors = ['Dale Campbell']
   s.email = ['oshuma@gmail.com']
-  s.homepage = 'http://oshuma.github.com/app_config'
+  s.homepage = 'http://oshuma.github.io/app_config'
 
   s.summary = %q{Quick and easy application configuration.}
   s.description = %q{An easy to use, customizable library to easily store and retrieve application configuration.}
