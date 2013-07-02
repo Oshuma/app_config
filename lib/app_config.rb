@@ -1,7 +1,7 @@
-require 'core_ext/hashish'
+require 'ostruct'
 
 module AppConfig
-  VERSION = '1.1.1'
+  autoload :VERSION, 'app_config/version'
 
   autoload :Error,   'app_config/error'
   autoload :Storage, 'app_config/storage'
@@ -14,8 +14,7 @@ module AppConfig
     # Valid storage methods:
     # * `:mongo` - {AppConfig::Storage::Mongo AppConfig::Storage::Mongo}
     # * `:yaml` - {AppConfig::Storage::YAML AppConfig::Storage::YAML}
-    def setup(options = {}, &block)
-      warn "DEPRECATION WARNING: AppConfig.setup will be renamed to AppConfig.setup! in 2.0."
+    def setup!(options = {}, &block)
       @@options = options
 
       if @@options[:yaml]
@@ -23,7 +22,7 @@ module AppConfig
       elsif @@options[:mongo]
         @@storage = AppConfig::Storage::Mongo.new(@@options.delete(:mongo))
       else
-        @@storage = Hash.new(&Storage::DEEP_HASH)
+        @@storage = AppConfig::Storage::Base.new
       end
 
       yield @@storage if block_given?
@@ -31,64 +30,30 @@ module AppConfig
       to_hash
     end
 
-    # Returns `true` if {AppConfig.setup AppConfig.setup} has been called.
+    # Returns `true` if {AppConfig.setup! AppConfig.setup!} has been called.
     def setup?
-      !!(defined?(@@storage) && !@@storage.empty?)
+      defined?(@@storage) && !@@storage.nil?
     end
 
     # Clears the `@@storage`.
     def reset!
-      if defined?(@@storage)
-        remove_class_variable(:@@storage)
-        true
-      else
-        false
-      end
-    end
-
-    # Access the configured `key`'s value.
-    def [](key)
-      warn "DEPRECATION WARNING: AppConfig.[] is deprecated and will be removed in 2.0."
-      setup unless setup?
-      storage[key]
-    end
-
-    # Set a new `value` for `key` (persistence depends on the type of Storage).
-    def []=(key, value)
-      warn "DEPRECATION WARNING: AppConfig.[]= is deprecated and will be removed in 2.0."
-      setup unless setup?
-      storage[key] = value
-    end
-
-    def empty?
-      warn "DEPRECATION WARNING: AppConfig.empty? is deprecated and will be removed in 2.0."
-      storage.empty?
+      @@storage = nil
     end
 
     def to_hash
-      unless setup?
-        @@storage = default_storage
-      end
+      storage ? storage.to_hash : {}
+    end
 
-      storage.to_hash
+    # Wrap `method_missing` to proxy to `storage`.
+    def method_missing(name, *args)
+      storage.send(name.to_sym, *args)
     end
 
     private
 
-    # Returns a nested Hash as a sane default.
-    def default_storage
-      Hash.new(&Storage::DEEP_HASH)
-    end
-
-    def environment
-      warn "DEPRECATION WARNING: Environment mode will be removed in 2.0."
-      (@@options[:environment] || @@options[:env]) || nil
-    end
-    alias_method :env, :environment
-
     # Returns the `@@storage` contents, which is what is exposed as the configuration.
     def storage
-      environment ? @@storage[environment] : @@storage
+      @@storage
     end
 
   end # self

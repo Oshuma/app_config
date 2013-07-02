@@ -14,10 +14,10 @@ RSpec.configure do |config|
     File.expand_path(File.join(File.dirname(__FILE__), 'fixtures', name))
   end
 
-  # AppConfig.setup wrapper.  Accepts a hash of +options+.
+  # AppConfig.setup! wrapper.  Accepts a hash of +options+.
   def config_for(options)
     AppConfig.reset!
-    AppConfig.setup(options)
+    AppConfig.setup!(options)
   end
 
   # Setup YAML options and pass to config_for().
