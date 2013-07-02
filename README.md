@@ -6,13 +6,6 @@ An easy to use, customizable library to easily store and retrieve application
 AppConfig requires at least Ruby 1.9.
 
 
-## Deprecation Note
-
-Version `2.0` is **not** backwards compatible with the `1.x` branch.
-
-See the [wiki](https://github.com/Oshuma/app_config/wiki) for upgrade instructions.
-
-
 ## Usage
 
 Usage is simple.  Just pass either a hash of options, or a block, to {AppConfig.setup!}.
@@ -31,7 +24,7 @@ You may also specify the storage method along with options specific to that stor
 Check the [wiki](https://github.com/Oshuma/app_config/wiki) for more usage examples.
 
 
-## AppConfig::Storage::YAML
+## YAML
 
 Given this YAML file:
 
@@ -50,7 +43,7 @@ Use it like so:
     AppConfig.api_key      # => 'SUPERAWESOMESERVICE'
 
 
-## AppConfig::Storage::Mongo
+## Mongo
 
 You can pass a `:mongo` options hash to {AppConfig.setup!} which should contain
 configuration values for a Mongo database.  Check the {AppConfig::Storage::Mongo::DEFAULTS}
@@ -77,3 +70,9 @@ might lend well to versioned configurations; collection names such as
 
     AppConfig.setup!(mongo: { collection: 'app_config_v2' })
 
+
+## Deprecation Note
+
+Version `2.0` is **not** backwards compatible with the `1.x` branch.
+
+See the [wiki](https://github.com/Oshuma/app_config/wiki) for upgrade instructions.
