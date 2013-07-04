@@ -8,7 +8,7 @@ AppConfig requires at least Ruby 1.9.
 
 ## Usage
 
-Usage is simple.  Just pass either a hash of options, or a block, to {AppConfig.setup!}.
+Usage is simple.  Just pass either a hash of options, or a block, to `AppConfig.setup!`.
 
 In it's simplest form, you can use it like so:
 
@@ -51,8 +51,8 @@ AppConfig.api_key      # => 'SUPERAWESOMESERVICE'
 
 ## Mongo
 
-You can pass a `:mongo` options hash to {AppConfig.setup!} which should contain
-configuration values for a Mongo database.  Check the {AppConfig::Storage::Mongo::DEFAULTS}
+You can pass a `:mongo` options hash to `AppConfig.setup!` which should contain
+configuration values for a Mongo database.  Check the `AppConfig::Storage::Mongo::DEFAULTS`
 constant for the default Mongo connection options.
 
 ```ruby
@@ -144,6 +144,6 @@ AppConfig.setup!(mongo: true)
 
 ## Deprecation Note
 
-Version `2.0` is **not** backwards compatible with the `1.x` branch.
+Version `2.x` is **not** backwards compatible with the `1.x` branch.
 
 See the [wiki](https://github.com/Oshuma/app_config/wiki) for upgrade instructions.
