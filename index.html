@@ -4,6 +4,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
@@ -27,8 +28,7 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-
-<h2>
+          <h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <p>Usage is simple.  Just pass either a hash of options, or a block, to <code>AppConfig.setup!</code>.</p>
@@ -44,7 +44,8 @@
 <span class="no">AppConfig</span><span class="o">.</span><span class="n">admin_email</span>  <span class="c1"># =&gt; 'admin@example.com'</span>
 </pre></div>
 
-<p>You may also specify the storage method along with options specific to that storage method.</p>
+<p>You may also specify the storage method along with options specific to that storage method.
+Check the <a href="https://github.com/Oshuma/app_config/wiki">wiki</a> for more usage examples.</p>
 
 <h2>
 <a name="yaml" class="anchor" href="#yaml"><span class="octicon octicon-link"></span></a>YAML</h2>
@@ -74,11 +75,13 @@
 configuration values for a Mongo database.  Check the <code>AppConfig::Storage::Mongo::DEFAULTS</code>
 constant for the default Mongo connection options.</p>
 
-<div class="highlight"><pre><span class="n">mongo_opts</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">host</span><span class="p">:</span>       <span class="s1">'localhost'</span><span class="p">,</span>   <span class="c1"># default</span>
-  <span class="ss">database</span><span class="p">:</span>   <span class="s1">'app_config'</span><span class="p">,</span>  <span class="c1"># default</span>
-  <span class="ss">collection</span><span class="p">:</span> <span class="s1">'app_config'</span>   <span class="c1"># default</span>
+<div class="highlight"><pre><span class="c1"># These are the defaults.</span>
+<span class="n">mongo_opts</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">host</span><span class="p">:</span>       <span class="s1">'localhost'</span><span class="p">,</span>
+  <span class="ss">database</span><span class="p">:</span>   <span class="s1">'app_config'</span><span class="p">,</span>
+  <span class="ss">collection</span><span class="p">:</span> <span class="s1">'app_config'</span>
 <span class="p">}</span>
+
 <span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">mongo</span><span class="p">:</span> <span class="n">mongo_opts</span><span class="p">)</span>
 
 <span class="no">AppConfig</span><span class="o">.</span><span class="n">admin_email</span>  <span class="c1"># =&gt; 'admin@example.com'</span>
@@ -97,18 +100,69 @@ might lend well to versioned configurations; collection names such as
 </pre></div>
 
 <h2>
-  <a name="deprecation-note" class="anchor" href="#deprecation-note"><span class="octicon octicon-link"></span></a>Deprecation Note</h2>
+<a name="postgresql" class="anchor" href="#postgresql"><span class="octicon octicon-link"></span></a>PostgreSQL</h2>
 
-<p>Version <code>2.0</code> is <strong>not</strong> backwards compatible with the <a href="https://github.com/Oshuma/app_config/tree/1.x">1.x</a> branch.</p>
+<p>Using PostgreSQL is similar to a Mongo setup.
+The only current requirement is that the table have a primary key named <code>id</code>.
+All other columns are used as configuration keys.</p>
 
+<p><strong>Note:</strong> The database and schema must exist prior to calling <code>AppConfig.setup!</code>.</p>
+
+<p>Given this schema:</p>
+
+<div class="highlight"><pre><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">app_config</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="n">bigserial</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+  <span class="n">admin_email</span> <span class="nb">character</span> <span class="nb">varying</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">'admin@example.com'</span><span class="p">::</span><span class="nb">character</span> <span class="nb">varying</span><span class="p">,</span>
+  <span class="n">api_key</span> <span class="nb">character</span> <span class="nb">varying</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">'SOME_API_KEY'</span><span class="p">::</span><span class="nb">character</span> <span class="nb">varying</span>
+<span class="p">);</span>
+</pre></div>
+
+<p>Setup AppConfig:</p>
+
+<div class="highlight"><pre><span class="c1"># These are the defaults.</span>
+<span class="n">postgres_opts</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">host</span><span class="p">:</span>     <span class="s1">'localhost'</span><span class="p">,</span>
+  <span class="ss">port</span><span class="p">:</span>     <span class="mi">5432</span><span class="p">,</span>
+  <span class="ss">dbname</span><span class="p">:</span>   <span class="s1">'app_config'</span><span class="p">,</span>
+  <span class="ss">table</span><span class="p">:</span>    <span class="s1">'app_config'</span><span class="p">,</span>
+
+  <span class="c1"># If these are nil (or omitted), the PostgreSQL defaults will be used.</span>
+  <span class="ss">user</span><span class="p">:</span>     <span class="kp">nil</span><span class="p">,</span>
+  <span class="ss">password</span><span class="p">:</span> <span class="kp">nil</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">postgres</span><span class="p">:</span> <span class="n">postgres_opts</span><span class="p">)</span>
+
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">admin_email</span>  <span class="c1"># =&gt; 'admin@example.com'</span>
+
+<span class="c1"># Override an existing value and save to the database:</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">admin_email</span> <span class="o">=</span> <span class="s1">'another_admin@example.com'</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">save!</span>
+</pre></div>
 
 <h2>
-<a name="more-usage-examples" class="anchor" href="#more-usage-examples"><span class="octicon octicon-link"></span></a>More Usage Examples</h2>
+<a name="using-storage-defaults" class="anchor" href="#using-storage-defaults"><span class="octicon octicon-link"></span></a>Using Storage Defaults</h2>
+
+<p>All storage options accept <code>true</code> as a value, which uses the default options for that storage.</p>
+
+<p>For example, to use the <a href="https://github.com/Oshuma/app_config/blob/master/lib/app_config/storage/mongo.rb#L9">Mongo</a> defaults:</p>
+
+<div class="highlight"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">mongo</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
+</pre></div>
+
+<h3>
+<a name="storage-defaults" class="anchor" href="#storage-defaults"><span class="octicon octicon-link"></span></a>Storage Defaults</h3>
 
 <ul>
-<li><a href="https://github.com/Oshuma/app_config/wiki/Mongo">Mongo</a></li>
-<li><a href="https://github.com/Oshuma/app_config/wiki/YAML">YAML</a></li>
-</ul>
+<li><a href="https://github.com/Oshuma/app_config/blob/master/lib/app_config/storage/mongo.rb#L9">Mongo</a></li>
+<li><a href="https://github.com/Oshuma/app_config/blob/master/lib/app_config/storage/postgres.rb#L8">Postgres</a></li>
+<li><a href="https://github.com/Oshuma/app_config/blob/master/lib/app_config/storage/yaml.rb#L9">YAML</a></li>
+</ul><h2>
+<a name="deprecation-note" class="anchor" href="#deprecation-note"><span class="octicon octicon-link"></span></a>Deprecation Note</h2>
+
+<p>Version <code>2.x</code> is <strong>not</strong> backwards compatible with the <code>1.x</code> branch.</p>
+
+<p>See the <a href="https://github.com/Oshuma/app_config/wiki">wiki</a> for current usage instructions.</p>
         </section>
 
         <aside id="sidebar">
