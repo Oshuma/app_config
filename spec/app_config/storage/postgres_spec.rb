@@ -3,7 +3,6 @@ require 'spec_helper'
 describe AppConfig::Storage::Postgres do
 
   before(:all) do
-    AppConfig.reset!
     config_for_postgres
   end
 
@@ -13,11 +12,14 @@ describe AppConfig::Storage::Postgres do
 
   it 'should update the values' do
     new_api_key = 'SOME_NEW_API_KEY'
-
     AppConfig.api_key = new_api_key
-    AppConfig.api_key.should == new_api_key
 
     AppConfig.save!.should be_true
+
+    # Reload AppConfig
+    config_for_postgres
+
+    AppConfig.api_key.should == new_api_key
   end
 
 end
