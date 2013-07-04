@@ -82,6 +82,66 @@ AppConfig.setup!(mongo: { collection: 'app_config_v2' })
 ```
 
 
+## PostgreSQL
+
+Using PostgreSQL is similar to a Mongo setup.
+The only current requirement is that the table have a primary key named `id`.
+All other columns are used as configuration keys.
+
+**Note:** The database and schema must exist prior to calling `AppConfig.setup!`.
+
+Given this schema:
+
+```sql
+CREATE TABLE app_config (
+  id bigserial NOT NULL PRIMARY KEY,
+  admin_email character varying(255) DEFAULT 'admin@example.com'::character varying,
+  api_key character varying(255) DEFAULT 'SOME_API_KEY'::character varying
+);
+```
+
+Setup AppConfig:
+
+```ruby
+# These are the defaults.
+postgres_opts = {
+  host:     'localhost',
+  port:     5432,
+  dbname:   'app_config',
+  table:    'app_config',
+
+  # If these are nil (or omitted), the PostgreSQL defaults will be used.
+  user:     nil,
+  password: nil,
+}
+
+AppConfig.setup!(postgres: postgres_opts)
+
+AppConfig.admin_email  # => 'admin@example.com'
+
+# Override an existing value and save to the database:
+AppConfig.admin_email = 'another_admin@example.com'
+AppConfig.save!
+```
+
+
+## Using Storage Defaults
+
+All storage options accept `true` as a value, which uses the default options for that storage.
+
+For example, to use the [Mongo](https://github.com/Oshuma/app_config/blob/master/lib/app_config/storage/mongo.rb#L9) defaults:
+
+```ruby
+AppConfig.setup!(mongo: true)
+```
+
+### Storage Defaults
+
+* [Mongo](https://github.com/Oshuma/app_config/blob/master/lib/app_config/storage/mongo.rb#L9)
+* [Postgres](https://github.com/Oshuma/app_config/blob/master/lib/app_config/storage/postgres.rb#L8)
+* [YAML](https://github.com/Oshuma/app_config/blob/master/lib/app_config/storage/yaml.rb#L9)
+
+
 ## Deprecation Note
 
 Version `2.0` is **not** backwards compatible with the `1.x` branch.
