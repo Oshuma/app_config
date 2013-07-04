@@ -16,7 +16,12 @@ module AppConfig
       }
 
       def initialize(options)
-        @options = DEFAULTS.merge(options)
+        # Allows passing `true` as an option.
+        if options.is_a?(Hash)
+          @options = DEFAULTS.merge(options)
+        else
+          @options = DEFAULTS
+        end
 
         setup_connection!
         fetch_data!

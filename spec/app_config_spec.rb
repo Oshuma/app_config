@@ -25,7 +25,7 @@ describe AppConfig do
 
   it 'should reset @@storage' do
     # configure first
-    config_for_yaml(:api_key => 'API_KEY')
+    config_for_yaml
     # then reset
     AppConfig.reset!
     AppConfig.send(:storage).should be_nil
@@ -44,15 +44,6 @@ describe AppConfig do
   it 'should be setup' do
     config_for_yaml
     AppConfig.should be_setup
-  end
-
-  it 'should create nested keys' do
-    pending 'Re-implement this later.'
-    AppConfig.reset!
-    AppConfig.setup!
-
-    AppConfig.person.name.first = 'Dale'
-    AppConfig.person.name.first.should == 'Dale'
   end
 
   it 'returns a Hash on setup' do

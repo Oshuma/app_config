@@ -15,7 +15,12 @@ module AppConfig
       }
 
       def initialize(options)
-        @options = DEFAULTS.merge(options)
+        # Allows passing `true` as an option.
+        if options.is_a?(Hash)
+          @options = DEFAULTS.merge(options)
+        else
+          @options = DEFAULTS
+        end
 
         # HACK: Remove the `user` and `password` keys if they're nil, since `@options` is passed directly to `PG.connect`.
         @options.delete(:user) if @options[:user].nil?

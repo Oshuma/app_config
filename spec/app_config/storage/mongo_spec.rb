@@ -20,7 +20,16 @@ describe AppConfig::Storage::Mongo do
   end
 
   it 'should have a @_id variable for the Mongo ID' do
-    AppConfig.class_variable_get(:@@storage).
-      instance_variable_get(:@_id).should_not be_nil
+    AppConfig.class_variable_get(:@@storage)
+      .instance_variable_get(:@_id).should_not be_nil
+  end
+
+  it "uses the defaults when 'true' is passed" do
+    AppConfig.reset!
+    AppConfig.setup!(mongo: true)
+
+    AppConfig.class_variable_get(:@@storage)
+      .instance_variable_get(:@options)
+      .should == AppConfig::Storage::Mongo::DEFAULTS
   end
 end

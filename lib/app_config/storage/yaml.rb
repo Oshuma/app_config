@@ -13,6 +13,9 @@ module AppConfig
       #
       # Defaults to `Dir.home/.app_config.yml`
       def initialize(path = DEFAULT_PATH)
+        # Allows passing `true` as an option.
+        path = DEFAULT_PATH if path == true
+
         # Make sure to use the top-level YAML module here.
         @data = OpenStruct.new(::YAML.load_file(path))
       end

@@ -25,4 +25,13 @@ describe AppConfig::Storage::YAML do
     end
   end
 
+  it "uses the defaults when 'true' is passed" do
+    AppConfig.reset!
+
+    # Hack to use spec config as the 'default'
+    AppConfig::Storage::YAML::DEFAULT_PATH = fixture('app_config.yml')
+
+    AppConfig.setup!(yaml: true)
+    AppConfig.api_key.should_not be_nil
+  end
 end
