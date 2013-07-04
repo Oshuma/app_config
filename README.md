@@ -146,4 +146,4 @@ AppConfig.setup!(mongo: true)
 
 Version `2.x` is **not** backwards compatible with the `1.x` branch.
 
-See the [wiki](https://github.com/Oshuma/app_config/wiki) for upgrade instructions.
+See the [wiki](https://github.com/Oshuma/app_config/wiki) for current usage instructions.
