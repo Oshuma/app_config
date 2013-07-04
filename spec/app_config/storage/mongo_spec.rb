@@ -16,8 +16,7 @@ describe AppConfig::Storage::Mongo do
     AppConfig.api_key = 'SOME_NEW_API_KEY'
     AppConfig.api_key.should == 'SOME_NEW_API_KEY'
 
-    AppConfig.class_variable_get(:@@storage).should_receive(:save!)
-    AppConfig.save!
+    AppConfig.save!.should be_true
   end
 
   it 'should have a @_id variable for the Mongo ID' do

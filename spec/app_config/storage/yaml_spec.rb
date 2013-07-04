@@ -9,7 +9,7 @@ describe AppConfig::Storage::YAML do
 
   it 'should raise file not found' do
     lambda do
-      config_for_yaml(:yaml => 'not/a/real/file.yml')
+      config_for_yaml(yaml: 'not/a/real/file.yml')
     end.should raise_error(Errno::ENOENT)
   end
 

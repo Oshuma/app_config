@@ -7,18 +7,18 @@ module AppConfig
     class Mongo < Storage::Base
 
       DEFAULTS = {
-        :host       => 'localhost',
-        :port       => '27017',
-        :database   => 'app_config',
-        :collection => 'app_config',
-        :user       => nil,
-        :password   => nil
+        host:       'localhost',
+        port:       27017,
+        database:   'app_config',
+        collection: 'app_config',
+        username:   nil,
+        password:   nil,
       }
 
       def initialize(options)
-        @connected = false
         @options = DEFAULTS.merge(options)
-        setup_connection
+
+        setup_connection!
         fetch_data!
       end
 
@@ -35,13 +35,13 @@ module AppConfig
 
       private
 
-      def setup_connection
+      def setup_connection!
         @connection = ::Mongo::Connection.new(@options[:host], @options[:port].to_i)
-        authenticate_connection if @options[:user] && @options[:password]
+        authenticate_connection! if @options[:username] && @options[:password]
       end
 
-      def authenticate_connection
-        database.authenticate(@options[:user], @options[:password])
+      def authenticate_connection!
+        database.authenticate(@options[:username], @options[:password])
       end
 
       def connected?

@@ -23,19 +23,35 @@ RSpec.configure do |config|
   # Setup YAML options and pass to config_for().
   def config_for_yaml(opts = {})
     path = opts[:yaml] || fixture('app_config.yml')
-    config_for({ :yaml => path }.merge(opts))
+    config_for({ yaml: path }.merge(opts))
   end
 
   def config_for_mongo(opts = {}, load_test_data = true)
     mongo = AppConfig::Storage::Mongo::DEFAULTS.merge({
-      :host => 'localhost',
-      :database => 'app_config_test',
+      database: 'app_config_test',
     })
     begin
       load_mongo_test_config(mongo) if load_test_data
-      config_for({:mongo => mongo}.merge(opts))
+      config_for({mongo: mongo}.merge(opts))
     rescue Mongo::ConnectionFailure
       pending "***** Mongo specs require a running MongoDB server *****"
+    end
+  end
+
+  def config_for_postgres(opts = {}, load_test_data = true)
+    postgres = AppConfig::Storage::Postgres::DEFAULTS.merge({
+      dbname: 'app_config_test'
+    })
+
+    begin
+      config_for({postgres: postgres}.merge(opts))
+    rescue PG::Error => e
+      if e.to_s =~ /could not connect to server/
+        pending "***** Postgres specs require a running PostgreSQL server *****"
+      else
+        # Re-raise the exception, since we only care about connectivity here.
+        raise e
+      end
     end
   end
 
