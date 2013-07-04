@@ -44,6 +44,7 @@ RSpec.configure do |config|
     })
 
     begin
+      load_postgres_test_config(postgres) if load_test_data
       config_for({postgres: postgres}.merge(opts))
     rescue PG::Error => e
       if e.to_s =~ /could not connect to server/
@@ -61,7 +62,7 @@ RSpec.configure do |config|
     connection = ::Mongo::Connection.new(options[:host], options[:port].to_i)
     database   = connection.db(options[:database])
     collection = database.collection(options[:collection])
-    test_data = YAML.load_file(fixture('app_config_mongo.yml'))
+    test_data = YAML.load_file(fixture('app_config.yml'))
 
     data = collection.find_one
     if data
@@ -70,4 +71,37 @@ RSpec.configure do |config|
       collection.save(test_data)
     end
   end
+
+  def load_postgres_test_config(options)
+    original_options = options.dup
+
+    options.delete(:user) if options[:user].nil?
+    options.delete(:password) if options[:password].nil?
+
+    table = options.delete(:table)
+
+    begin
+      connection = ::PG.connect(options)
+
+      config = ::YAML.load_file(fixture('app_config.yml'))
+      attrs = config.keys.map { |k| "#{k} character varying(255)" }.join(', ')
+
+      create_query = "CREATE TABLE #{table} (id bigserial primary key, #{attrs})"
+      insert_query = "INSERT INTO #{table} (#{config.keys.join(', ')}) VALUES (#{config.values.map { |v| "'#{v}'" }.join(', ')})"
+
+      connection.exec(create_query)
+      connection.exec(insert_query)
+    rescue PG::Error => e
+      case e.to_s
+      when /database "#{options[:dbname]}" does not exist/
+        %x[createdb -U `whoami` -O `whoami` #{options[:dbname]}]
+        load_postgres_test_config(original_options)
+      when /relation "#{table}" already exists/
+        # no-op
+      else
+        raise e
+      end
+    end
+  end
+
 end
