@@ -39,11 +39,16 @@ module AppConfig
         # Remove the primary key (id) from the SET attributes.
         data_hash.delete(:id)
 
-        set_attrs = data_hash.map { |k, v| "#{k} = '#{v}'" }.join(', ')
+        if @id  # Updating existing values.
+          set_attrs = data_hash.map { |k, v| "#{k} = '#{v}'" }.join(', ')
+          save_query = "UPDATE #{@table} SET #{set_attrs} WHERE id = #{@id}"
+        else  # Creating a new row.
+          columns = data_hash.keys.join(', ')
+          values = data_hash.map { |_, v| "'#{v}'" }.join(', ')
+          save_query = "INSERT INTO #{@table} (#{columns}) VALUES (#{values})"
+        end
 
-        update_query = "UPDATE #{@table} SET #{set_attrs} WHERE id = #{@id}"
-
-        result = @connection.exec(update_query)
+        result = @connection.exec(save_query)
         result.result_status == PG::Constants::PGRES_COMMAND_OK
       end
 
@@ -58,9 +63,14 @@ module AppConfig
         fetch_query = "SELECT * FROM #{@table} ORDER BY id DESC LIMIT 1"
 
         @connection.exec(fetch_query) do |result|
-          result.each do |row|
-            @data = Storage::ConfigData.new(row)
-            @id = @data.id
+          if result.num_tuples == 0
+            @data = Storage::ConfigData.new
+          else
+            # TODO: Looping here is kinda pointless if we're just resetting `@data` on each pass.
+            result.each do |row|
+              @data = Storage::ConfigData.new(row)
+              @id = @data.id
+            end
           end
         end
       end
