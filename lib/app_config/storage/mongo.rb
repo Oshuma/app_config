@@ -30,20 +30,15 @@ module AppConfig
       # Saves the data back to Mongo.  Returns `true`/`false`.
       def save!
         if @_id
-          retval = collection.update({ '_id' => @_id}, @data.to_h)
+          retval = collection.update({ '_id' => @_id}, @data.to_hash)
         else
-          retval = collection.save(@data.to_h)
+          retval = collection.save(@data.to_hash)
         end
 
         !!retval
       end
 
       private
-
-      def setup_connection!
-        @connection = ::Mongo::Connection.new(@options[:host], @options[:port].to_i)
-        authenticate_connection! if @options[:username] && @options[:password]
-      end
 
       def authenticate_connection!
         database.authenticate(@options[:username], @options[:password])
@@ -53,6 +48,14 @@ module AppConfig
         @connection && @connection.connected?
       end
 
+      def collection
+        @collection ||= database.collection(@options[:collection])
+      end
+
+      def database
+        @database ||= @connection.db(@options[:database])
+      end
+
       def fetch_data!
         raise 'Not connected to MongoDB' unless connected?
 
@@ -60,12 +63,9 @@ module AppConfig
         @_id = @data._id
       end
 
-      def database
-        @database ||= @connection.db(@options[:database])
-      end
-
-      def collection
-        @collection ||= database.collection(@options[:collection])
+      def setup_connection!
+        @connection = ::Mongo::Connection.new(@options[:host], @options[:port].to_i)
+        authenticate_connection! if @options[:username] && @options[:password]
       end
 
     end # Mongo

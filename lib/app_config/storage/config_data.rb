@@ -11,6 +11,7 @@ module AppConfig
       def to_hash
         marshal_dump
       end
+      alias_method :to_h, :to_hash
 
     end
   end

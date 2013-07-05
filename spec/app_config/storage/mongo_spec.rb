@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-# TODO: Drop the Mongo test db before running specs.
 describe AppConfig::Storage::Mongo do
 
   before(:all) do
