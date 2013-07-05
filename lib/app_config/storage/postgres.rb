@@ -54,6 +54,10 @@ module AppConfig
 
       private
 
+      def connected?
+        @connection && @connection.status == PG::Constants::CONNECTION_OK
+      end
+
       def fetch_data!
         raise 'Not connected to PostgreSQL' unless connected?
 
@@ -73,10 +77,6 @@ module AppConfig
             end
           end
         end
-      end
-
-      def connected?
-        @connection && @connection.status == PG::Constants::CONNECTION_OK
       end
 
       def setup_connection!
