@@ -3,10 +3,11 @@ module AppConfig
     class Base
 
       def initialize
+        @data = Storage::ConfigData.new
       end
 
       def to_hash
-        defined?(@data) ? @data.marshal_dump : Hash.new
+        defined?(@data) ? @data.to_hash : Hash.new
       end
 
       # Wrap `method_missing` to proxy to `@data`.

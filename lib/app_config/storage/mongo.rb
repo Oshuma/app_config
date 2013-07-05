@@ -56,7 +56,7 @@ module AppConfig
       def fetch_data!
         raise 'Not connected to MongoDB' unless connected?
 
-        @data = OpenStruct.new(collection.find_one)
+        @data = Storage::ConfigData.new(collection.find_one)
         @_id = @data._id
       end
 

@@ -59,7 +59,7 @@ module AppConfig
 
         @connection.exec(fetch_query) do |result|
           result.each do |row|
-            @data = OpenStruct.new(row)
+            @data = Storage::ConfigData.new(row)
             @id = @data.id
           end
         end

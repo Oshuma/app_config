@@ -17,7 +17,7 @@ module AppConfig
         path = DEFAULT_PATH if path == true
 
         # Make sure to use the top-level YAML module here.
-        @data = OpenStruct.new(::YAML.load_file(path))
+        @data = Storage::ConfigData.new(::YAML.load_file(path))
       end
 
     end # YAML
