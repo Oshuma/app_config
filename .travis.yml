@@ -4,6 +4,12 @@ rvm:
   - 1.9.3
   - 2.0.0
 
+before_script:
+  # Setup test Postgres database.
+  - psql -c 'create database app_config_test;' -U postgres
+  - psql -d app_config_test -U postgres -c 'CREATE TABLE app_config (id bigserial primary key, admin_email character varying(255), api_name character varying(255), api_key character varying(255));'
+  - psql -d app_config_test -U postgres -c "INSERT INTO app_config (admin_email, api_name, api_key) VALUES ('admin@example.com', 'Supr Webz 2.0', 'SUPERAWESOMESERVICE')"
+
 env:
   # Ignore warnings when running specs.
   - RUBYOPT="-W0"
@@ -14,3 +20,4 @@ branches:
 
 services:
   - mongodb
+  - postgres
