@@ -32,11 +32,13 @@ module AppConfig
         fetch_data!
       end
 
-      # Saves the data back to Postgres.  Returns `true`/`false`.
+      # Saves the data to Postgres.  Returns `true`/`false`.
       def save!
         # Build the `SET foo = 'bar', ...` string for the UPDATE query.
         data_hash = @data.to_h
-        data_hash.delete(:id)  # Remove the primary key (id) from the SET attributes.
+        # Remove the primary key (id) from the SET attributes.
+        data_hash.delete(:id)
+
         set_attrs = data_hash.map { |k, v| "#{k} = '#{v}'" }.join(', ')
 
         update_query = "UPDATE #{@table} SET #{set_attrs} WHERE id = #{@id}"

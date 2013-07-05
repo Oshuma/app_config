@@ -38,4 +38,5 @@ describe AppConfig::Storage::Postgres do
     .instance_variable_get(:@options)
     .should == AppConfig::Storage::Postgres::DEFAULTS
   end
+
 end
