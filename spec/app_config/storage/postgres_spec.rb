@@ -3,7 +3,7 @@ require 'spec_helper'
 describe AppConfig::Storage::Postgres do
 
   before(:all) do
-    config_for_postgres
+    config_for_postgres(true)
   end
 
   it 'should have some values' do
@@ -35,8 +35,8 @@ describe AppConfig::Storage::Postgres do
     end
 
     AppConfig.class_variable_get(:@@storage)
-    .instance_variable_get(:@options)
-    .should == AppConfig::Storage::Postgres::DEFAULTS
+      .instance_variable_get(:@options)
+      .should == AppConfig::Storage::Postgres::DEFAULTS
   end
 
 end

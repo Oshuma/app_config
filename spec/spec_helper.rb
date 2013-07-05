@@ -38,7 +38,7 @@ RSpec.configure do |config|
     end
   end
 
-  def config_for_postgres(opts = {}, load_test_data = true)
+  def config_for_postgres(load_test_data = false, opts = {})
     postgres = AppConfig::Storage::Postgres::DEFAULTS.merge({
       dbname: 'app_config_test'
     })
