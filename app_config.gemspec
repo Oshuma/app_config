@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.homepage = 'http://oshuma.github.io/app_config'
 
   s.summary = %q{Quick and easy application configuration.}
-  s.description = %q{An easy to use, customizable library to easily store and retrieve application configuration.}
+  s.description = %q{An easy to use, framework agnostic, customizable library to easily store and retrieve application configuration.}
 
   s.add_development_dependency 'bson_ext'
   s.add_development_dependency 'mongo'

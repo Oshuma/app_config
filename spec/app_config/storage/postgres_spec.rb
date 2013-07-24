@@ -12,7 +12,10 @@ describe AppConfig::Storage::Postgres do
 
   it 'should update the values' do
     new_api_key = 'SOME_NEW_API_KEY'
+    new_admin_email = 'foo@example.com'
+
     AppConfig.api_key = new_api_key
+    AppConfig.admin_email = new_admin_email
 
     AppConfig.save!.should be_true
 
@@ -20,6 +23,7 @@ describe AppConfig::Storage::Postgres do
     config_for_postgres
 
     AppConfig.api_key.should == new_api_key
+    AppConfig.admin_email.should == new_admin_email
   end
 
   it "uses the defaults when 'true' is passed" do

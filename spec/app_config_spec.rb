@@ -55,4 +55,12 @@ describe AppConfig do
     config.should be_instance_of(Hash)
   end
 
+  it 'raises NotSetup if .storage is accessed and .setup! has not been called' do
+    AppConfig.remove_class_variable(:@@storage)
+
+    lambda do
+      AppConfig.save!
+    end.should raise_error(AppConfig::Error::NotSetup)
+  end
+
 end

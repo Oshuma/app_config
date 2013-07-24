@@ -13,6 +13,7 @@ module AppConfig
     #
     # Valid storage methods:
     # * `:mongo` - {AppConfig::Storage::Mongo AppConfig::Storage::Mongo}
+    # * `:postgres` - {AppConfig::Storage::Mongo AppConfig::Storage::Postgres}
     # * `:yaml` - {AppConfig::Storage::YAML AppConfig::Storage::YAML}
     def setup!(options = {}, &block)
       @@options = options
@@ -55,7 +56,11 @@ module AppConfig
 
     # Returns the `@@storage` contents, which is what is exposed as the configuration.
     def storage
-      @@storage
+      begin
+        @@storage
+      rescue NameError # @@storage does not exist
+        raise AppConfig::Error::NotSetup unless setup?
+      end
     end
 
   end # self
