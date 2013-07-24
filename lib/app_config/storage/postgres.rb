@@ -60,6 +60,8 @@ module AppConfig
             @connection.exec("SELECT id FROM #{@table}") do |result|
               result.each { |row| @id = row['id'] }
             end
+
+            fetch_data!
           end
 
           true
