@@ -43,9 +43,13 @@ module AppConfig
           set_attrs = data_hash.map { |k, v| "#{k} = '#{v}'" }.join(', ')
           save_query = "UPDATE #{@table} SET #{set_attrs} WHERE id = #{@id}"
         else  # Creating a new row.
-          columns = data_hash.keys.join(', ')
-          values = data_hash.map { |_, v| "'#{v}'" }.join(', ')
-          save_query = "INSERT INTO #{@table} (#{columns}) VALUES (#{values})"
+          if data_hash.empty?
+            save_query = "INSERT INTO #{@table} DEFAULT VALUES"
+          else
+            columns = data_hash.keys.join(', ')
+            values = data_hash.map { |_, v| "'#{v}'" }.join(', ')
+            save_query = "INSERT INTO #{@table} (#{columns}) VALUES (#{values})"
+          end
         end
 
         result = @connection.exec(save_query)
