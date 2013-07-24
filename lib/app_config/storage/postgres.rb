@@ -53,7 +53,19 @@ module AppConfig
         end
 
         result = @connection.exec(save_query)
-        result.result_status == PG::Constants::PGRES_COMMAND_OK
+
+        if result.result_status == PG::Constants::PGRES_COMMAND_OK
+          # Initial write (no rows exist), so we have to set @id.
+          if result.cmd_status.split[0] == 'INSERT'
+            @connection.exec("SELECT id FROM #{@table}") do |result|
+              result.each { |row| @id = row['id'] }
+            end
+          end
+
+          true
+        else
+          false
+        end
       end
 
       private
