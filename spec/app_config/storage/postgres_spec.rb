@@ -63,4 +63,10 @@ describe AppConfig::Storage::Postgres do
       .instance_variable_set(:@id, original_id)
   end
 
+  it "turns Postgres booleans into Ruby objects" do
+    # set in spec/fixtures/app_config.yml
+    AppConfig.true_option.class.should  == TrueClass
+    AppConfig.false_option.class.should == FalseClass
+  end
+
 end

@@ -88,8 +88,11 @@ module AppConfig
           if result.num_tuples == 0
             @data = Storage::ConfigData.new
           else
-            # TODO: Looping here is kinda pointless if we're just resetting `@data` on each pass.
             result.each do |row|
+              # Convert Postgres booleans into Ruby objects.
+              row.each { |k, v| row[k] = true  if v == 't' }
+              row.each { |k, v| row[k] = false if v == 'f' }
+
               @data = Storage::ConfigData.new(row)
               @id = @data.id
             end

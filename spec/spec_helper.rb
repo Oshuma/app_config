@@ -88,7 +88,13 @@ RSpec.configure do |config|
       connection = ::PG.connect(options)
 
       config = ::YAML.load_file(fixture('app_config.yml'))
-      attrs = config.keys.map { |k| "#{k} character varying(255)" }.join(', ')
+      attrs = config.map do |k, v|
+        if v.class == String
+          "#{k} character varying(255)"
+        else
+          "#{k} boolean DEFAULT #{v}"
+        end
+      end.join(', ')
 
       create_query = "CREATE TABLE #{table} (id bigserial primary key, #{attrs})"
       insert_query = "INSERT INTO #{table} (#{config.keys.join(', ')}) VALUES (#{config.values.map { |v| "'#{v}'" }.join(', ')})"
