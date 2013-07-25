@@ -32,6 +32,7 @@ module AppConfig
         fetch_data!
       end
 
+      # Reload the data from storage.  Returns `true`/`false`.
       def reload!
         fetch_data!
       end

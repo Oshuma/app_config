@@ -9,6 +9,8 @@ Gem::Specification.new do |s|
   s.email = ['oshuma@gmail.com']
   s.homepage = 'http://oshuma.github.io/app_config'
 
+  s.license = 'MIT'
+
   s.summary = %q{Quick and easy application configuration.}
   s.description = %q{An easy to use, framework agnostic, customizable library to easily store and retrieve application configuration.}
 
