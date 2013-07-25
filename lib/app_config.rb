@@ -38,6 +38,15 @@ module AppConfig
       defined?(@@storage) && !@@storage.nil?
     end
 
+    # Reload the data from storage.
+    def reload!
+      if storage.respond_to?(:reload!)
+        storage.reload!
+      else
+        raise AppConfig::Error::MustOverride.new("#{storage.class}#reload!")
+      end
+    end
+
     # Clears the `@@storage`.
     def reset!
       @@storage = nil

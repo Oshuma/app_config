@@ -32,6 +32,10 @@ module AppConfig
         fetch_data!
       end
 
+      def reload!
+        fetch_data!
+      end
+
       # Saves the data to Postgres.  Returns `true`/`false`.
       def save!
         # Build the `SET foo = 'bar', ...` string for the UPDATE query.

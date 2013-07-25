@@ -69,4 +69,13 @@ describe AppConfig::Storage::Postgres do
     AppConfig.false_option.class.should == FalseClass
   end
 
+  it 'should reload the data' do
+    # Set a variable, but do not call AppConfig.save!
+    AppConfig.true_option = false
+
+    AppConfig.reload!
+
+    AppConfig.true_option.should == true
+  end
+
 end

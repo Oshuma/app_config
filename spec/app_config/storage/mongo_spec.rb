@@ -31,4 +31,17 @@ describe AppConfig::Storage::Mongo do
       .instance_variable_get(:@options)
       .should == AppConfig::Storage::Mongo::DEFAULTS
   end
+
+  it 'should reload the data' do
+    AppConfig.reset!
+    config_for_mongo(true, false)
+
+    # Set a variable, but do not call AppConfig.save!
+    AppConfig.true_option = false
+
+    AppConfig.reload!
+
+    AppConfig.true_option.should == true
+  end
+
 end

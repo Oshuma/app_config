@@ -27,6 +27,10 @@ module AppConfig
         fetch_data!
       end
 
+      def reload!
+        fetch_data!
+      end
+
       # Saves the data back to Mongo.  Returns `true`/`false`.
       def save!
         if @_id
