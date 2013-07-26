@@ -14,6 +14,7 @@ module AppConfig
     # Valid storage methods:
     # * `:mongo` - {AppConfig::Storage::Mongo AppConfig::Storage::Mongo}
     # * `:postgres` - {AppConfig::Storage::Mongo AppConfig::Storage::Postgres}
+    # * `:sqlite` - {AppConfig::Storage::Mongo AppConfig::Storage::SQLite}
     # * `:yaml` - {AppConfig::Storage::YAML AppConfig::Storage::YAML}
     def setup!(options = {}, &block)
       @@options = options
@@ -24,6 +25,8 @@ module AppConfig
         @@storage = AppConfig::Storage::Mongo.new(@@options.delete(:mongo))
       elsif @@options[:postgres]
         @@storage = AppConfig::Storage::Postgres.new(@@options.delete(:postgres))
+      elsif @@options[:sqlite]
+        @@storage = AppConfig::Storage::SQLite.new(@@options.delete(:sqlite))
       else
         @@storage = AppConfig::Storage::Base.new
       end

@@ -62,6 +62,43 @@ RSpec.configure do |config|
     end
   end
 
+  def config_for_sqlite(wipe_database = true)
+    Dir.mkdir(File.expand_path('tmp')) unless Dir.exists?(File.expand_path('tmp'))
+
+    database = File.expand_path(File.join('tmp', 'app_config_spec.sqlite3'))
+
+    if wipe_database
+      File.delete(database) if File.exists?(database)
+
+      db = ::SQLite3::Database.new(database)
+      table = AppConfig::Storage::SQLite::DEFAULTS[:table]
+
+      config = ::YAML.load_file(fixture('app_config.yml'))
+      attrs = config.map do |k, v|
+        if v.class == String
+          "#{k} varchar(255)"
+        else
+          "#{k} INTEGER DEFAULT #{v ? 1 : 0}"
+        end
+      end.join(', ')
+
+      create_query = "CREATE TABLE #{table} (id INTEGER PRIMARY KEY, #{attrs})"
+      insert_query = "INSERT INTO #{table} (#{config.keys.join(', ')}) VALUES (#{config.values.map { |v|
+        if v.is_a?(TrueClass) || v.is_a?(FalseClass)
+          # Convert to SQLite boolean INT
+          v ? '1' : '0'
+        else
+          "'#{v}'"
+        end
+      }.join(', ')})"
+
+      db.execute(create_query)
+      db.execute(insert_query)
+    end
+
+    config_for(sqlite: { database: database })
+  end
+
   private
 
   def load_mongo_test_config(options)
