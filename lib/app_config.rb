@@ -20,7 +20,7 @@ module AppConfig
       @@options = options
 
       if @@options[:yaml]
-        @@storage = AppConfig::Storage::YAML.new(@@options.delete(:yaml))
+        @@storage = AppConfig::Storage::YAML.new(@@options.delete(:yaml), @@options)
       elsif @@options[:mongo]
         @@storage = AppConfig::Storage::Mongo.new(@@options.delete(:mongo))
       elsif @@options[:postgres]
