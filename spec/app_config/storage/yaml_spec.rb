@@ -40,4 +40,9 @@ describe AppConfig::Storage::YAML do
     AppConfig.production.should be_true
   end
 
+  it 'accepts a String as :env option' do
+    AppConfig.setup!(yaml: fixture('app_config_env.yml'), env: 'production')
+    AppConfig.production.should be_true
+  end
+
 end
