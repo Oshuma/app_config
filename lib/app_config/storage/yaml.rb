@@ -18,7 +18,8 @@ module AppConfig
 
         # Make sure to use the top-level YAML module here.
         if options.has_key?(:env)
-          @data = Storage::ConfigData.new(::YAML.load_file(path)[options[:env]])
+          env = options[:env].to_s  # Force a String here since YAML's keys are strings.
+          @data = Storage::ConfigData.new(::YAML.load_file(path)[env])
         else
           @data = Storage::ConfigData.new(::YAML.load_file(path))
         end

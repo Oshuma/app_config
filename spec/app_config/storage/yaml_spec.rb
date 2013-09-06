@@ -34,4 +34,10 @@ describe AppConfig::Storage::YAML do
     AppConfig.setup!(yaml: true)
     AppConfig.api_key.should_not be_nil
   end
+
+  it 'accepts an :env option' do
+    AppConfig.setup!(yaml: fixture('app_config_env.yml'), env: :production)
+    AppConfig.production.should be_true
+  end
+
 end
