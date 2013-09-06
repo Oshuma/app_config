@@ -49,20 +49,30 @@ AppConfig.api_name     # => 'Supr Webz 2.0'
 AppConfig.api_key      # => 'SUPERAWESOMESERVICE'
 ```
 
-You can also use environments in the YAML file (like Rails `database.yml`):
+### Environment Mode
+
+There's also an `:env` option where you can organize the config like Rails `database.yml`:
 
 ```yaml
----
+# Rails.root/config/app_config.yml
 development:
-  api_url: 'http://localhost:3000/endpoint.json'
+  title: 'Development Mode'
 
 production:
-  api_url: 'http://api.example.com/endpoint.json'
+  title: 'Production Mode'
 ```
 
+Pass a string or symbol to the `:env` option.
+
 ```ruby
-AppConfig.setup!(yaml: '/path/to/app_config.yml', env: :development)
-AppConfig.api_url  # => 'http://localhost:3000/endpoint.json'
+# Rails.root/config/initializers/app_config.rb
+AppConfig.setup!({
+  yaml: "#{Rails.root}/config/app_config.yml",
+  env: Rails.env
+})
+
+# Uses the given environment section of the config.
+AppConfig.title  # => 'Production Mode'
 ```
 
 
