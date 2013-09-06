@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    app_config (2.3.1)
+    app_config (2.4.1)
 
 GEM
   remote: https://rubygems.org/
