@@ -45,4 +45,15 @@ describe AppConfig::Storage::YAML do
     AppConfig.production.should be_true
   end
 
+  it 'should reload the data' do
+    config_for_yaml
+    original_api_key = AppConfig.api_key
+
+    # Set to some random value:
+    AppConfig.api_key = "foobar-#{rand(100)}"
+
+    AppConfig.reload!
+    AppConfig.api_key.should == original_api_key
+  end
+
 end
