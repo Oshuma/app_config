@@ -49,6 +49,22 @@ AppConfig.api_name     # => 'Supr Webz 2.0'
 AppConfig.api_key      # => 'SUPERAWESOMESERVICE'
 ```
 
+You can also use environments in the YAML file (like Rails `database.yml`):
+
+```yaml
+---
+development:
+  api_url: 'http://localhost:3000/endpoint.json'
+
+production:
+  api_url: 'http://api.example.com/endpoint.json'
+```
+
+```ruby
+AppConfig.setup!(yaml: '/path/to/app_config.yml', env: :development)
+AppConfig.api_url  # => 'http://localhost:3000/endpoint.json'
+```
+
 
 ## Mongo
 
