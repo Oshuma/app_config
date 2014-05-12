@@ -8,7 +8,7 @@ before_script:
   # Setup test Postgres database.
   - psql -c 'create database app_config_test;' -U postgres
   - psql -d app_config_test -U postgres -c 'CREATE TABLE app_config (id bigserial primary key, admin_email character varying(255), api_name character varying(255), api_key character varying(255), true_option boolean, false_option boolean);'
-  - psql -d app_config_test -U postgres -c "INSERT INTO app_config (admin_email, api_name, api_key) VALUES ('admin@example.com', 'Supr Webz 2.0', 'SUPERAWESOMESERVICE', true, false)"
+  - psql -d app_config_test -U postgres -c "INSERT INTO app_config (admin_email, api_name, api_key, true_option, false_option) VALUES ('admin@example.com', 'Supr Webz 2.0', 'SUPERAWESOMESERVICE', true, false);"
 
 env:
   # Ignore warnings when running specs.
