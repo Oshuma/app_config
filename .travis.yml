@@ -12,8 +12,8 @@ before_script:
   - psql -d app_config_test -U postgres -c "INSERT INTO app_config (admin_email, api_name, api_key, true_option, false_option) VALUES ('admin@example.com', 'Supr Webz 2.0', 'SUPERAWESOMESERVICE', true, false);"
   # Setup test MySQL database.
   - mysql -u root -e 'create database app_config_test;'
-  - mysql -u root -D app_config_test -e 'CREATE TABLE app_config (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, admin_email VARCHAR(255), api_key VARCHAR(255), true_option BOOLEAN, false_option BOOLEAN);'
-  - mysql -u root -D app_config_test -e "INSERT INTO app_config (admin_email, api_key, true_option, false_option) VALUES ('admin@example.com', 'SUPERAWESOMESERVICE', true, false);"
+  - mysql -u root -D app_config_test -e 'CREATE TABLE app_config (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, admin_email VARCHAR(255), api_name VARCHAR(255), api_key VARCHAR(255), true_option BOOLEAN, false_option BOOLEAN);'
+  - mysql -u root -D app_config_test -e "INSERT INTO app_config (admin_email, api_key, true_option, false_option) VALUES ('admin@example.com', 'Supr Webz 2.0', 'SUPERAWESOMESERVICE', true, false);"
 
 env:
   # Ignore warnings when running specs.
