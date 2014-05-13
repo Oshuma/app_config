@@ -25,6 +25,35 @@ module AppConfig
         fetch_data!
       end
 
+      def reload!
+        fetch_data!
+      end
+
+      def save!
+        data_hash = @data.to_h
+        data_hash.delete(:id)
+
+        if @id
+          # Update existing row.
+          set_attrs = data_hash.map { |k, v| "#{k} = '#{v}'" }.join(', ')
+          save_query = "UPDATE #{@table} SET #{set_attrs} WHERE id = #{@id};"
+        else
+          # Insert a new row.
+          if data_hash.empty?
+            # Use table defaults.
+            save_query = "INSERT INTO #{@table}(id) VALUES(NULL);"
+          else
+            columns = data_hash.keys.join(', ')
+            values = data_hash.map { |_, v| "'#{v}'" }.join(', ')
+
+            save_query = "INSERT INTO #{@table} (#{columns}) VALUES (#{values});"
+          end
+        end
+
+        @database.execute(save_query)
+        @database.changes == 1
+      end
+
       private
 
       def fetch_data!
@@ -46,6 +75,7 @@ module AppConfig
         end
 
         @data = Storage::ConfigData.new(config)
+        @id = @data.id
       end
 
     end
