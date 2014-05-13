@@ -23,6 +23,8 @@ module AppConfig
         @@storage = AppConfig::Storage::YAML.new(@@options.delete(:yaml), @@options)
       elsif @@options[:mongo]
         @@storage = AppConfig::Storage::Mongo.new(@@options.delete(:mongo))
+      elsif @@options[:mysql]
+        @@storage = AppConfig::Storage::MySQL.new(@@options.delete(:mysql))
       elsif @@options[:postgres]
         @@storage = AppConfig::Storage::Postgres.new(@@options.delete(:postgres))
       elsif @@options[:sqlite]

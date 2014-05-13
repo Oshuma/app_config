@@ -30,6 +30,7 @@ RSpec.configure do |config|
     mongo = AppConfig::Storage::Mongo::DEFAULTS.merge({
       database: 'app_config_test',
     })
+
     begin
       load_mongo_test_config(mongo) if load_test_data
       config_for({mongo: mongo}.merge(opts))
@@ -42,6 +43,15 @@ RSpec.configure do |config|
     rescue Mongo::ConnectionFailure
       pending "***** Mongo specs require a running MongoDB server *****"
     end
+  end
+
+  def config_for_mysql(load_test_data = false, opts = {})
+    mysql = AppConfig::Storage::MySQL::DEFAULTS.merge({
+      database: 'app_config_test'
+    })
+
+    load_mysql_test_config(mysql) if load_test_data
+    config_for({mysql: mysql}.merge(opts))
   end
 
   def config_for_postgres(load_test_data = false, opts = {})
@@ -112,6 +122,63 @@ RSpec.configure do |config|
       collection.update({'_id' => data['_id']}, test_data)
     else
       collection.save(test_data)
+    end
+  end
+
+  def load_mysql_test_config(options)
+    original_options = options.dup
+
+    options.delete(:username) if options[:username].nil?
+    options.delete(:password) if options[:password].nil?
+
+    table = options.delete(:table)
+
+    begin
+      config = ::YAML.load_file(fixture('app_config.yml'))
+      attrs = config.map do |k, v|
+        if v.is_a?(String)
+          "#{k} VARCHAR(255)"
+        elsif v.is_a?(TrueClass) || v.is_a?(FalseClass)
+          "#{k} BOOLEAN"
+        end
+      end.join(', ')
+
+      values = config.values.map do |v|
+        if v.is_a?(TrueClass) || v.is_a?(FalseClass)
+          # Boolean types shouldn't be quoted.
+          "#{v}"
+        else
+          # But VARCHAR types should be.
+          "'#{v}'"
+        end
+      end.join(', ')
+
+      create_query = "CREATE TABLE #{table} (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, #{attrs});"
+      insert_query = "INSERT INTO #{table} (#{config.keys.join(', ')}) VALUES (#{values});"
+
+      client = Mysql2::Client.new(options)
+      client.query("USE #{options[:database]};")
+
+      begin
+        client.query(create_query)
+      rescue Mysql2::Error => e
+        case e.to_s
+        when /Table '#{table}' already exists/
+          # no-op
+        else
+          raise e
+        end
+      end
+
+      client.query(insert_query)
+    rescue Mysql2::Error => e
+      case e.to_s
+      when /Unknown database/
+        Mysql2::Client.new.query("CREATE DATABASE #{options[:database]};")
+        load_mysql_test_config(original_options)
+      else
+        raise e
+      end
     end
   end
 
