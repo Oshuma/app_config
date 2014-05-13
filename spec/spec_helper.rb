@@ -50,8 +50,16 @@ RSpec.configure do |config|
       database: 'app_config_test'
     })
 
-    load_mysql_test_config(mysql) if load_test_data
-    config_for({mysql: mysql}.merge(opts))
+    begin
+      load_mysql_test_config(mysql) if load_test_data
+      config_for({mysql: mysql}.merge(opts))
+    rescue Mysql2::Error => e
+      if e.to_s =~ /Can't connect/
+        pending "***** MySQL specs require a running MySQL server *****"
+      else
+        raise e
+      end
+    end
   end
 
   def config_for_postgres(load_test_data = false, opts = {})
