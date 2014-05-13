@@ -4,6 +4,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
@@ -27,14 +28,23 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h2>
+          <h1>
+<a name="appconfig--" class="anchor" href="#appconfig--"><span class="octicon octicon-link"></span></a>AppConfig <a href="https://travis-ci.org/Oshuma/app_config"><img src="https://travis-ci.org/Oshuma/app_config.png?branch=master" alt="Build Status"></a> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=3N885MZB7QCY6&amp;lc=US&amp;item_name=Dale%20Campbell&amp;item_number=app_config&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" alt="Donate"></a>
+</h1>
+
+<p>An easy to use, customizable library to easily store and retrieve application
+configuration; basically anything in 'key/value' pairs.</p>
+
+<p>AppConfig requires at least Ruby 1.9.</p>
+
+<h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <p>Usage is simple.  Just pass either a hash of options, or a block, to <code>AppConfig.setup!</code>.</p>
 
 <p>In it's simplest form, you can use it like so:</p>
 
-<div class="highlight"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="n">admin_email</span><span class="p">:</span> <span class="s1">'admin@example.com'</span><span class="p">)</span>
+<div class="highlight highlight-ruby"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="n">admin_email</span><span class="p">:</span> <span class="s1">'admin@example.com'</span><span class="p">)</span>
 <span class="c1"># ..or..</span>
 <span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
   <span class="n">config</span><span class="o">.</span><span class="n">admin_email</span> <span class="o">=</span> <span class="s1">'admin@example.com'</span>
@@ -43,15 +53,16 @@
 <span class="no">AppConfig</span><span class="o">.</span><span class="n">admin_email</span>  <span class="c1"># =&gt; 'admin@example.com'</span>
 </pre></div>
 
-<p>You may also specify the storage method along with options specific to that storage method.
-Check the <a href="https://github.com/Oshuma/app_config/wiki">wiki</a> for more usage examples.</p>
+<p>AppConfig also supports many different 'storage methods', such as YAML and MongoDB,
+allowing you to tailor AppConfig to many different use cases.  For example,
+storing your configuration in the same database as your development/production environment.</p>
 
 <h2>
 <a name="yaml" class="anchor" href="#yaml"><span class="octicon octicon-link"></span></a>YAML</h2>
 
 <p>Given this YAML file:</p>
 
-<div class="highlight"><pre><span class="nn">---</span>
+<div class="highlight highlight-yaml"><pre><span class="nn">---</span>
 <span class="l-Scalar-Plain">admin_email</span><span class="p-Indicator">:</span> <span class="s">'admin@example.com'</span>
 <span class="l-Scalar-Plain">api_name</span><span class="p-Indicator">:</span>    <span class="s">'Supr</span><span class="nv"> </span><span class="s">Webz</span><span class="nv"> </span><span class="s">2.0'</span>
 <span class="l-Scalar-Plain">api_key</span><span class="p-Indicator">:</span>     <span class="s">'SUPERAWESOMESERVICE'</span>
@@ -59,7 +70,7 @@ Check the <a href="https://github.com/Oshuma/app_config/wiki">wiki</a> for more 
 
 <p>Use it like so:</p>
 
-<div class="highlight"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">yaml</span><span class="p">:</span> <span class="s1">'/path/to/app_config.yml'</span><span class="p">)</span>
+<div class="highlight highlight-ruby"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">yaml</span><span class="p">:</span> <span class="s1">'/path/to/app_config.yml'</span><span class="p">)</span>
 
 <span class="c1"># Later on...</span>
 <span class="no">AppConfig</span><span class="o">.</span><span class="n">admin_email</span>  <span class="c1"># =&gt; 'admin@example.com'</span>
@@ -74,7 +85,9 @@ Check the <a href="https://github.com/Oshuma/app_config/wiki">wiki</a> for more 
 configuration values for a Mongo database.  Check the <code>AppConfig::Storage::Mongo::DEFAULTS</code>
 constant for the default Mongo connection options.</p>
 
-<div class="highlight"><pre><span class="c1"># These are the defaults.</span>
+<p>The '<a href="https://rubygems.org/gems/mongo">mongo</a>' gem is required in order to use Mongo storage.</p>
+
+<div class="highlight highlight-ruby"><pre><span class="c1"># These are the defaults.</span>
 <span class="n">mongo_opts</span> <span class="o">=</span> <span class="p">{</span>
   <span class="ss">host</span><span class="p">:</span>       <span class="s1">'localhost'</span><span class="p">,</span>
   <span class="ss">database</span><span class="p">:</span>   <span class="s1">'app_config'</span><span class="p">,</span>
@@ -95,7 +108,7 @@ constant for the default Mongo connection options.</p>
 might lend well to versioned configurations; collection names such as
 <code>app_config_v1</code>, <code>app_config_v2</code>, etc.</p>
 
-<div class="highlight"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">mongo</span><span class="p">:</span> <span class="p">{</span> <span class="ss">collection</span><span class="p">:</span> <span class="s1">'app_config_v2'</span> <span class="p">})</span>
+<div class="highlight highlight-ruby"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">mongo</span><span class="p">:</span> <span class="p">{</span> <span class="ss">collection</span><span class="p">:</span> <span class="s1">'app_config_v2'</span> <span class="p">})</span>
 </pre></div>
 
 <h2>
@@ -105,11 +118,13 @@ might lend well to versioned configurations; collection names such as
 The only current requirement is that the table have a primary key named <code>id</code>.
 All other columns are used as configuration keys.</p>
 
+<p>The '<a href="https://rubygems.org/gems/pg">pg</a>' gem is required in order to use Postgres storage.</p>
+
 <p><strong>Note:</strong> The database and schema must exist prior to calling <code>AppConfig.setup!</code>.</p>
 
 <p>Given this schema:</p>
 
-<div class="highlight"><pre><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">app_config</span> <span class="p">(</span>
+<div class="highlight highlight-sql"><pre><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">app_config</span> <span class="p">(</span>
   <span class="n">id</span> <span class="n">bigserial</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
   <span class="n">admin_email</span> <span class="nb">character</span> <span class="nb">varying</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">'admin@example.com'</span><span class="p">::</span><span class="nb">character</span> <span class="nb">varying</span><span class="p">,</span>
   <span class="n">api_key</span> <span class="nb">character</span> <span class="nb">varying</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">'SOME_API_KEY'</span><span class="p">::</span><span class="nb">character</span> <span class="nb">varying</span>
@@ -118,7 +133,7 @@ All other columns are used as configuration keys.</p>
 
 <p>Setup AppConfig:</p>
 
-<div class="highlight"><pre><span class="c1"># These are the defaults.</span>
+<div class="highlight highlight-ruby"><pre><span class="c1"># These are the defaults.</span>
 <span class="n">postgres_opts</span> <span class="o">=</span> <span class="p">{</span>
   <span class="ss">host</span><span class="p">:</span>     <span class="s1">'localhost'</span><span class="p">,</span>
   <span class="ss">port</span><span class="p">:</span>     <span class="mi">5432</span><span class="p">,</span>
@@ -140,23 +155,111 @@ All other columns are used as configuration keys.</p>
 </pre></div>
 
 <h2>
+<a name="mysql" class="anchor" href="#mysql"><span class="octicon octicon-link"></span></a>MySQL</h2>
+
+<p>Using MySQL is similar to Postgres, including the required primary key named <code>id</code>.
+All other columns are used as configuration keys.</p>
+
+<p>The '<a href="https://rubygems.org/gems/mysql2">mysql2</a>' gem is required in order to use MySQL storage.</p>
+
+<p><strong>Note:</strong> The database and schema must exist prior to calling <code>AppConfig.setup!</code>.</p>
+
+<p>Given this schema:</p>
+
+<div class="highlight highlight-sql"><pre><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">app_config</span> <span class="p">(</span>
+ <span class="n">id</span> <span class="nb">INT</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+ <span class="n">admin_email</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="ss">"admin@example.com"</span><span class="p">,</span>
+ <span class="n">api_key</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="ss">"SOME_API_KEY"</span><span class="p">,</span>
+ <span class="n">true_option</span> <span class="nb">BOOLEAN</span> <span class="k">DEFAULT</span> <span class="k">true</span><span class="p">,</span>
+ <span class="n">false_option</span> <span class="nb">BOOLEAN</span> <span class="k">DEFAULT</span> <span class="k">false</span>
+<span class="p">);</span>
+</pre></div>
+
+<p>Setup AppConfig:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="c1"># These are the defaults:</span>
+<span class="n">mysql_opts</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">host</span><span class="p">:</span> <span class="s1">'localhost'</span><span class="p">,</span>
+  <span class="ss">port</span><span class="p">:</span> <span class="mi">3306</span><span class="p">,</span>
+  <span class="ss">database</span><span class="p">:</span> <span class="s1">'app_config'</span><span class="p">,</span>
+  <span class="ss">table</span><span class="p">:</span> <span class="s1">'app_config'</span><span class="p">,</span>
+  <span class="ss">username</span><span class="p">:</span> <span class="kp">nil</span><span class="p">,</span>
+  <span class="ss">password</span><span class="p">:</span> <span class="kp">nil</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">mysql</span><span class="p">:</span> <span class="n">mysql_opts</span><span class="p">)</span>
+
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">admin_email</span>  <span class="c1"># =&gt; 'admin@example.com'</span>
+
+<span class="c1"># Update an existing value and save changes:</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">admin_email</span> <span class="o">=</span> <span class="s1">'another_admin@example.com'</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">save!</span>
+</pre></div>
+
+<h2>
+<a name="sqlite" class="anchor" href="#sqlite"><span class="octicon octicon-link"></span></a>SQLite</h2>
+
+<p>SQLite storage works the same as the other SQL storage methods, including the mandatory
+primary key <code>id</code> column.</p>
+
+<p>The '<a href="https://rubygems.org/gems/sqlite3">sqlite3</a>' gem is required in order to use SQLite storage.</p>
+
+<p><strong>Note:</strong> The database schema must exist prior to calling <code>AppConfig.setup!</code>.</p>
+
+<div class="highlight highlight-ruby"><pre><span class="c1"># These are the defaults:</span>
+<span class="n">sqlite_opts</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">database</span><span class="p">:</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">Dir</span><span class="o">.</span><span class="n">home</span><span class="p">,</span> <span class="s1">'.app_config.sqlite3'</span><span class="p">),</span>
+  <span class="ss">table</span><span class="p">:</span> <span class="s1">'app_config'</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">sqlite</span><span class="p">:</span> <span class="n">sqlite_opts</span><span class="p">)</span>
+</pre></div>
+
+<h2>
 <a name="using-storage-defaults" class="anchor" href="#using-storage-defaults"><span class="octicon octicon-link"></span></a>Using Storage Defaults</h2>
 
 <p>All storage options accept <code>true</code> as a value, which uses the default options for that storage.</p>
 
-<p>For example, to use the <a href="https://github.com/Oshuma/app_config/blob/master/lib/app_config/storage/mongo.rb#L9">Mongo</a> defaults:</p>
+<p>For example, to use the <a href="lib/app_config/storage/mongo.rb#L9">Mongo</a> defaults:</p>
 
-<div class="highlight"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">mongo</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
+<div class="highlight highlight-ruby"><pre><span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">(</span><span class="ss">mongo</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
 </pre></div>
 
 <h3>
 <a name="storage-defaults" class="anchor" href="#storage-defaults"><span class="octicon octicon-link"></span></a>Storage Defaults</h3>
 
 <ul>
-<li><a href="https://github.com/Oshuma/app_config/blob/master/lib/app_config/storage/mongo.rb#L9">Mongo</a></li>
-<li><a href="https://github.com/Oshuma/app_config/blob/master/lib/app_config/storage/postgres.rb#L8">Postgres</a></li>
-<li><a href="https://github.com/Oshuma/app_config/blob/master/lib/app_config/storage/yaml.rb#L9">YAML</a></li>
-</ul><h2>
+<li><a href="lib/app_config/storage/mongo.rb#L9">Mongo</a></li>
+<li><a href="lib/app_config/storage/mysql.rb#L8">MySQL</a></li>
+<li><a href="lib/app_config/storage/postgres.rb#L8">Postgres</a></li>
+<li><a href="lib/app_config/storage/sqlite.rb#L9">SQLite</a></li>
+<li><a href="lib/app_config/storage/yaml.rb#L9">YAML</a></li>
+</ul><h3>
+<a name="environment-mode" class="anchor" href="#environment-mode"><span class="octicon octicon-link"></span></a>Environment Mode</h3>
+
+<p>The YAML storage method provides an <code>:env</code> option where you can organize the config like Rails <code>database.yml</code>:</p>
+
+<div class="highlight highlight-yaml"><pre><span class="c1"># Rails.root/config/app_config.yml</span>
+<span class="l-Scalar-Plain">development</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">title</span><span class="p-Indicator">:</span> <span class="s">'Development</span><span class="nv"> </span><span class="s">Mode'</span>
+
+<span class="l-Scalar-Plain">production</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">title</span><span class="p-Indicator">:</span> <span class="s">'Production</span><span class="nv"> </span><span class="s">Mode'</span>
+</pre></div>
+
+<p>Pass a string or symbol to the <code>:env</code> option.</p>
+
+<div class="highlight highlight-ruby"><pre><span class="c1"># Rails.root/config/initializers/app_config.rb</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">setup!</span><span class="p">({</span>
+  <span class="ss">yaml</span><span class="p">:</span> <span class="s2">"</span><span class="si">#{</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="si">}</span><span class="s2">/config/app_config.yml"</span><span class="p">,</span>
+  <span class="ss">env</span><span class="p">:</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span>
+<span class="p">})</span>
+
+<span class="c1"># Uses the given environment section of the config.</span>
+<span class="no">AppConfig</span><span class="o">.</span><span class="n">title</span>  <span class="c1"># =&gt; 'Production Mode'</span>
+</pre></div>
+
+<h2>
 <a name="deprecation-note" class="anchor" href="#deprecation-note"><span class="octicon octicon-link"></span></a>Deprecation Note</h2>
 
 <p>Version <code>2.x</code> is <strong>not</strong> backwards compatible with the <code>1.x</code> branch.</p>
@@ -176,7 +279,7 @@ All other columns are used as configuration keys.</p>
 
           <p class="repo-owner"><a href="https://github.com/Oshuma/app_config"></a> is maintained by <a href="https://github.com/Oshuma">Oshuma</a>.</p>
 
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
         </aside>
       </div>
     </div>
