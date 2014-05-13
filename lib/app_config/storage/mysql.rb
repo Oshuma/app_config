@@ -28,6 +28,47 @@ module AppConfig
         fetch_data!
       end
 
+      def reload!
+        fetch_data!
+      end
+
+      def save!
+        data_hash = @data.to_h
+        data_hash.delete(:id)
+
+        if @id
+          # Update existing row.
+          set_attrs = data_hash.map do |k, v|
+            if v.is_a?(TrueClass) || v.is_a?(FalseClass)
+              "#{k} = #{v}"  # Don't quote booleans.
+            else
+              "#{k} = '#{v}'"
+            end
+          end.join(', ')
+          save_query = "UPDATE #{@table} SET #{set_attrs} WHERE id = #{@id};"
+        else
+          # Create a new row.
+          if data_hash.empty?
+            # Use defaults.
+            save_query = "INSERT INTO #{@table}(id) VALUES(NULL);"
+          else
+            columns = data_hash.keys.join(', ')
+            values = data_hash.map do |_, v|
+              if v.is_a?(TrueClass) || v.is_a?(FalseClass)
+                "#{v}"  # Don't quote booleans.
+              else
+                "'#{v}'"
+              end
+            end.join(', ')
+
+            save_query = "INSERT INTO #{@table} (#{columns}) VALUES (#{values});"
+          end
+        end
+
+        @client.query(save_query)
+        @client.affected_rows == 1
+      end
+
       private
 
       def connected?
