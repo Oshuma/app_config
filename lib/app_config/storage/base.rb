@@ -2,8 +2,8 @@ module AppConfig
   module Storage
     class Base
 
-      def initialize
-        @data = Storage::ConfigData.new
+      def initialize(options = nil)
+        @data = Storage::ConfigData.new(options)
       end
 
       def to_hash

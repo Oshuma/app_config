@@ -30,7 +30,7 @@ module AppConfig
       elsif @@options[:sqlite]
         @@storage = AppConfig::Storage::SQLite.new(@@options.delete(:sqlite))
       else
-        @@storage = AppConfig::Storage::Base.new
+        @@storage = AppConfig::Storage::Base.new(@@options)
       end
 
       yield @@storage if block_given?
