@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'sqlite3'
-  s.add_development_dependency 'yard'
+  s.add_development_dependency 'yard', '~> 0.9.12'
 
   s.has_rdoc = true
   s.rdoc_options = ["--inline-source", "--charset=UTF-8"]
