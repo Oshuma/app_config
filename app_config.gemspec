@@ -1,9 +1,8 @@
-$:.push File.expand_path("../lib", __FILE__)
-require 'app_config'
+version = File.read(File.expand_path("APP_CONFIG_VERSION", __dir__)).strip
 
 Gem::Specification.new do |s|
   s.name = "app_config"
-  s.version = AppConfig::VERSION
+  s.version = version
 
   s.authors = ['Dale Campbell']
   s.email = ['oshuma@gmail.com']
@@ -29,7 +28,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--inline-source", "--charset=UTF-8"]
 
   s.require_paths = ["lib"]
-  s.files = `git ls-files`.split("\n")
+  s.files = Dir['lib/**/*']
 
-  s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.test_files = Dir['lib/**/*']
 end

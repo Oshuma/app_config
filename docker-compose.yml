@@ -1,0 +1,14 @@
+version: '2'
+services:
+  postgres_db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: app_config_test
+
+  app_config:
+    build: .
+    command: bundle exec rake spec
+    volumes:
+      - .:/app_config
+    depends_on:
+      - postgres_db

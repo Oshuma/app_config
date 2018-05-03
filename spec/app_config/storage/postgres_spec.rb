@@ -29,7 +29,11 @@ describe AppConfig::Storage::Postgres do
   it "uses the defaults when 'true' is passed" do
     AppConfig.reset!
 
-    # HACK: Use a test database as the 'default'.
+    # HACK: Use test values as the 'defaults'.
+    old_host = AppConfig::Storage::Postgres::DEFAULTS[:host]
+    AppConfig::Storage::Postgres::DEFAULTS[:host] = 'postgres_db'
+    old_user = AppConfig::Storage::Postgres::DEFAULTS[:user]
+    AppConfig::Storage::Postgres::DEFAULTS[:user] = 'postgres'
     old_dbname = AppConfig::Storage::Postgres::DEFAULTS[:dbname]
     AppConfig::Storage::Postgres::DEFAULTS[:dbname] = 'app_config_test'
 
@@ -43,7 +47,9 @@ describe AppConfig::Storage::Postgres do
       .instance_variable_get(:@options)
       .should == AppConfig::Storage::Postgres::DEFAULTS
 
-    # HACK: Reset dbname default to original value.
+    # HACK: Reset original default values.
+    AppConfig::Storage::Postgres::DEFAULTS[:host] = old_host
+    AppConfig::Storage::Postgres::DEFAULTS[:user] = old_user
     AppConfig::Storage::Postgres::DEFAULTS[:dbname] = old_dbname
   end
 
