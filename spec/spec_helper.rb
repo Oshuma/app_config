@@ -47,6 +47,7 @@ RSpec.configure do |config|
 
   def config_for_mysql(load_test_data = false, opts = {})
     mysql = AppConfig::Storage::MySQL::DEFAULTS.merge({
+      host: 'mysql_db',
       database: 'app_config_test'
     })
 

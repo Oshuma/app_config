@@ -1,5 +1,11 @@
 version: '2'
 services:
+  mysql_db:
+    image: mariadb:latest
+    environment:
+      MYSQL_DATABASE: app_config_test
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'  # Need to quote 'yes' since YAML interprets that as a boolean.
+
   postgres_db:
     image: postgres:alpine
     environment:
@@ -11,4 +17,5 @@ services:
     volumes:
       - .:/app_config
     depends_on:
+      - mysql_db
       - postgres_db

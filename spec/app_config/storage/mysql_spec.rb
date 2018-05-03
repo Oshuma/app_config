@@ -38,7 +38,9 @@ describe AppConfig::Storage::MySQL do
   it "uses the defaults when 'true' is passed" do
     AppConfig.reset!
 
-    # HACK: Use a test database as the 'default'.
+    # HACK: Use test values as the 'defaults'.
+    old_host = AppConfig::Storage::MySQL::DEFAULTS[:host]
+    AppConfig::Storage::MySQL::DEFAULTS[:host] = 'mysql_db'
     old_dbname = AppConfig::Storage::MySQL::DEFAULTS[:database]
     AppConfig::Storage::MySQL::DEFAULTS[:database] = 'app_config_test'
 
@@ -52,7 +54,8 @@ describe AppConfig::Storage::MySQL do
       .instance_variable_get(:@options)
       .should == AppConfig::Storage::MySQL::DEFAULTS
 
-    # HACK: Reset dbname default to original value.
+    # HACK: Restore original default values.
+    AppConfig::Storage::MySQL::DEFAULTS[:host] = old_host
     AppConfig::Storage::MySQL::DEFAULTS[:database] = old_dbname
   end
 

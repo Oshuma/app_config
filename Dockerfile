@@ -1,3 +1,4 @@
+# This Dockerfile is only intended to run tests; see docker-compose.yml
 FROM ruby:2.3-alpine
 
 ARG GIT_VERSION
