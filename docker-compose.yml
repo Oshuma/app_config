@@ -1,5 +1,8 @@
 version: '2'
 services:
+  mongo_db:
+    image: mongo
+
   mysql_db:
     image: mariadb:latest
     environment:
@@ -17,5 +20,6 @@ services:
     volumes:
       - .:/app_config
     depends_on:
+      - mongo_db
       - mysql_db
       - postgres_db
