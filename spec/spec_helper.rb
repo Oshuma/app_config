@@ -42,7 +42,7 @@ RSpec.configure do |config|
           .drop
       end
     rescue Mongo::ConnectionFailure
-      pending "***** Mongo specs require a running MongoDB server *****"
+      skip "***** Mongo specs require a running MongoDB server *****"
     end
   end
 
@@ -57,7 +57,7 @@ RSpec.configure do |config|
       config_for({mysql: mysql}.merge(opts))
     rescue Mysql2::Error => e
       if e.to_s =~ /Can't connect/
-        pending "***** MySQL specs require a running MySQL server *****"
+        skip "***** MySQL specs require a running MySQL server *****"
       else
         raise e
       end
@@ -76,7 +76,7 @@ RSpec.configure do |config|
       config_for({postgres: postgres}.merge(opts))
     rescue PG::Error => e
       if e.to_s =~ /could not connect to server/
-        pending "***** Postgres specs require a running PostgreSQL server *****"
+        skip "***** Postgres specs require a running PostgreSQL server *****"
       else
         # Re-raise the exception, since we only care about connectivity here.
         raise e

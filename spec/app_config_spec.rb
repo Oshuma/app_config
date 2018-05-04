@@ -3,24 +3,24 @@ require 'spec_helper'
 describe AppConfig do
 
   it 'has a version' do
-    AppConfig::VERSION.should_not be_nil
+    expect(AppConfig::VERSION).not_to eq(nil)
   end
 
   it 'responds to .setup!()' do
-    AppConfig.should respond_to(:setup!)
+    expect(AppConfig).to respond_to(:setup!)
   end
 
   it 'responds to .setup?()' do
-    AppConfig.should respond_to(:setup?)
+    expect(AppConfig).to respond_to(:setup?)
   end
 
   it 'responds to .reset!()' do
-    AppConfig.should respond_to(:reset!)
+    expect(AppConfig).to respond_to(:reset!)
   end
 
   it 'should have to_hash' do
     config_for_yaml
-    AppConfig.to_hash.class.should == Hash
+    expect(AppConfig.to_hash.class).to eq(Hash)
   end
 
   it 'should reset @@storage' do
@@ -28,22 +28,22 @@ describe AppConfig do
     config_for_yaml
     # then reset
     AppConfig.reset!
-    AppConfig.send(:storage).should be_nil
+    expect(AppConfig.send(:storage)).to eq(nil)
   end
 
   it 'to_hash() returns an empty hash if storage not set' do
     AppConfig.reset!
-    AppConfig.to_hash.should == {}
+    expect(AppConfig.to_hash).to eq({})
   end
 
   it 'should not be setup' do
     AppConfig.reset!
-    AppConfig.should_not be_setup
+    expect(AppConfig).not_to be_setup
   end
 
   it 'should be setup' do
     config_for_yaml
-    AppConfig.should be_setup
+    expect(AppConfig).to be_setup
   end
 
   it 'returns a Hash on setup' do
@@ -52,15 +52,12 @@ describe AppConfig do
       c.name = 'Dale'
       c.nick = 'Oshuma'
     end
-    config.should be_instance_of(Hash)
+    expect(config).to be_instance_of(Hash)
   end
 
   it 'raises NotSetup if .storage is accessed and .setup! has not been called' do
     AppConfig.remove_class_variable(:@@storage)
-
-    lambda do
-      AppConfig.save!
-    end.should raise_error(AppConfig::Error::NotSetup)
+    expect { AppConfig.save! }.to raise_error(AppConfig::Error::NotSetup)
   end
 
 end

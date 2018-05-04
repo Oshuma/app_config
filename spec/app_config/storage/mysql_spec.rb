@@ -7,7 +7,7 @@ describe AppConfig::Storage::MySQL do
   end
 
   it 'should have some values' do
-    AppConfig.api_key.should_not be_nil
+    expect(AppConfig.api_key).not_to eq(nil)
   end
 
   it 'should reload the data' do
@@ -16,7 +16,7 @@ describe AppConfig::Storage::MySQL do
 
     AppConfig.reload!
 
-    AppConfig.true_option.should == true
+    expect(AppConfig.true_option).to eq(true)
   end
 
   it 'should update the values' do
@@ -26,13 +26,13 @@ describe AppConfig::Storage::MySQL do
     AppConfig.api_key = new_api_key
     AppConfig.admin_email = new_admin_email
 
-    AppConfig.save!.should be_true
+    expect(AppConfig.save!).to eq(true)
 
     # Reload AppConfig
     config_for_mysql
 
-    AppConfig.api_key.should == new_api_key
-    AppConfig.admin_email.should == new_admin_email
+    expect(AppConfig.api_key).to eq(new_api_key)
+    expect(AppConfig.admin_email).to eq(new_admin_email)
   end
 
   it "uses the defaults when 'true' is passed" do
@@ -50,9 +50,8 @@ describe AppConfig::Storage::MySQL do
       config_for_mysql
     end
 
-    AppConfig.class_variable_get(:@@storage)
-      .instance_variable_get(:@options)
-      .should == AppConfig::Storage::MySQL::DEFAULTS
+    expect(AppConfig.class_variable_get(:@@storage)
+      .instance_variable_get(:@options)).to eq(AppConfig::Storage::MySQL::DEFAULTS)
 
     # HACK: Restore original default values.
     AppConfig::Storage::MySQL::DEFAULTS[:host] = old_host
@@ -68,7 +67,7 @@ describe AppConfig::Storage::MySQL do
       .instance_variable_set(:@id, nil)
 
     AppConfig.api_key = 'foobar'
-    AppConfig.save!.should be_true
+    expect(AppConfig.save!).to eq(true)
 
     # HACK: Reset the original id.
     AppConfig.class_variable_get(:@@storage)

@@ -8,19 +8,19 @@ describe AppConfig::Storage::Mongo do
   end
 
   it 'should have some values' do
-    AppConfig.api_key.should_not be_nil
+    expect(AppConfig.api_key).not_to eq(nil)
   end
 
   it 'should update the values' do
     AppConfig.api_key = 'SOME_NEW_API_KEY'
-    AppConfig.api_key.should == 'SOME_NEW_API_KEY'
+    expect(AppConfig.api_key).to eq('SOME_NEW_API_KEY')
 
-    AppConfig.save!.should be_true
+    expect(AppConfig.save!).to eq(true)
   end
 
   it 'should have a @_id variable for the Mongo ID' do
-    AppConfig.class_variable_get(:@@storage)
-      .instance_variable_get(:@_id).should_not be_nil
+    expect(AppConfig.class_variable_get(:@@storage)
+      .instance_variable_get(:@_id)).not_to eq(nil)
   end
 
   it "uses the defaults when 'true' is passed" do
@@ -32,9 +32,8 @@ describe AppConfig::Storage::Mongo do
 
     AppConfig.setup!(mongo: true)
 
-    AppConfig.class_variable_get(:@@storage)
-      .instance_variable_get(:@options)
-      .should == AppConfig::Storage::Mongo::DEFAULTS
+    expect(AppConfig.class_variable_get(:@@storage)
+      .instance_variable_get(:@options)).to eq(AppConfig::Storage::Mongo::DEFAULTS)
 
     # HACK: Reset original default values.
     AppConfig::Storage::Mongo::DEFAULTS[:host] = old_host
@@ -49,7 +48,7 @@ describe AppConfig::Storage::Mongo do
 
     AppConfig.reload!
 
-    AppConfig.true_option.should == true
+    expect(AppConfig.true_option).to eq(true)
   end
 
 end

@@ -4,7 +4,7 @@ describe AppConfig::Storage::Base do
 
   it 'accepts hash as default data' do
     config_for(default: 'data')
-    AppConfig.default.should == 'data'
+    expect(AppConfig.default).to eq('data')
   end
 
 end

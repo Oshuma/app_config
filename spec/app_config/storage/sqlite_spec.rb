@@ -7,7 +7,7 @@ describe AppConfig::Storage::SQLite do
   end
 
   it 'should have some values' do
-    AppConfig.api_key.should_not be_nil
+    expect(AppConfig.api_key).not_to eq(nil)
   end
 
   it 'should reload the data' do
@@ -19,7 +19,7 @@ describe AppConfig::Storage::SQLite do
 
     AppConfig.reload!
 
-    AppConfig.admin_email.should == admin_email
+    expect(AppConfig.admin_email).to eq(admin_email)
   end
 
   it 'should update the values' do
@@ -29,13 +29,13 @@ describe AppConfig::Storage::SQLite do
     AppConfig.api_key = new_api_key
     AppConfig.admin_email = new_admin_email
 
-    AppConfig.save!.should be_true
+    expect(AppConfig.save!).to eq(true)
 
     # Reload AppConfig (passing `false` to avoid wiping test db).
     config_for_sqlite(false)
 
-    AppConfig.api_key.should == new_api_key
-    AppConfig.admin_email.should == new_admin_email
+    expect(AppConfig.api_key).to eq(new_api_key)
+    expect(AppConfig.admin_email).to eq(new_admin_email)
   end
 
   it 'should create a new row if @id is not set' do
@@ -47,7 +47,7 @@ describe AppConfig::Storage::SQLite do
       .instance_variable_set(:@id, nil)
 
     AppConfig.api_key = 'foobar'
-    AppConfig.save!.should be_true
+    expect(AppConfig.save!).to eq(true)
 
     # HACK: Reset the original id.
     AppConfig.class_variable_get(:@@storage)

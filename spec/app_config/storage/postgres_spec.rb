@@ -7,7 +7,7 @@ describe AppConfig::Storage::Postgres do
   end
 
   it 'should have some values' do
-    AppConfig.api_key.should_not be_nil
+    expect(AppConfig.api_key).not_to eq(nil)
   end
 
   it 'should update the values' do
@@ -17,13 +17,13 @@ describe AppConfig::Storage::Postgres do
     AppConfig.api_key = new_api_key
     AppConfig.admin_email = new_admin_email
 
-    AppConfig.save!.should be_true
+    expect(AppConfig.save!).to eq(true)
 
     # Reload AppConfig
     config_for_postgres
 
-    AppConfig.api_key.should == new_api_key
-    AppConfig.admin_email.should == new_admin_email
+    expect(AppConfig.api_key).to eq(new_api_key)
+    expect(AppConfig.admin_email).to eq(new_admin_email)
   end
 
   it "uses the defaults when 'true' is passed" do
@@ -43,9 +43,8 @@ describe AppConfig::Storage::Postgres do
       config_for_postgres
     end
 
-    AppConfig.class_variable_get(:@@storage)
-      .instance_variable_get(:@options)
-      .should == AppConfig::Storage::Postgres::DEFAULTS
+    expect(AppConfig.class_variable_get(:@@storage)
+      .instance_variable_get(:@options)).to eq(AppConfig::Storage::Postgres::DEFAULTS)
 
     # HACK: Reset original default values.
     AppConfig::Storage::Postgres::DEFAULTS[:host] = old_host
@@ -62,7 +61,7 @@ describe AppConfig::Storage::Postgres do
       .instance_variable_set(:@id, nil)
 
     AppConfig.api_key = 'foobar'
-    AppConfig.save!.should be_true
+    expect(AppConfig.save!).to eq(true)
 
     # HACK: Reset the original id.
     AppConfig.class_variable_get(:@@storage)
@@ -71,8 +70,8 @@ describe AppConfig::Storage::Postgres do
 
   it "turns Postgres booleans into Ruby objects" do
     # set in spec/fixtures/app_config.yml
-    AppConfig.true_option.class.should  == TrueClass
-    AppConfig.false_option.class.should == FalseClass
+    expect(AppConfig.true_option.class).to eq(TrueClass)
+    expect(AppConfig.false_option.class).to eq(FalseClass)
   end
 
   it 'should reload the data' do
@@ -81,7 +80,7 @@ describe AppConfig::Storage::Postgres do
 
     AppConfig.reload!
 
-    AppConfig.true_option.should == true
+    expect(AppConfig.true_option).to eq(true)
   end
 
 end
