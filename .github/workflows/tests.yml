@@ -50,4 +50,7 @@ jobs:
         bundle install --jobs 4 --retry 3
 
     - name: Run Tests
+      env:
+        POSTGRES_HOST: localhost
+        MYSQL_HOST: localhost
       run: bundle exec rake spec

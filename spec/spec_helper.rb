@@ -48,7 +48,7 @@ RSpec.configure do |config|
 
   def config_for_mysql(load_test_data = false, opts = {})
     mysql = AppConfig::Storage::MySQL::DEFAULTS.merge({
-      host: 'mysql_db',
+      host: ENV.fetch('MYSQL_HOST') { 'mysql_db' },
       database: 'app_config_test'
     })
 
@@ -66,7 +66,7 @@ RSpec.configure do |config|
 
   def config_for_postgres(load_test_data = false, opts = {})
     postgres = AppConfig::Storage::Postgres::DEFAULTS.merge({
-      host: 'postgres_db',
+      host: ENV.fetch('POSTGRES_HOST') { 'postgres_db' },
       user: 'postgres',
       dbname: 'app_config_test'
     })
