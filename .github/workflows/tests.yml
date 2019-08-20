@@ -8,7 +8,7 @@ jobs:
   tests:
     strategy:
       matrix:
-        os: [ubuntu-latest, ubuntu-18.04, macOS-latest, windows-latest]
+        os: [ubuntu-latest, ubuntu-18.04]
         ruby: [2.3.7, 2.4.6, 2.5.5, 2.6.2]
 
     services:
