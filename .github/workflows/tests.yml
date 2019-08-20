@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, ubuntu-18.04]
-        ruby: [2.3.7, 2.4.6, 2.5.5, 2.6.2]
+        ruby: [2.6]
 
     services:
       postgres:
