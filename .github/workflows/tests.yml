@@ -39,6 +39,11 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
 
+    - name: Setup System Dependencies
+      run: |
+        sudo apt-get update && \
+        sudo apt-get install libmysqlclient-dev libpq-dev libsqlite3-dev
+
     - name: Setup App Dependencies
       run: |
         gem install bundler
