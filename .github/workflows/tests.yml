@@ -21,8 +21,6 @@ jobs:
 
       mysql:
         image: mariadb:latest
-        ports:
-          - 3306:3306
         env:
           MYSQL_DATABASE: app_config_test
           MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'  # Need to quote 'yes' since YAML interprets that as a boolean.
