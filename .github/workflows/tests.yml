@@ -1,0 +1,47 @@
+name: Run Tests
+on: push
+
+jobs:
+  tests:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-18.04, macOS-latest, windows-latest]
+        ruby: [2.3.7, 2.4.6, 2.5.5, 2.6.2]
+
+    services:
+      postgres:
+        image: postgres:alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: app_config_test
+
+      mysql:
+        image: mariadb:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: app_config_test
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'  # Need to quote 'yes' since YAML interprets that as a boolean.
+
+      mongo:
+        image: mongo
+        ports:
+          - 27017:27017
+
+    name: Test ${{ matrix.ruby }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+
+    - name: Setup App Dependencies
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3
+
+    - name: Run Tests
+      run: bundle exec rake spec
