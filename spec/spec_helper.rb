@@ -28,7 +28,7 @@ RSpec.configure do |config|
 
   def config_for_mongo(load_test_data = true, drop_collection = true, opts = {})
     mongo = AppConfig::Storage::Mongo::DEFAULTS.merge({
-      host: 'mongo_db',
+      host: ENV.fetch('MONGO_HOST') { 'mongo_db' },
       database: 'app_config_test',
     })
 
