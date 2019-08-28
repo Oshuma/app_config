@@ -29,6 +29,7 @@ RSpec.configure do |config|
   def config_for_mongo(load_test_data = true, drop_collection = true, opts = {})
     mongo = AppConfig::Storage::Mongo::DEFAULTS.merge({
       host: ENV.fetch('MONGO_HOST') { 'mongo_db' },
+      port: ENV.fetch('MONGO_PORT') { AppConfig::Storage::Mongo::DEFAULTS[:port] },
       database: 'app_config_test',
     })
 
@@ -49,6 +50,7 @@ RSpec.configure do |config|
   def config_for_mysql(load_test_data = false, opts = {})
     mysql = AppConfig::Storage::MySQL::DEFAULTS.merge({
       host: ENV.fetch('MYSQL_HOST') { 'mysql_db' },
+      port: ENV.fetch('MYSQL_PORT') { AppConfig::Storage::MySQL::DEFAULTS[:port] },
       database: 'app_config_test'
     })
 
@@ -67,6 +69,7 @@ RSpec.configure do |config|
   def config_for_postgres(load_test_data = false, opts = {})
     postgres = AppConfig::Storage::Postgres::DEFAULTS.merge({
       host: ENV.fetch('POSTGRES_HOST') { 'postgres_db' },
+      port: ENV.fetch('POSTGRES_PORT') { AppConfig::Storage::Postgres::DEFAULTS[:port] },
       user: 'postgres',
       dbname: 'app_config_test'
     })

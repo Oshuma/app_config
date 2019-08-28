@@ -9,30 +9,32 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, ubuntu-18.04]
-        ruby: [2.6]
+
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
 
     services:
       postgres:
         image: postgres:alpine
         ports:
-          - 5432:5432
+          - 5432/tcp
         env:
-          POSTGRES_DB: app_config_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        # Needed because the postgres container does not provide a healthcheck.
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
       mysql:
         image: mariadb:latest
+        ports:
+          - 3306/tcp
         env:
-          MYSQL_USER: runner
-          MYSQL_DATABASE: app_config_test
           MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'  # Need to quote 'yes' since YAML interprets that as a boolean.
 
       mongo:
         image: mongo
         ports:
-          - 27017:27017
-
-    name: Test ${{ matrix.ruby }} on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+          - 27017/tcp
 
     steps:
     - uses: actions/checkout@v1
@@ -51,4 +53,11 @@ jobs:
         bundle install --jobs 4 --retry 3
 
     - name: Run Tests
-      run: POSTGRES_HOST=localhost MYSQL_HOST=localhost MONGO_HOST=localhost bundle exec rake spec
+      env:
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
+        MYSQL_HOST: localhost
+        MYSQL_PORT: ${{ job.services.mysql.ports[3306] }}
+        MONGO_HOST: localhost
+        MONGO_PORT: ${{ job.services.mongo.ports[27017] }}
+      run: bundle exec rake spec
