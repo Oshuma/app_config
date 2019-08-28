@@ -9,8 +9,9 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, ubuntu-18.04]
+        ruby: [2.6, 2.5, 2.4, 2.3]
 
-    name: Test on ${{ matrix.os }}
+    name: Test Ruby ${{ matrix.ruby }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
     services:
@@ -29,6 +30,7 @@ jobs:
         ports:
           - 3306/tcp
         env:
+          MYSQL_USER: runner  # Default user for the VM.
           MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'  # Need to quote 'yes' since YAML interprets that as a boolean.
 
       mongo:
@@ -40,7 +42,7 @@ jobs:
     - uses: actions/checkout@v1
     - uses: actions/setup-ruby@v1
       with:
-        ruby-version: '2.6'
+        ruby-version: ${{ matrix.ruby }}
 
     - name: Setup System Dependencies
       run: |

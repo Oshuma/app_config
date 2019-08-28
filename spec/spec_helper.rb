@@ -70,7 +70,8 @@ RSpec.configure do |config|
     postgres = AppConfig::Storage::Postgres::DEFAULTS.merge({
       host: ENV.fetch('POSTGRES_HOST') { 'postgres_db' },
       port: ENV.fetch('POSTGRES_PORT') { AppConfig::Storage::Postgres::DEFAULTS[:port] },
-      user: 'postgres',
+      user: ENV.fetch('POSTGRES_USER') { AppConfig::Storage::Postgres::DEFAULTS[:user] },
+      password: ENV.fetch('POSTGRES_PASSWORD') { AppConfig::Storage::Postgres::DEFAULTS[:password] },
       dbname: 'app_config_test'
     })
 

@@ -25,18 +25,10 @@ describe AppConfig::Storage::Mongo do
 
   it "uses the defaults when 'true' is passed" do
     AppConfig.reset!
-
-    # HACK: Use test values as the 'defaults'.
-    old_host = AppConfig::Storage::Mongo::DEFAULTS[:host]
-    AppConfig::Storage::Mongo::DEFAULTS[:host] = 'mongo_db'
-
     AppConfig.setup!(mongo: true)
 
     expect(AppConfig.class_variable_get(:@@storage)
       .instance_variable_get(:@options)).to eq(AppConfig::Storage::Mongo::DEFAULTS)
-
-    # HACK: Reset original default values.
-    AppConfig::Storage::Mongo::DEFAULTS[:host] = old_host
   end
 
   it 'should reload the data' do
